@@ -1,0 +1,86 @@
+{%load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- import css -->
+  <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mas-play.css' %}">
+  {% block extracss %}
+  {% endblock %}
+  <!-- import js -->
+  <script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/mas-play.js' %}"></script>
+  {% block extrajs %}
+  {% endblock %}
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>
+  <title>{% block title %} MAs Play {% endblock %}</title>
+</head>
+<body>
+  
+  {% block header %}
+  <header>
+    <nav class="top-nav" style="margin-bottom: 20px;">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
+          <a id="page-title" class="brand-logo">{% block page-title %}{% endblock %}</a>
+        </div>
+      </div>
+    </nav>
+    <ul id="nav-mobile" class="side-nav fixed">
+      <div style="width:100%;height:auto;background-color:none;border-bottom: 1px solid #ddd;">
+        <a href="" style="text-align:center;margin:20px 0px 0px 0px;">
+          <img style="height:100%;-webkit-filter: none;" src="">
+        </a>
+        <center>
+          <a href="{% url 'login' %}" style="display: inline-block;padding: 0 2px;">
+            <i style="position:relative;top:6px;color:#ee6e73;" class="fa fa-home fa-2x"></i>
+          </a>
+          Bienvenido {{ user.teacher.name }}
+          <a href="#" style="display: inline-block;padding: 0 2px;" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Configuración de cuenta">
+            <i style="color:#ee6e73;" class="fa fa-cog fa-lg"></i>
+          </a>
+        </center>
+      </div>
+      <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+          <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Formativas</a>
+            <div class="collapsible-body">
+              <ul>
+                <li id="list_formatives"><a href="{% url 'formative:index' %}"><i class="fa fa-list-ul"></i>Creadas</a></li>
+                <li id="new_formative"><a href="{% url 'formative:create' %}"><i class="fa fa-plus"></i>Nueva Formativa</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Cursos</a>
+            <div class="collapsible-body">
+              <ul>
+                <li id="list_courses"><a href="{% url 'course:index' %}"><i class="fa fa-list-ul"></i>Lista de Cursos</a></li>
+                <li id="new_course"><a href="{% url 'course:create' %}"><i class="fa fa-plus"></i>Nuevo Curso</a></li>               
+              </ul>
+            </div>
+          </li>
+          <li class="bold"><a href="{% url 'logout' %}" class="waves-effect waves-teal"><i class="fa fa-sign-out fa-lg"></i>Salir</a></li>
+        </ul>
+      </li>        
+    </ul>
+  </header>
+  {% endblock %}
+  
+  <main>
+  {% block content %}
+  {% endblock %}
+  </main>
+
+  {% block footer %}
+  {% endblock %}
+
+  {% block js %}
+  {% endblock %}
+
+</body>
+</html>

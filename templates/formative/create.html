@@ -1,0 +1,112 @@
+{% extends 'teacher/base.html' %}
+{%load staticfiles %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'css/formative.create.css' %}">
+<style type="text/css">
+  .card-panel {
+    padding: 10px !important;
+  }
+  .collection {
+    overflow: initial;
+  }
+  .collection-item {
+    cursor: move;
+  }
+</style>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/formative.create.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block page-title %}
+  {% if form.name.value != None %}
+    Editar Formativa {{ form.name.value }}
+  {% else %}
+    Crear Formativa
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row" style="padding-top: 20px;">
+  <form id="form-new-formative" method="POST" class="col s6 m6 l6 offset-m1 offset-l1">
+    {% csrf_token %}
+    <div class="row">
+      <div class="input-field col s12">
+        {{ form.name }}
+        <label for="{{ form.name.id_for_label }}">Nombre de la formativa</label>
+      </div>        
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        {{ form.description }}
+        <label for="{{ form.description.id_for_label }}">Descripción de la formativa</label>
+      </div>
+    </div>
+    <div class="row">
+      <label>Preguntas de la formativa</label>
+      <div class="input-field col s12">
+        {% if question_selected %}
+        <ul id="formative-questions" class="collection connectedSortable">
+          {% for question in question_selected %}
+          <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.type }}</li>
+          {% endfor %}
+          {% else %}
+        <ul id="formative-questions" class="collection connectedSortable valign-wrapper center-align">
+          <h5>Arrastre desde la derecha las preguntas que desea asignar en esta formativa</h5>
+          {% endif %}
+        </ul>
+        <span class="center-align">Las preguntas se le mostraran al alumno en el mismo orden</span>
+      </div>
+    </div>
+    <div class="row right-align">
+      <button class="btn waves-effect waves-light" type="submit">
+        Guardar
+        <i class="fa fa-send right"></i>
+      </button>
+    </div>  
+  </form>
+  <div class="col s6 m5 l5">
+    <span class="col s12 center-align">Mis Preguntas</span>
+    <div class="input-field col s12">
+      <i class="material-icons prefix fa fa-search" aria-hidden="true"></i>
+      <input type="text" id="search-input">
+      <label for="search-input">Buscar</label>
+    </div>
+    <div class="col s12">
+      {% if questions %}
+        <ul id="list-question-for-formative" class="collection connectedSortable">
+        {% for question in questions %}
+          <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.type }}</li>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <a href="#">
+          <div class="card-panel hoverable teal">
+             <span class="white-text">Cree su primera pregunta</span>
+          </div>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+<script>
+  $(document).ready(function() {
+    $('#nav-mobile ul.collapsible li#new_formative').addClass('active').parent().parent().show().parent().addClass('active')
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'teacher/base.html' %}
+
+{% block extracss %}
+{% endblock %}
+
+{% block extrajs %}
+{% endblock %}
+
+{% block title %}
+MAs Play - Mis Cursos
+{% endblock %}
+
+{% block page-title %}
+Mis Cursos
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col s12">
+    <table class="bordered col s12">
+      <thead>
+        <tr>
+          <th></th>
+          <th data-field="code">C&oacute;digo</th>
+          <th data-field="name">Nombre</th>
+          <th data-field="description">Descripción</th>
+          <th data-field="semester">Semestre/A&ntilde;o</th>
+          <th class="center-align" data-field="edit">Modificar</th>
+          <th class="center-align" data-field="delete">Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in courses %}
+        <tr>
+          <td class="center-align"><a href="{% url 'course:show' course.id %}"><li class="fa fa-info-circle fa-lg" style="color: black;"></li></a></td>
+          <td>{{ course.code }}</td>
+          <td>{{ course.name }}</td>
+          <td>{{ course.description }}</td>
+          <td class="center-align">{{ course.semester }}/{{ course.year }}</td>
+          <td class="center-align"><a href="{% url 'course:edit' course.id %}"><i class="fa fa-pencil fa-lg" style="color: black;"></i></a></td>
+          <td class="center-align"><a href="#delete_{{course.id}}"><i class="fa fa-trash-o fa-lg" style="color: black"></i></a></td>
+        </tr>
+        <!-- Delete Modal -->
+        <div id="delete_{{course.id}}" class="modal">
+          <div class="modal-content">
+            <h4>¡Cuidado!</h4>
+            <p>¿Realmente desea eliminar el curso {{course.code}} {{course.name}}?</p>
+          </div>
+          <div class="modal-footer">
+            <form action="{% url 'course:delete' course.id %}" method="POST">
+              {% csrf_token %}
+              <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">No, cancelar</a>
+              <button class="modal-action modal-close waves-effect waves-green btn-flat">Si, eliminar</button>
+            </form>
+          </div>
+        </div>
+        <!-- End delete modal -->
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+<script>
+  $('.modal').modal();
+  $(document).ready(function() {
+    $('#nav-mobile ul.collapsible li#list_courses').addClass('active').parent().parent().show().parent().addClass('active')
+
+    {% if messages %}
+    {% for message in messages %}
+      Materialize.toast('{{message}}', 5000, 'rounded');
+    {% endfor %}
+    {% endif %}
+  });
+</script>
+{% endblock %}

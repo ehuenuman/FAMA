@@ -1,0 +1,210 @@
+{% extends 'teacher/base.html' %}
+{%load staticfiles %}
+
+{% block extracss %}
+<style type="text/css">
+  .modal {
+    width: 75% !important;
+  }
+  .card-panel {
+    padding: 10px !important;
+  }
+  /*div#add_student a#add {
+    position: relative;
+    top: -28px;
+  }*/
+</style>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/course.show.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  MAs Play - {{course.name}}
+{% endblock %}
+
+{% block page-title %}
+  {{course.name}}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12 m12 l7">
+    <ul class="collection with-header">
+      <li class="collection-header">
+        <div class="row valign-wrapper" style="margin-bottom: 0px">
+          <div class="left-align col s6">
+            <h5>Formativas<h5>
+          </div>
+          <div class="valign right-align col s6">                
+            <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
+              <i class="fa fa-list fa-2x" style="color: #000000"></i>
+            </a>
+            <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nueva">
+              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
+            </a> 
+          </div>
+        </div>
+      </li>
+      <li class="collection-item center-align">
+        <div class="row">
+        {% if formatives %}
+        {% else %}
+          <div clas="col s12 m5">
+            <div class="card-panel teal">
+              <span class="white-text">Asigne su primera formativa al curso</span>
+            </div>
+          </div>
+        {% endif %}
+        </div>
+      </li>      
+    </ul>
+  </div>
+
+  <div class="col s12 m12 l5">
+    <ul class="collection with-header">
+      <li class="collection-header">
+        <div class="row valign-wrapper" style="margin-bottom: 0px">
+          <div class="left-align col s6">
+            <h5>Estudiantes<h5>
+          </div>
+          <div class="valign right-align col s6">                
+          <!--
+            <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todos">
+              <i class="fa fa-list fa-2x" style="color: #000000"></i>
+            </a>
+            -->
+            <a href="#add_student" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar estudiantes">
+              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="collection-item center-align">
+        <div id="list_students" class="row" style="max-height: 400px; overflow-y: auto;">
+          {% if students %}
+          <span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>
+          {% for student in students %}
+          <div class="card-panel hoverable teal col s12">
+            <div class="col s10">
+              <div class="col s12 white-text left-align">{{student.rut}}</div>
+              <div class="col s12 white-text left-align">{{student.name}} {{student.last_name}}</div>
+            </div>
+            <div class="valign-wrapper col s2">
+              <a href="#">
+                <i class="fa fa-trash-o fa-2x col s12" style="color: #fff;"></i>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <div clas="col s12">
+            <a href="#add_student">
+              <div class="card-panel teal">
+                  <span class="white-text">Agrege alumnos al curso</span><br>
+              </div>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </li>      
+    </ul>
+  </div>
+</div>
+
+<!-- Modal Add Student -->
+<div id="add_student" class="modal">
+  <form method="POST">
+    {% csrf_token %}
+    <div class="modal-content">
+      <h4>Agregar estudiantes al curso</h4>
+      <p>Puede rellenar manualmente los campos requeridos o usar la siguiente plantilla</p>
+      <table class="bordered">
+        <thead>
+          <th>RUT</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th></th>
+        </thead>
+        <tbdoy>
+          <div></div>
+          <tr>
+            <td colspan="4" class="center-align">
+              <a id="add" class="btn-floating waves-effect waves-light green"><i class="fa fa-plus fa-4x"></i></a>
+            </td>
+          </tr>
+        </tbdoy>
+      </table>
+    </div>
+    <div class="row modal-footer">
+      <div>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        <button type="submit" class="btn-flat">Guardar estudiantes</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+<script>
+  $('div#add_student form').submit(function(event) {
+    event.preventDefault();
+    var form = $( this ).serializeArray();
+    var initial_students = {{ students.count }};
+
+    var students = [];
+    for (var i = 1; i < form.length; i+=3) {
+      students.push([form[i]['value'], form[i+1]['value'], form[i+2]['value']]);
+    }
+
+    $.ajax({
+      url: "{% url 'course:add_students' course.id %}",
+      type: 'POST',
+      headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+      dataType: 'json',
+      data: {students: students},
+    })
+    .done(function( data ) {
+      $.each(data, function(index, val) {
+        if (initial_students == 0) {
+          $('#list_students').empty().append("<span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>");
+          initial_students++;
+        }
+         var card = "<div class='card-panel hoverable teal col s12' style='display: none;'>";
+            card += "<div class='col s10'>";
+            card += "<div class='col s12 white-text left-align'>"+val.rut+"</div>";
+            card += "<div class='col s12 white-text left-align'>"+val.name+" "+val.last_name+"</div>";
+            card += "</div>";
+            card += "<div class='valign-wrapper col s2'>";
+            card += "<a href='#'>";
+            card += "<i class='fa fa-trash-o fa-2x col s12' style='color: #fff;'></i>";
+            card += "</a>";
+            card += "</div>";
+            card += "</div>";
+         $(card).insertAfter('#list_students span>span').fadeIn(800);
+      });
+      var count = $('#list_students span>span').data('count');
+      $('#list_students span>span').html(count+Object.keys(data).length);
+      $('#list_students span>span').data('count', count+Object.keys(data).length);
+      if (Object.keys(data).length == 1) {
+        Materialize.toast('Se agregó un nuevo estudiante', 5000, 'rounded')
+      } else {
+        Materialize.toast('Se agregaron '+Object.keys(data).length+' nuevos estudiantes', 5000, 'rounded')
+      }
+
+    })
+    .fail(function() {
+      Materialize.toast('Un error a ocurrido. Intento nuevamente', 5000, 'rounded')
+    });
+
+    $('div#add_student').modal('close');
+  });
+
+</script>
+{% endblock %}

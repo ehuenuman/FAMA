@@ -1,0 +1,112 @@
+{% extends 'teacher/base.html' %}
+
+{% block extracss%}
+{% endblock %}
+
+{% block extrajs%}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block title-page %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12 m6 l6">
+    <ul class="collection with-header">
+      <li class="collection-header">
+        <div class="row valign-wrapper" style="margin-bottom: 0px">
+          <div class="left-align col s6">
+            <h5>Mis Formativas<h5>
+          </div>
+          <div class="valign right-align col s6">                
+            <a href="{% url 'formative:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
+              <i class="fa fa-list fa-2x" style="color: #000000"></i>
+            </a>
+            <a href="{% url 'formative:create' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nueva">
+              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>
+            </a> 
+          </div>
+        </div>
+      </li>
+      <li class="collection-item center-align"><b>&Uacute;ltimas formativas creadas</b>
+        <div class="row">
+          {% if formatives %}
+          {% for formative in formatives %}
+          <div clas="col s12 m5">
+            <a href="{% url 'formative:show' formative.id %}">
+              <div class="card-panel hoverable teal">
+                <span class="white-text">{{formative.name}}</span>             
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+          <b>Actualmente posee {{total_formatives}} formativas</b>
+          {% else %}
+          <div clas="col s12 m5">
+            <a href="{% url 'formative:create' %}">
+              <div class="card-panel hoverable teal">
+                <span class="white-text">Cree su primera formativa</span>
+              </div>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </li>      
+    </ul>
+  </div>
+
+  <div class="col s12 m6 l6">
+    <ul class="collection with-header">
+      <li class="collection-header">
+        <div class="row valign-wrapper" style="margin-bottom: 0px">
+          <div class="left-align col s6">
+            <h5>Mis Cursos<h5>
+          </div>
+          <div class="valign right-align col s6">                
+            <a href="{% url 'course:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todos">
+              <i class="fa fa-list fa-2x" style="color: #000000"></i>
+            </a>
+            <a href="{% url 'course:create' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nuevo">
+              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="collection-item center-align">
+        <b>&Uacute;ltimos cursos creados</b>
+        <div class="row">
+          {% if courses %}
+          {% for course in courses %}
+          <div clas="col s12 m5">
+            <a href="{% url 'course:show' course.id %}">
+              <div class="card-panel hoverable teal">
+                <span class="white-text">{{course.code}} - {{course.name}}</span>             
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+          <b>Actualmente posee {{total_course}} cursos</b>
+          {% else %}
+          <div clas="col s12 m5">
+            <a href="{% url 'course:create' %}">
+              <div class="card-panel hoverable teal">
+                <span class="white-text">Cree su primer curso</span>
+              </div>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </li>      
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
