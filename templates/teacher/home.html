@@ -17,9 +17,9 @@
   <div class="col s12 m6 l6">
     <ul class="collection with-header">
       <li class="collection-header">
-        <div class="row valign-wrapper" style="margin-bottom: 0px">
+        <div class="valign-wrapper" style="margin-bottom: 0px">
           <div class="left-align col s6">
-            <h5>Mis Formativas<h5>
+            <h5>Mis Formativas</h5>
           </div>
           <div class="valign right-align col s6">                
             <a href="{% url 'formative:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
@@ -31,25 +31,30 @@
           </div>
         </div>
       </li>
-      <li class="collection-item center-align"><b>&Uacute;ltimas formativas creadas</b>
-        <div class="row">
+      <li class="collection-item center-align">
+        <b>&Uacute;ltimas formativas creadas</b>
+        <div>
           {% if formatives %}
           {% for formative in formatives %}
-          <div clas="col s12 m5">
-            <a href="{% url 'formative:show' formative.id %}">
-              <div class="card-panel hoverable teal">
-                <span class="white-text">{{formative.name}}</span>             
+          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
+            <a href="{% url 'formative:show' formative.id %}" class="col s10" style="padding: 0px;">
+              <div class="col s12 left-align">
+                <span class="col s12">{{formative.name}}</span>
+                <span class="col s12">{{formative.description}}</span>
+              </div>
+            </a>
+            <a href="!#" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Realizar formativa" style="padding: 0px;">
+              <div class="valign col s12">
+                  <i id="icon-link" class="fa fa-play-circle fa-2x"></i>
               </div>
             </a>
           </div>
           {% endfor %}
           <b>Actualmente posee {{total_formatives}} formativas</b>
           {% else %}
-          <div clas="col s12 m5">
+          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
             <a href="{% url 'formative:create' %}">
-              <div class="card-panel hoverable teal">
-                <span class="white-text">Cree su primera formativa</span>
-              </div>
+              <span>Cree su primera formativa</span>
             </a>
           </div>
           {% endif %}
@@ -61,40 +66,39 @@
   <div class="col s12 m6 l6">
     <ul class="collection with-header">
       <li class="collection-header">
-        <div class="row valign-wrapper" style="margin-bottom: 0px">
+        <div class="valign-wrapper" style="margin-bottom: 0px">
           <div class="left-align col s6">
-            <h5>Mis Cursos<h5>
+            <h5>Mis Cursos</h5>
           </div>
           <div class="valign right-align col s6">                
             <a href="{% url 'course:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todos">
-              <i class="fa fa-list fa-2x" style="color: #000000"></i>
+              <i class="fa fa-list fa-2x black-text"></i>
             </a>
             <a href="{% url 'course:create' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nuevo">
-              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
+              <i class="fa fa-plus-square fa-2x black-text" style="padding-left: 10px;"></i>
             </a>
           </div>
         </div>
       </li>
       <li class="collection-item center-align">
         <b>&Uacute;ltimos cursos creados</b>
-        <div class="row">
+        <div>
           {% if courses %}
           {% for course in courses %}
-          <div clas="col s12 m5">
-            <a href="{% url 'course:show' course.id %}">
-              <div class="card-panel hoverable teal">
-                <span class="white-text">{{course.code}} - {{course.name}}</span>             
-              </div>
-            </a>
-          </div>
+          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
+              <a href="{% url 'course:show' course.id %}" class="col s12" style="padding: 0px;">
+                <div class="col s12 left-align">
+                  <span class="col s12">{{course.code}}</span>
+                  <span class="col s12">{{course.name}}</span>
+                </div>
+              </a>
+            </div>
           {% endfor %}
           <b>Actualmente posee {{total_course}} cursos</b>
           {% else %}
-          <div clas="col s12 m5">
-            <a href="{% url 'course:create' %}">
-              <div class="card-panel hoverable teal">
-                <span class="white-text">Cree su primer curso</span>
-              </div>
+          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
+            <a href="{% url 'course:create' %}" style="padding: 0px;">
+              <span class="s12">Cree su primer curso</span>
             </a>
           </div>
           {% endif %}

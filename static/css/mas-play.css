@@ -8,6 +8,26 @@ header, main, footer {
   }
 }
 
+body {
+  background-color: #eeeeee;
+}
+
+a {
+  color: white;
+}
+
 .side-nav {
-	width: 240px !important;
+  width: 240px !important;
+}
+
+.collection
+.collection-item {
+  padding: 10px 20px !important;
+}
+
+.card-item {
+  padding: 7px !important;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  border-radius: 3px !important;
 }

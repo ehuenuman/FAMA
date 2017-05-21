@@ -6,13 +6,6 @@
   .modal {
     width: 75% !important;
   }
-  .card-panel {
-    padding: 10px !important;
-  }
-  /*div#add_student a#add {
-    position: relative;
-    top: -28px;
-  }*/
 </style>
 {% endblock %}
 
@@ -34,69 +27,80 @@
   <div class="col s12 m12 l7">
     <ul class="collection with-header">
       <li class="collection-header">
-        <div class="row valign-wrapper" style="margin-bottom: 0px">
+        <div class="valign-wrapper" style="margin-bottom: 0px">
           <div class="left-align col s6">
-            <h5>Formativas<h5>
+            <h5>Historial</h5>
           </div>
           <div class="valign right-align col s6">                
             <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
-              <i class="fa fa-list fa-2x" style="color: #000000"></i>
+              <i class="fa fa-list fa-2x black-text"></i>
             </a>
             <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nueva">
-              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
+              <i class="fa fa-plus-square fa-2x black-text" style="padding-left: 10px;"></i>
             </a> 
           </div>
         </div>
       </li>
       <li class="collection-item center-align">
-        <div class="row">
-        {% if formatives %}
-        {% else %}
-          <div clas="col s12 m5">
-            <div class="card-panel teal">
-              <span class="white-text">Asigne su primera formativa al curso</span>
-            </div>
+        <div>
+          {% if formatives %}
+          {% for formative in formatives %}
+          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
+            <a href="{% url 'formative:show' formative.id %}" class="col s10" style="padding: 0px;">
+              <div class="col s12 left-align">
+                <span class="col s12">{{formative.name}}</span>
+                <span class="col s12">{{formative.description}}</span>
+              </div>
+            </a>
+            <a href="!#" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Realizar formativa" style="padding: 0px;">
+              <div class="valign col s12">
+                <i id="icon-link" class="fa fa-play-circle fa-2x"></i>
+              </div>
+            </a>
           </div>
-        {% endif %}
+          {% endfor %}
+          {% else %}
+          <a href="#" class="card-item col s12 hoverable teal white-text">
+            <span>Comenzar primera formativa del curso</span>
+          </a>
+          {% endif %}
+          <br><br>
         </div>
-      </li>      
+      </li>            
     </ul>
   </div>
 
   <div class="col s12 m12 l5">
     <ul class="collection with-header">
       <li class="collection-header">
-        <div class="row valign-wrapper" style="margin-bottom: 0px">
+        <div class="valign-wrapper" style="margin-bottom: 0px">
           <div class="left-align col s6">
-            <h5>Estudiantes<h5>
+            <h5>Estudiantes</h5>
           </div>
-          <div class="valign right-align col s6">                
-          <!--
-            <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todos">
-              <i class="fa fa-list fa-2x" style="color: #000000"></i>
-            </a>
-            -->
+          <div class="valign right-align col s6">
             <a href="#add_student" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar estudiantes">
-              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
+              <i class="fa fa-plus-square fa-2x black-text"></i>                
             </a>
           </div>
         </div>
       </li>
       <li class="collection-item center-align">
-        <div id="list_students" class="row" style="max-height: 400px; overflow-y: auto;">
+        <div id="list_students" style="max-height: 400px; overflow-y: auto;">
           {% if students %}
-          <span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>
+          <span>Estudiantes inscritos: 
+            <span data-count='{{ students.count }}'>{{ students.count }}</span>
+          </span>
           {% for student in students %}
-          <div class="card-panel hoverable teal col s12">
-            <div class="col s10">
-              <div class="col s12 white-text left-align">{{student.rut}}</div>
-              <div class="col s12 white-text left-align">{{student.name}} {{student.last_name}}</div>
+          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
+            <div class="col s10 left-align">
+              <span class="col s12">{{student.rut}}</span>
+              <span class="col s12">{{student.name}} {{student.last_name}}</span>
             </div>
-            <div class="valign-wrapper col s2">
-              <a href="#">
-                <i class="fa fa-trash-o fa-2x col s12" style="color: #fff;"></i>
-              </a>
-            </div>
+            <a href="!#" class="col s2">
+              <div class="valign col s12">
+                  <i class="fa fa-trash-o fa-2x"></i>
+              </div>
+            </a>
           </div>
           {% endfor %}
           {% else %}
@@ -176,17 +180,15 @@
           $('#list_students').empty().append("<span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>");
           initial_students++;
         }
-         var card = "<div class='card-panel hoverable teal col s12' style='display: none;'>";
-            card += "<div class='col s10'>";
-            card += "<div class='col s12 white-text left-align'>"+val.rut+"</div>";
-            card += "<div class='col s12 white-text left-align'>"+val.name+" "+val.last_name+"</div>";
-            card += "</div>";
-            card += "<div class='valign-wrapper col s2'>";
-            card += "<a href='#'>";
-            card += "<i class='fa fa-trash-o fa-2x col s12' style='color: #fff;'></i>";
-            card += "</a>";
-            card += "</div>";
-            card += "</div>";
+         var card = "<div class='card-item col s12 hoverable teal white-text valign-wrapper'>";
+            card += "<div class='col s10 left-align'>";
+            card += "<span class='col s12'>"+val.rut+"</span>";
+            card += "<span class='col s12'>"+val.name+" "+val.last_name+"</span>";
+            card += "</div>"
+            card += "<a href='!#'' class='col s2'>";
+            card += "<div class='valign col s12'>";
+            card += "<i class='fa fa-trash-o fa-2x'></i>";
+            card += "</div></a></div>";
          $(card).insertAfter('#list_students span>span').fadeIn(800);
       });
       var count = $('#list_students span>span').data('count');

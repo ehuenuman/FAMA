@@ -15,24 +15,13 @@ class Student(models.Model):
         unique_together = (('id', 'rut'),)
 
 
-class Play(models.Model):
-    date = models.DateTimeField(blank=True, null=True)
-    formative_has_course = models.ForeignKey('formative.FormativeHasCourse', models.DO_NOTHING)
-    student = models.ManyToManyField('Student', through='Answer')
-    question = models.ManyToManyField('teacher.Question', through='Answer')
-
-    class Meta:
-        managed = False
-        db_table = 'play'
-
-
 class Answer(models.Model):
     #id = models.AutoField()
     answer = models.CharField(max_length=50, blank=True, null=True)
     correct = models.IntegerField(blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)
     student = models.ForeignKey('Student', models.DO_NOTHING)
-    play = models.ForeignKey('Play', models.DO_NOTHING)
+    play = models.ForeignKey('formative.Play', models.DO_NOTHING)
     question = models.ForeignKey('teacher.Question', models.DO_NOTHING)
 
     class Meta:
