@@ -1,6 +1,11 @@
 {% extends 'teacher/base.html' %}
 
 {% block extracss %}
+<style type="text/css">
+  .clickable-row {
+    cursor: pointer;
+  }
+</style>
 {% endblock %}
 
 {% block extrajs %}
@@ -17,10 +22,9 @@ Mis Formativas
 {% block content %}
 <div class="row">
   <div class="col s12">
-    <table class="col s12 bordered">
+    <table class="col s12 bordered card-box">
       <thead>
         <tr>
-          <th></th>
           <th data-field="name">Nombre</th>
           <th data-field="description">Descripci&oacute;n</th>
           <th class="center-align" data-field="edit">Modificar</th>
@@ -29,12 +33,19 @@ Mis Formativas
       </thead>
       <tbody>
         {% for formative in formatives %}
-        <tr>
-          <td class="center-align"><a href="{% url 'formative:show' formative.id %}"><li class="fa fa-info-circle fa-lg" style="color: black;"></li></a></td>
+        <tr class="clickable-row hoverable" data-href="{% url 'formative:show' formative.id %}">
           <td>{{ formative.name }}</td>
           <td>{{ formative.description }}</td>
-          <td class="center-align"><a href="{% url 'formative:edit' formative.id %}"><i class="fa fa-pencil fa-lg" style="color: black;"></i></a></td>
-          <td class="center-align"><a href="#delete_{{formative.id}}"><i class="fa fa-trash-o fa-lg" style="color: black"></i></a></td>
+          <td class="center-align">
+            <a href="{% url 'formative:edit' formative.id %}">
+              <i class="fa fa-pencil fa-lg black-text"></i>
+            </a>
+          </td>
+          <td class="center-align">
+            <a href="#delete_{{formative.id}}">
+              <i class="fa fa-trash-o fa-lg black-text"></i>
+            </a>
+          </td>
         </tr>
         <!-- Delete Modal -->
         <div id="delete_{{formative.id}}" class="modal">
@@ -66,6 +77,10 @@ Mis Formativas
   $('.modal').modal();
   $(document).ready(function() {
     $('#nav-mobile ul.collapsible li#list_formatives').addClass('active').parent().parent().show().parent().addClass('active')
+
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
 
     {% if messages %}
     {% for message in messages %}
