@@ -1,6 +1,11 @@
 {% extends 'teacher/base.html' %}
 
 {% block extracss %}
+<style>
+  .row {
+    margin-bottom: 0px !important;
+  }
+</style>
 {% endblock %}
 
 {% block extrajs %}
@@ -19,40 +24,41 @@
 {% endblock %}
 
 {% block content %}
-<div class="row container" style="padding-top: 20px;">
-  <form id="for-new-course" method="POST" class="col s12 m10 l10 offset-m1 offset-l1">
-    {% csrf_token %}
-    {{ form.non_field_erros }}
-    <div class="row">
-      <div class="input-field col s12">
-        {{ form.name }}
-        <label for="{{ form.name.id_for_label }}">Nombre del Curso</label>
-        {{ form.name.errors }}
-      </div>        
-    </div>
-    <div class="row">
-      <div class="input-field col s12 l6">
-        {{ form.code }}
-        <label for="{{ form.code.id_for_label }}">C&oacute;digo del Curso</label>
+<div class="row">
+  <div class="col s12">
+    <form id="for-new-course" method="POST" class="col s12 m10 l10 offset-m1 offset-l1 card-item white">
+      {% csrf_token %}
+      <div class="row">
+        <div class="input-field col s12">
+          {{ form.name }}
+          <label for="{{ form.name.id_for_label }}">Nombre del Curso</label>
+          {{ form.name.errors }}
+        </div>        
       </div>
-      <div class="input-field col s12 l6">
-        {{ form.semester }}
-        <label for="{{ form.semester.id_for_label }}">Semestre</label>
-      </div>        
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        {{ form.description }}
-        <label for="{{ form.description.id_for_label }}">Descripción del curso</label>
+      <div class="row">
+        <div class="input-field col s12 l6">
+          {{ form.code }}
+          <label for="{{ form.code.id_for_label }}">C&oacute;digo del Curso</label>
+        </div>
+        <div class="input-field col s12 l6">
+          {{ form.semester }}
+          <label for="{{ form.semester.id_for_label }}">Semestre</label>
+        </div>        
       </div>
-    </div>
-    <div class="row right-align">
-      <button class="btn waves-effect waves-light" type="submit">
-        Guardar
-        <i class="fa fa-send right"></i>
-      </button>
-    </div>  
-  </form>
+      <div class="row">
+        <div class="input-field col s12">
+          {{ form.description }}
+          <label for="{{ form.description.id_for_label }}">Descripción del curso</label>
+        </div>
+      </div>
+      <div class="row right-align">
+        <button class="btn waves-effect waves-light" type="submit">
+          Guardar
+          <i class="fa fa-send right"></i>
+        </button>
+      </div>  
+    </form>
+  </div>
 </div>
 {% endblock %}
 
