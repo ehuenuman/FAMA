@@ -1,6 +1,14 @@
 {% extends 'teacher/base.html' %}
 
 {% block extracss %}
+<style type="text/css">
+  body {
+    /*background-color: white;*/
+  }
+  .clickable-row {
+    cursor: pointer;
+  }
+</style>
 {% endblock %}
 
 {% block extrajs %}
@@ -16,11 +24,10 @@ Mis Cursos
 
 {% block content %}
 <div class="row">
-<div class="col s12">
-    <table class="bordered col s12">
+  <div class="col s12">
+    <table class="card-item white col s12 bordered">
       <thead>
         <tr>
-          <th></th>
           <th data-field="code">C&oacute;digo</th>
           <th data-field="name">Nombre</th>
           <th data-field="description">Descripción</th>
@@ -31,8 +38,7 @@ Mis Cursos
       </thead>
       <tbody>
         {% for course in courses %}
-        <tr>
-          <td class="center-align"><a href="{% url 'course:show' course.id %}"><li class="fa fa-info-circle fa-lg" style="color: black;"></li></a></td>
+        <tr class="clickable-row hoverable" data-href="{% url 'course:show' course.id %}">
           <td>{{ course.code }}</td>
           <td>{{ course.name }}</td>
           <td>{{ course.description }}</td>
@@ -69,7 +75,11 @@ Mis Cursos
 <script>
   $('.modal').modal();
   $(document).ready(function() {
-    $('#nav-mobile ul.collapsible li#list_courses').addClass('active').parent().parent().show().parent().addClass('active')
+    $('#nav-mobile ul.collapsible li#list_courses').addClass('active').parent().parent().show().parent().addClass('active');
+
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
 
     {% if messages %}
     {% for message in messages %}
