@@ -52,11 +52,11 @@
           {% endfor %}
           <b>Actualmente posee {{total_formatives}} formativas</b>
           {% else %}
-          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-            <a href="{% url 'formative:create' %}">
+          <a href="{% url 'formative:create' %}">
+            <div class="card-item hoverable teal white-text center-align">
               <span>Cree su primera formativa</span>
-            </a>
-          </div>
+            </div>
+          </a>
           {% endif %}
         </div>
       </li>      
@@ -96,11 +96,11 @@
           {% endfor %}
           <b>Actualmente posee {{total_course}} cursos</b>
           {% else %}
-          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-            <a href="{% url 'course:create' %}" style="padding: 0px;">
-              <span class="s12">Cree su primer curso</span>
-            </a>
-          </div>
+          <a href="{% url 'course:create' %}" style="padding: 0px;">
+            <div class="card-item hoverable teal white-text center-align">
+              <span>Cree su primer curso</span>
+            </div>
+          </a>
           {% endif %}
         </div>
       </li>      
