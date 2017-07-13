@@ -38,7 +38,6 @@ class Question(models.Model):
         ordering = ('-creation_date',)
 
 
-
 class TeacherHasQuestion(models.Model):
     teacher = models.ForeignKey('Teacher', models.DO_NOTHING)  # Field name made lowercase.
     question = models.ForeignKey('Question', models.DO_NOTHING)  # Field name made lowercase.
@@ -49,3 +48,4 @@ class TeacherHasQuestion(models.Model):
         managed = False
         db_table = 'teacher_has_question'
         unique_together = (('teacher', 'question'),)
+        ordering = ('-incorporation_date',)
