@@ -6,6 +6,8 @@
 
 {% block extrajs %}
 <script type="text/javascript" src="{% static 'js/jquery.simplePagination.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/teacher.questions.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -42,12 +44,16 @@ Mis Preguntas
           {% for question in questions %}
           <tr id='{{question.id}}'>
             {% if question.share == 0 %}
-              <td style=""><div class="switch"><label>No<input type="checkbox" class="checkbox" id='{{question.id}}' ><span class="lever"></span>Si</label></div></td>
+              <td style="">
+                <div class="switch">
+                  <label>No<input type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
+                </div>
+              </td>
               <td style="" class="codigo" id='{{question.id}}'></td>
             {% else %}                
               <td style="width:110px;">
                 <div class="switch">
-                  <label>No<input checked="" type="checkbox" class="checkbox" id='{{queston.id}}'><span class="lever"></span>Si</label>
+                  <label>No<input checked="" type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
                 </div>
               </td>
               <td style="width:90px;" class="codigo" id='{{question.id}}'>{{question.code}}</td>
@@ -114,8 +120,7 @@ Mis Preguntas
     var opened = 1;
     var onClass = 'active';
     var paginationSelector = '.pagination';
-    $('.galler').simplePagination(perPage, opened, onClass, paginationSelector);
-      /* Pagination */
+    $('.galler').simplePagination(perPage, opened, onClass, paginationSelector);    
   });
- </script>
+</script>
 {% endblock %}

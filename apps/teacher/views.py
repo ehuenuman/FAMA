@@ -28,22 +28,22 @@ def view_questions(request):
     user = request.user.teacher
     questions = user.question.filter(teacherhasquestion__deleted=0)
 
-    #questions = {}
-    #cont = 0
-    #for question in query:
-    #    questions[cont] = {
-    #      'id': question.id,
-    #      'title': question.title, 
-    #      'type': question.type,
-    #      'creation_date': question.creation_date,
-    #      'share': question.share,
-    #      'code': question.code,
-    #      'url': question.url,
-    #      'extension': question.extension}
-    #    cont = cont + 1
-
-    #questions = JsonResponse(questions)
     return render(request, 'teacher/questions.html', {'questions': questions})
-    
-    #Revisando el código de MAS para traer todas las preguntas.
-    #Deben devolverse en un JSON para que el html pueda trabajarlos.
+
+
+@login_required
+def share_question(request, question_id):
+    print("share")
+    if request.method == 'POST':
+        question = Question.objects.get(id = question_id)
+
+        if question.share == 1: #Shared
+            question.share = 0; #Stop share
+            data = {'code': "dontshare"}
+        else:
+            question.share = 1; #Start share
+            data = {'code': question.code}
+
+        question.save()
+    return JsonResponse(data)
+

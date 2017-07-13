@@ -9,6 +9,7 @@ $(document).ready(function () {
       }).show();
     })
   }(jQuery));
+  
   /* Drag and Drop */
   $( function() {
     $( "#formative-questions, #list-question-for-formative" ).sortable({
