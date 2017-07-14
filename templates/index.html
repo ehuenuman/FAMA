@@ -1,58 +1,22 @@
-{%load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-<html>
+{% extends 'login/base.html' %}
 
-<head>
-  <!-- import css -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+{% block extracss%}
+{% endblock %}
 
-  <!-- import js -->
-  <script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta charset="utf-8"/>
-  <title>MAs Play</title>
+{% block extrajs%}
+{% endblock %}
 
-  <style type="text/css">
-    .contenedor{
-      background-color:white;
-      width:400px;
-      height:auto;
-      border-radius:5px;
-      box-shadow: 0px 0px 5px #999;
-      margin: 0 auto;
-      margin-top:40px;width:350px;
-      box-shadow: 2px 0px 20px #999;
-    }
-    #iniciar{
-      font-size: 30px;
-      display: inline;
-      color: white;
-      font-weight: 300;
-      position: relative;
-      top: 25px;
-    }
-    .material-icons{
-      color: #807B7B;
-      font-size: 30px;
-    }
-    header, main, footer {
-        padding-left: 240px;
-      }
-  </style>
-</head>
+{% block title %}
+MAs Play
+{% endblock %}
 
-<body>
+
+{% block content %}
   <div class="contenedor">
     <div class="row">
       <div style="background-color:#26a69a;width:100%;height:100px;margin-bottom:20px;">
         <center>
-          <p id="iniciar">Iniciar sesión</p>
+          <p id="iniciar">Iniciar Sesi&oacute;n</p>
         </center>
       </div>
       <center>
@@ -66,21 +30,21 @@
         </div>      
       </center>
 
-      <center><div class="err" style="color:#26a69a;margin:3px;" id="message_error"></div></center>
+      <div class="error-message col s12 center-align" id="error_form"></div>
       
       <!--Student Login-->
         <form class="col s12" id="login_alumno" method="POST"><!--action="login.php"-->
           {% csrf_token %}
           <div class="row">
             <div class="input-field col s12">
-              <i class="material-icons prefix">person_pin</i>
-                <input placeholder="123456789-k" id="rut" type="text" class="validate" maxlength="15" length="15" pattern="[0-9]+-[kK0-9]" required="">
+              <i class="fa fa-user prefix" aria-hidden="true"></i>
+                <input placeholder="123456789-k" id="rut" type="text" class="validate" maxlength="15" length="15" pattern="[0-9]+-[kK0-9]" required>
                 <label for="rut">RUT:</label>
             </div>
           </div>          
           
           <div class="row">
-            <button style="width:100%;height:auto;font-size:13px;" class="waves-effect waves-light btn" type="submit">Iniciar</button> <!--id="login" -->         
+            <button class="waves-effect waves-light btn col s12" type="submit">Iniciar</button>
           </div>
         </form>
       <!--Student Login-->
@@ -90,30 +54,56 @@
           {% csrf_token %}
           <div class="row">
             <div class="input-field col s12">
-              <i class="material-icons prefix">email</i>
-                <input placeholder="" name="username" type="text" class="validate" maxlength="100" length="100" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required="">
+              <i class="fa fa-envelope prefix" aria-hidden="true"></i>
+                <input placeholder="" name="username" type="email" class="validate" maxlength="100" length="100" required>
                 <label for="username">Correo:</label>
             </div>
           </div>
 
           <div class="row">
             <div class="input-field col s12">
-              <i class="material-icons prefix">vpn_key</i>
-                <input placeholder="" name="password" type="password" class="validate" required="">
+              <i class="fa fa-key prefix" aria-hidden="true"></i>
+                <input placeholder="" name="password" type="password" class="validate" required>
                 <label for="password">Contrase&ntilde;a:</label>
             </div>
           </div>
           
           <div class="row">
-            <button style="width:100%;height:auto;font-size:13px;" class="waves-effect waves-light btn"  type="submit">Iniciar</button>
-            <center><a style="color:#26a69a;position:relative;top:10px;" href="reestablecer.php">Recuperar contraseña?</a></center>
-            <center><a style="color:#26a69a;position:relative;top:10px;" href="crear-cuenta.php">Registrate</a></center>
+            <button class="waves-effect waves-light btn col s12"  type="submit">Iniciar</button>
+          </div>
+
+          <div class="row center-align">        
+            <a style="color:#26a69a;" href="reestablecer.php">Olvide mi contrase&ntilde;a</a>
+            <br>
+            <a style="color:#26a69a;" href="{% url 'create_account' %}">Registrarme</a>
           </div>
         </form>
         <!-- Teacher Login -->
-        <!-- <button style="width:49%;height:auto;font-size:13px;" class="waves-effect waves-light btn" onclick="window.location.href='crear-cuenta.php'" type="submit">Registrarse</button> -->
     </div>
   </div>
+{% endblock %}
 
-  </body>
-</html>
+{% block js %}
+<script>
+  function switchForm() {
+    if ($("input[type='checkbox']")[0].checked) {
+      logTeacher();
+    }
+    else {
+      logStudent();
+    }
+  }
+
+  function logTeacher() {
+    $("input[type='checkbox']")[0].checked = true;
+    $("#login_alumno").hide(1000); 
+    $("#login_profesor").show(1000);
+  }
+
+  function logStudent() {
+    $("input[type='checkbox']")[0].checked = false;
+    $("#login_profesor").hide(1000);
+    $("#login_alumno").show(1000);    
+  }
+</script>
+{% endblock %}
