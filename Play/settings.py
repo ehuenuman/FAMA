@@ -101,7 +101,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.10/topics/auth/customizing/
 
 AUTHENTICATION_BACKENDS = ( 
-    'Play.login.LoginBackend',
+    #'Play.login.LoginBackend',
     'django.contrib.auth.backends.ModelBackend',
     )
 
