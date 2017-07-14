@@ -17,13 +17,15 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from apps.login.views import login, logout
+from apps.login.views import login, logout, create_account, validate_email
 #from django.contrib.auth.views import login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', login, name='login'),
     url(r'^logout$', logout, name='logout'),
+    url(r'^crear-cuenta$', create_account, name='create_account'),
+    url(r'^crear-cuenta/email$', validate_email, name='validate_email'),
 	url(r'^', include ('apps.teacher.urls', namespace='teacher')),
     url(r'^curso/', include('apps.course.urls', namespace='course')),
     url(r'^formativa/', include('apps.formative.urls', namespace='formative')),
