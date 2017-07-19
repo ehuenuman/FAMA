@@ -32,20 +32,14 @@
       </div>
     </nav>
     <ul id="nav-mobile" class="side-nav fixed">
-      <div style="width:100%;height:auto;background-color:none;border-bottom: 1px solid #ddd;">
-        <a href="" style="text-align:center;margin:20px 0px 0px 0px;">
-          <img style="height:100%;-webkit-filter: none;" src="">
+      <div class="center-align">
+        <div style="width: 100%; height: 100px; background-color: gray"></div>
+        <a href="{% url 'login' %}" style="display: inline-block;padding: 0 2px;">
+          <i style="position:relative;top:6px;color:#ee6e73;" class="fa fa-home fa-2x"></i>
         </a>
-        <center>
-          <a href="{% url 'login' %}" style="display: inline-block;padding: 0 2px;">
-            <i style="position:relative;top:6px;color:#ee6e73;" class="fa fa-home fa-2x"></i>
-          </a>
-          Bienvenido {{ user.teacher.name }}
-          <a href="#" style="display: inline-block;padding: 0 2px;" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Configuración de cuenta">
-            <i style="color:#ee6e73;" class="fa fa-cog fa-lg"></i>
-          </a>
-        </center>
+          Bienvenido {{ user.first_name }}
       </div>
+      <li><div class="divider"></div></li>
       <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
           <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Formativas</a>
@@ -79,7 +73,9 @@
               </ul>
             </div>
           </li>
+          <li><div class="divider"></div></li>
           <li class="bold"><a href="{% url 'logout' %}" class="waves-effect waves-teal"><i class="fa fa-sign-out fa-lg"></i>Salir</a></li>
+          <li class="bold"><a href="" class="waves-effect waves-teal"><i class="fa fa-cog fa-lg"></i>Configurar Cuenta</a></li>
         </ul>
       </li>        
     </ul>

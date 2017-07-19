@@ -27,15 +27,15 @@ Mis Preguntas
       <table id="miTabla-mispreguntas" class="col s12 bordered card-box" style="min-width: 800px;">
         <thead>
           <tr>
-            <th>Compartir</th>
-            <th>Código</th>
-            <th>Tipo</th>
-            <th>Titulo</th>
-            <th>Fecha</th>
+            <th class="center-align" style="width: 105px">Compartir</th>
+            <th class="center-align" style="width: 100px">Código</th>
+            <th class="center-align" style="width: 150px">Tipo</th>
+            <th class="center-align">Titulo</th>
+            <th class="center-align" style="width: 100px">Fecha</th>
             <!-- <th>Editar</th> -->
-            <th>Descargar</th>
-            <th>Visualizar</th>
-            <th>Eliminar</th>
+            <th class="center-align" style="width: 100px">Descargar</th>
+            <th class="center-align" style="width: 100px">Visualizar</th>
+            <th class="center-align" style="width: 100px">Eliminar</th>
           </tr>
         </thead>
       
@@ -44,35 +44,35 @@ Mis Preguntas
           {% for question in questions %}
           <tr id='{{question.id}}'>
             {% if question.share == 0 %}
-              <td style="">
+              <td>
                 <div class="switch">
                   <label>No<input type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
                 </div>
               </td>
-              <td style="" class="codigo" id='{{question.id}}'></td>
+              <td class="codigo center-align" id='{{question.id}}'></td>
             {% else %}                
-              <td style="width:110px;">
+              <td>
                 <div class="switch">
                   <label>No<input checked="" type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
                 </div>
               </td>
-              <td style="width:90px;" class="codigo" id='{{question.id}}'>{{question.code}}</td>
+              <td class="codigo center-align" id='{{question.id}}'>{{question.code}}</td>
             {% endif %}
             <td>{{question.type}}</td>
             <td>{{question.title}}</td>
-            <td>{{question.creation_date|date:"Y-m-d"}}</td>
-            <td style="padding: 0px 2px;width:100px;">
-              <button style="font-size:13px;" class="descargar waves-effect waves-light btn" id='quesion.id' type="button">
+            <td class="center-align">{{question.creation_date|date:"Y-m-d"}}</td>
+            <td class="center-align">
+              <button style="font-size:13px;" class="waves-effect waves-light btn" id='quesion.id' type="button">
                 <i class="fa fa-download" aria-hidden="true"></i>
               </button>
             </td>
-            <td style="padding: 0px 2px;width:100px;">
-              <button style="font-size:13px;" class="visualizar waves-effect waves-light btn" id='quesion.id' type="button">
+            <td class="center-align">
+              <button style="font-size:13px;" class="waves-effect waves-light btn" id='quesion.id' type="button">
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </button>
             </td>
-            <td style="padding: 0px 2px;width:100px;">
-              <button style="font-size:13px;background-color:#ee6e73;" class="eliminar waves-effect waves-light btn" id='quesion.id' type="button">
+            <td class="center-align">
+              <button style="background-color:#ee6e73;" class="waves-effect waves-light btn" id='quesion.id' type="button">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
             </td>
@@ -113,10 +113,11 @@ Mis Preguntas
 {% block js %}
 <script>
   $(document).ready(function() {
+    $("button").parents('td').css("padding-bottom", "0").css("padding-top", "0");
     $('#nav-mobile ul.collapsible li#list_questions').addClass('active').parent().parent().show().parent().addClass('active')
 
     /* Pagination */
-    var perPage = 10;
+    var perPage = 7;
     var opened = 1;
     var onClass = 'active';
     var paginationSelector = '.pagination';
