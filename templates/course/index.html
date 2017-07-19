@@ -32,8 +32,8 @@ Mis Cursos
           <th data-field="name">Nombre</th>
           <th data-field="description">Descripción</th>
           <th data-field="semester">Semestre/A&ntilde;o</th>
-          <th class="center-align" data-field="edit">Modificar</th>
-          <th class="center-align" data-field="delete">Eliminar</th>
+          <th class="center-align" style="width: 100px; min-width: 100px;" data-field="edit">Modificar</th>
+          <th class="center-align" style="width: 100px; min-width: 100px;" data-field="delete">Eliminar</th>
         </tr>
       </thead>
       <tbody>
@@ -43,8 +43,16 @@ Mis Cursos
           <td>{{ course.name }}</td>
           <td>{{ course.description }}</td>
           <td class="center-align">{{ course.semester }}/{{ course.year }}</td>
-          <td class="center-align"><a href="{% url 'course:edit' course.id %}"><i class="fa fa-pencil fa-lg" style="color: black;"></i></a></td>
-          <td class="center-align"><a href="#delete_{{course.id}}"><i class="fa fa-trash-o fa-lg" style="color: black"></i></a></td>
+          <td class="center-align">
+            <a href="{% url 'course:edit' course.id %}" class="waves-effect waves-light btn">
+              <i class="fa fa-pencil"></i>
+            </a>
+          </td>
+          <td class="center-align">
+            <a href="#delete_{{course.id}}" class="waves-effect waves-light btn" style="background-color:#ee6e73;">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+          </td>
         </tr>
         <!-- Delete Modal -->
         <div id="delete_{{course.id}}" class="modal">
@@ -75,6 +83,7 @@ Mis Cursos
 <script>
   $('.modal').modal();
   $(document).ready(function() {
+    $("a.btn").parents('td').css("padding-bottom", "0").css("padding-top", "0");
     $('#nav-mobile ul.collapsible li#list_courses').addClass('active').parent().parent().show().parent().addClass('active');
 
     $(".clickable-row").click(function() {
