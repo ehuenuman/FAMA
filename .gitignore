@@ -5,3 +5,8 @@ Play/credentials.json
 
 # Archivos cache de python
 **/__pycache__
+
+# Questions format
+*.xml
+*.zip
+
