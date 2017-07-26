@@ -8,8 +8,8 @@ $(document).ready(function() {
 
 function share(id_checkbox) {
   $.ajax({
-    url: document.location.pathname + "/share/" + id_checkbox,
     type: 'POST',
+    url: document.location.pathname + "/share/" + id_checkbox,
     headers: {'X-CSRFToken': Cookies.get('csrftoken')},
     dataType: 'json',
   })

@@ -27,8 +27,8 @@ Mis Formativas
         <tr>
           <th data-field="name">Nombre</th>
           <th data-field="description">Descripci&oacute;n</th>
-          <th class="center-align" data-field="edit">Modificar</th>
-          <th class="center-align" data-field="delete">Eliminar</th>
+          <th class="center-align" style="width: 100px; min-width: 100px;" data-field="edit">Modificar</th>
+          <th class="center-align" style="width: 100px; min-width: 100px;" data-field="delete">Eliminar</th>
         </tr>
       </thead>
       <tbody>
@@ -37,13 +37,13 @@ Mis Formativas
           <td>{{ formative.name }}</td>
           <td>{{ formative.description }}</td>
           <td class="center-align">
-            <a href="{% url 'formative:edit' formative.id %}">
-              <i class="fa fa-pencil fa-lg black-text"></i>
+            <a href="{% url 'formative:edit' formative.id %}" class="waves-effect waves-light btn">
+              <i class="fa fa-pencil"></i>
             </a>
           </td>
           <td class="center-align">
-            <a href="#delete_{{formative.id}}">
-              <i class="fa fa-trash-o fa-lg black-text"></i>
+            <a href="#delete_{{formative.id}}" class="waves-effect waves-light btn" style="background-color:#ee6e73;">
+              <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
           </td>
         </tr>
@@ -54,7 +54,7 @@ Mis Formativas
             <p>¿Realmente desea eliminar la formativa {{ formative.name }}?</p>
           </div>
           <div class="modal-footer">
-            <form action="#" method="POST">
+            <form action="#" method="POST"> 
               {% csrf_token %}
               <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">No, cancelar</a>
               <button class="modal-action modal-close waves-effect waves-green btn-flat">Si, eliminar</button>
@@ -76,6 +76,7 @@ Mis Formativas
 <script>
   $('.modal').modal();
   $(document).ready(function() {
+    $("a.btn").parents('td').css("padding-bottom", "0").css("padding-top", "0");
     $('#nav-mobile ul.collapsible li#list_formatives').addClass('active').parent().parent().show().parent().addClass('active')
 
     $(".clickable-row").click(function() {
