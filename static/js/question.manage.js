@@ -302,14 +302,33 @@ function eliminar_carpeta_zip() {
       url:"delete-folder",
       type: "POST",
       headers: {'X-CSRFToken': Cookies.get('csrftoken')},
-      data: {code: $("#shared_code").val()},
+      data: {code: codigo},
       dataType: "json",
     })
     .done(function(data) {
       //console.log("Eliminar carpeta: "+data.status);
+      resetear_variables();
     })
     .fail(function() {
       //console.log("Error al eliminar la carpeta")
     });
   }
+};
+
+function resetear_variables(){
+  opcion = "";
+  tipo_pregunta = "";
+  xml_archivo = "";
+  url_xml_archivo = "";
+  xml_manifest = "";
+  url = "";
+  url_imagen = "";
+  extension ="";
+  texto_alternativo = "";
+  prompt = "";
+  texto_antes= "";
+  texto_despues = "";
+  limite_superior = "";
+  limite_inferior = "";
+  salto = "";
 };
