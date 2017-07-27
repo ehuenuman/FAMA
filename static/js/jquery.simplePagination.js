@@ -15,7 +15,7 @@
 
     // ------------------------- auto generate the pagination ------------------------- //
     var no_pages = Math.ceil(no_children / perPage);
-    var to_append = '<ul><li class="prev"><a href="#"><span>Anterior</span></a></li>';
+    var to_append = '<ul><li class="prev"><a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>';
     for (i = 1; i <= no_pages; i++) {
       to_append += '<li class="waves-effect';
       if (i === opened) {
@@ -23,7 +23,7 @@
       }
       to_append += '"><a href="#"><span>'+i+'</span></a></li>';
     }
-    to_append += '<li class="next"><a href="#"><span>Siguiente</span></a></li></ul>';
+    to_append += '<li class="next"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li></ul>';
     if (opened !== 1) {
       if (opened === no_pages) {
         pagination.find('.next').find('span').unwrap().wrap('<span></span>');
@@ -42,12 +42,12 @@
 
     // ------------------------- hide the 'prev' button if the first page is active ------------------------- //
     if (pagination.find('.'+onClass).index() == 1) {
-      pagination.find('.prev').find('span').hide();
+      pagination.find('.prev').addClass('disabled'); //find('span').hide();
     }
 
     // ------------------------- hide the 'next' button if the last page is active ------------------------- //
     if (pagination.find('.'+onClass).index() == no_pages) {
-      pagination.find('.next').find('span').hide();
+      pagination.find('.next').addClass('disabled')
     }
 
     // ------------------------- the function for click on 'next' button ------------------------- //
@@ -55,10 +55,10 @@
       if (!pagination.find('.'+onClass).next().hasClass('next')) {
         pagination.find('.'+onClass).next().addClass(onClass).find("a").unbind().bind("click", doNothing).parent().prev().removeClass(onClass).find("a").unbind().bind("click", pageNumberClick);
         if (pagination.find('.'+onClass).index() == 2) {
-          pagination.find('.prev').find('span').show();
+          pagination.find('.prev').removeClass('disabled');
         }
         if (pagination.find('.'+onClass).index() == no_pages) {
-          $(this).find('span').hide();
+          pagination.find('.next').addClass('disabled');
         }
         var greater_than = ((pagination.find('.'+onClass).index() - 1) * perPage) - 1;
         var less_than = pagination.find('.'+onClass).index() * perPage;
@@ -74,10 +74,10 @@
       if (!pagination.find('.'+onClass).prev().hasClass('prev')) {
         pagination.find('.'+onClass).prev(":not(.prev)").addClass(onClass).find("a").unbind().bind("click", doNothing).parent().next().removeClass(onClass).removeClass(onClass).find("a").unbind().bind("click", pageNumberClick);
         if (pagination.find('.'+onClass).index() < no_pages) {
-          pagination.find('.next').find('span:last').show();
+          pagination.find('.next').removeClass('disabled');
         }
         if (pagination.find('.'+onClass).index() === 1) {
-          pagination.find('.prev').find('span').hide();
+          pagination.find('.prev').addClass('disabled')
         }
         var lesser_than = ((pagination.find('.'+onClass).index() - 1) * perPage) - 1;
         var less_than = (pagination.find('.'+onClass).index()) * perPage;
@@ -92,7 +92,6 @@
     // ------------------------- click on 'next' button ------------------------- //
     pagination.find('.next').find('a').click(nextClick);
 
-
     // ------------------------- click on 'prev' button ------------------------- //
     pagination.find('.prev').find('a').click(prevClick);
 
@@ -100,14 +99,14 @@
     function pageNumberClick() {
       var asta = $(this);
       if (asta.parent().index() === 1) {
-        pagination.find('.prev').find('span').hide();
+        pagination.find('.prev').addClass('disabled');
       } else {
-        pagination.find('.prev').find('span:last').show();
+        pagination.find('.prev').removeClass('disabled');
       }
       if (asta.parent().index() === no_pages) {
-        pagination.find('.next').find('span').hide();
+        pagination.find('.next').addClass('disabled');
       } else {
-        pagination.find('.next').find('span:last').show();
+        pagination.find('.next').removeClass('disabled')
       }
       pagination.find('.'+onClass).removeClass(onClass).find("a").unbind().bind("click", pageNumberClick);
       asta.parent().addClass(onClass).find("a").unbind().bind("click", doNothing);
