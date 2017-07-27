@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, FileResponse
 from django.utils import timezone
 
 from apps.course.models import Course
 from apps.formative.models import Formative
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
 
+import xml.etree.ElementTree as ET
 import zipfile, shutil
 
 
@@ -43,8 +44,6 @@ def view_questions(request):
             except Exception as e:
                 data = {"result": "error", "message": "Error al obtener la pregunta"}
                 return JsonResponse(data)
-            
-
 
 @login_required
 def share_question(request, question_id):
@@ -60,6 +59,34 @@ def share_question(request, question_id):
 
         question.save()
     return JsonResponse(data)
+
+
+@login_required
+def download_question(request, question_id):    
+    print("DESCARGAR PREGUNTA")
+    try:
+        question = Question.objects.get(id = question_id)
+    except Exception as e:
+        data = {"result": "error", "message": "Error al obtener el archivo"}
+        print("Error: {0}".format(e))
+        return JsonResponse(data)
+
+    if question.extension == "zip":
+        print("DESCARGAR PREGUNTA ZIP")
+        fo = open(question.url, "rb")
+        zf = fo.read()
+        fo.close()
+        response = HttpResponse(zf, content_type="application/zip")
+        response['Content-Disposition'] = 'attachment; filename="'+question.code+'.zip"'
+        return response
+    else:
+        print("DESCARGAR PREGUNTA XML")
+        fo = open(question.url, "r")
+        xml_file = fo.read()
+        fo.close()
+        response = HttpResponse(xml_file, content_type="text/xml")
+        response['Content-Disposition'] = 'attachment; filename="'+question.code+'.xml"'
+        return response
 
 
 @login_required
@@ -91,7 +118,22 @@ def add_question(request):
                 print("VISUALIZAR")
                 data = question_data(question)
         return JsonResponse(data)
-                
+
+
+@login_required
+def delete_folder(request):
+    data = {}
+    if request.method == "POST":
+        code = request.POST.get("code", "")
+        print("ELIMINANDO CARPETA")
+        try:
+            shutil.rmtree("preguntas/"+code+"/")
+            data["status"] = "success"
+            return JsonResponse(data)
+        except Exception as e:
+            print("Error al eliminar la carpeta {0}. Error: {1}".format("preguntas/"+code+"/", e))
+            data["status"] = "fail"
+            return JsonResponse(data)
 
 
 def question_data(question):
@@ -115,10 +157,10 @@ def question_data(question):
             # Obtener archivo.xml
             # Obtener imsmanifest.xml
             try:
-                fo = open("preguntas/"+question.code+"/archivo.xml")
+                fo = open("preguntas/"+question.code+"/archivo.xml", "r")
                 archivo = fo.read()
                 fo.close()
-                fo = open("preguntas/"+question.code+"/imsmanifest.xml")
+                fo = open("preguntas/"+question.code+"/imsmanifest.xml", "r")
                 imsmanifest = fo.read()
                 fo.close()
             except Exception as e:
@@ -138,7 +180,7 @@ def question_data(question):
         print("LEER XML")
         # Obtener archivo.xml
         try:
-            fo = open("preguntas/"+question.code+".xml")
+            fo = open(question.url, "r")
             archivo = fo.read()
             fo.close()
         except Exception as e:
@@ -159,24 +201,3 @@ def decompress_zip(url, code, extension):
         return True
     except Exception as e:
         return False
-
-
-@login_required
-def delete_folder(request):
-    data = {}
-    if request.method == "POST":
-        code = request.POST.get("code", "")
-        print("ELIMINANDO CARPETA")
-        try:
-            shutil.rmtree("preguntas/"+code+"/")
-            data["status"] = "success"
-            return JsonResponse(data)
-        except Exception as e:
-            print("Error al eliminar la carpeta {0}. Error: {1}".format("preguntas/"+code+"/", e))
-            data["status"] = "fail"
-            return JsonResponse(data)
-
-
-
-
-
