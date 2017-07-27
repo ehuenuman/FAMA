@@ -64,8 +64,7 @@ def add_question(request):
             return JsonResponse(data)
 
         if question.share == 0:     # Dont Shared
-            data = {"result": "error", "message": "Pregunta se encuentra privada"}
-            return JsonResponse(data)
+            data = {"result": "error", "message": "Pregunta se encuentra privada"}            
         else:
             if request.POST.get("action", "") == "save":
                 print("GUARDAR")
@@ -76,62 +75,67 @@ def add_question(request):
                     incorporation_date=timezone.now(),
                     deleted=0)
                 data = {"result": "success", "message": "Pregunta agregada"}
-                return JsonResponse(data)
             else:
                 print("VISUALIZAR")
-                # Obtener datos pregunta
-                data = {
-                    "result": "success",
-                    "url": question.url,
-                    "type": question.type,
-                    "extension": question.extension,
-                    "code": question.code}
-                # Si es zip
-                if question.extension == "zip":
-                    # Descomprimir
-                    success = decompress_zip(
-                        question.url, 
-                        question.code, 
-                        question.extension)
-                    #print(success)
-                    if success:
-                        print("LEER XML")
-                        # Obtener archivo.xml
-                        # Obtener imsmanifest.xml
-                        try:
-                            fo = open("preguntas/"+question.code+"/archivo.xml")
-                            archivo = fo.read()
-                            fo.close()
-                            fo = open("preguntas/"+question.code+"/imsmanifest.xml")
-                            imsmanifest = fo.read()
-                            fo.close()
-                        except Exception as e:
-                            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
-                            return JsonResponse(data)
-                        #print(archivo)
-                        data["archivo"] = archivo
-                        #print(imsmanifest)
-                        data["imsmanifest"] = imsmanifest                        
-                        # Eliminar carpeta descomprimida
-                        #delete_folder(question.code)
-                    else:
-                        data = {"result": "error", "message": "Error al obtener la pregunta. Cod.zip"}
-                        return JsonResponse(data)
-                # Si no es zip
-                else:
-                    print("LEER XML")
-                    # Obtener archivo.xml
-                    try:
-                        fo = open("preguntas/"+question.code+".xml")
-                        archivo = fo.read()
-                        fo.close()
-                    except Exception as e:
-                        data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
-                        return JsonResponse(data)
-                    data["archivo"] = archivo
-                    data["imsmanifest"] = ""                
-                # Enviar información
-                return JsonResponse(data)
+                data = question_data(question)
+        return JsonResponse(data)
+                
+
+
+def question_data(question):
+    # Obtener datos pregunta
+    data = {
+        "result": "success",
+        "url": question.url,
+        "type": question.type,
+        "extension": question.extension,
+        "code": question.code}
+    # Si es zip
+    if question.extension == "zip":
+        # Descomprimir
+        success = decompress_zip(
+            question.url, 
+            question.code, 
+            question.extension)
+        #print(success)
+        if success:
+            print("LEER XML")
+            # Obtener archivo.xml
+            # Obtener imsmanifest.xml
+            try:
+                fo = open("preguntas/"+question.code+"/archivo.xml")
+                archivo = fo.read()
+                fo.close()
+                fo = open("preguntas/"+question.code+"/imsmanifest.xml")
+                imsmanifest = fo.read()
+                fo.close()
+            except Exception as e:
+                data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+                return data
+            #print(archivo)
+            data["archivo"] = archivo
+            #print(imsmanifest)
+            data["imsmanifest"] = imsmanifest                        
+            # Eliminar carpeta descomprimida
+            #delete_folder(question.code)
+        else:
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.zip"}
+            return data
+    # Si no es zip
+    else:
+        print("LEER XML")
+        # Obtener archivo.xml
+        try:
+            fo = open("preguntas/"+question.code+".xml")
+            archivo = fo.read()
+            fo.close()
+        except Exception as e:
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+            return data
+        data["archivo"] = archivo
+        data["imsmanifest"] = ""                
+    # Enviar información
+    return data
 
 
 def decompress_zip(url, code, extension):
