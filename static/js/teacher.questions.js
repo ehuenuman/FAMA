@@ -10,6 +10,12 @@ $(document).ready(function() {
     id_question = $(this)[0].id;
     preview_question(id_question)
   });
+
+  /* Download question */
+  $("button[data-action='download']").click(function() {
+    id_question = $(this)[0].id;
+    download_question(id_question)
+  });
 });
 
 function share_question(id_checkbox) {
@@ -60,4 +66,8 @@ function preview_question(id_question) {
   .fail(function() {
     Materialize.toast('Un error a ocurrido. Intente nuevamente', 3000, 'rounded');
   });
+};
+
+function download_question(id_question) {
+  window.open(document.location.pathname+"/download/"+id_question, "_blank");  
 };
