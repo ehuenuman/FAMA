@@ -28,10 +28,22 @@ def index(request):
 
 @login_required
 def view_questions(request):
-    user = request.user.teacher
-    questions = user.question.filter(teacherhasquestion__deleted=0)
+    if request.method == "GET":
+        user = request.user.teacher
+        questions = user.question.filter(teacherhasquestion__deleted=0)
 
-    return render(request, 'teacher/questions.html', {'questions': questions})
+        return render(request, 'teacher/questions.html', {'questions': questions})
+    else:
+        id_question = request.POST.get("id_question", "")
+        if request.POST.get("action", "") == "preview":
+            try:
+                question = Question.objects.get(id = id_question)
+                data = question_data(question)
+                return JsonResponse(data)
+            except Exception as e:
+                data = {"result": "error", "message": "Error al obtener la pregunta"}
+                return JsonResponse(data)
+            
 
 
 @login_required
