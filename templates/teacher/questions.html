@@ -2,6 +2,17 @@
 {%load staticfiles %}
 
 {% block extracss%}
+<style type="text/css">
+  #banner_preview,
+  .modal-content {
+    padding: 0px !important;
+  }
+
+  #content_preview {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+</style>
 {% endblock %}
 
 {% block extrajs %}
@@ -65,17 +76,17 @@ Mis Preguntas
             <td>{{question.title}}</td>
             <td class="center-align">{{question.creation_date|date:"Y-m-d"}}</td>
             <td class="center-align">
-              <button style="font-size:13px;" class="waves-effect waves-light btn" id='quesion.id' type="button">
+              <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' type="button">
                 <i class="fa fa-download" aria-hidden="true"></i>
               </button>
             </td>
             <td class="center-align">
-              <button style="font-size:13px;" class="waves-effect waves-light btn" id='quesion.id' type="button">
+              <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' data-action="preview" type="button">
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </button>
             </td>
             <td class="center-align">
-              <button style="background-color:#ee6e73;" class="waves-effect waves-light btn" id='quesion.id' type="button">
+              <button style="background-color:#ee6e73;" class="waves-effect waves-light btn" id='{{question.id}}' type="button">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
             </td>
@@ -90,22 +101,6 @@ Mis Preguntas
     <div style="width:100%;height:50px;border:0px solid black;">
       <center><div class="pagination"></div></center>
     </div>
-    
-    <button style="display:none;" class="waves-effect waves-light btn modal-trigger" id="modal-text-mis-preguntas" href="#modal1">Visualizar</button>
-      
-    <div id="modal1" class="modal">
-      <div class="modal-content" id="modal-content-mis-preguntas">
-      </div>
-
-      <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
-      </div>
-    </div>
-
-    <div id="parte" style="display:none;">
-      <?php include 'choice-edit.php' ?>
-    </div>
-
   </div>
 </div>
 
