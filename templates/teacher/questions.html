@@ -45,9 +45,9 @@ Mis Preguntas
         <thead>
           <tr>
             <th class="center-align" style="width: 105px; min-width: 105px;">Compartir</th>
-            <th class="center-align" style="width: 100px">Código</th>
-            <th class="center-align" style="width: 150px">Tipo</th>
-            <th class="center-align">Titulo</th>
+            <th class="center-align" style="width: 100px">C&oacute;digo</th>
+            <th class="left-align" style="width: 180px">Tipo</th>
+            <th class="left-align">T&iacute;tulo</th>
             <th class="center-align" style="width: 100px">Fecha</th>
             <!-- <th>Editar</th> -->
             <th class="center-align" style="width: 100px">Descargar</th>
@@ -75,7 +75,7 @@ Mis Preguntas
               </td>
               <td class="codigo center-align" id='{{question.id}}'>{{question.code}}</td>
             {% endif %}
-            <td>{{question.type}}</td>
+            <td>{{question.spanish_type}}</td>
             <td>{{question.title}}</td>
             <td class="center-align">{{question.creation_date|date:"Y-m-d"}}</td>
             <td class="center-align">
