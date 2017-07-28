@@ -18,6 +18,9 @@
 {% block extrajs %}
 <script type="text/javascript" src="{% static 'js/jquery.simplePagination.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/Blob.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/FileSaver.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.fileDownload.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/question.manage.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/question.process_type.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/teacher.fill_preview_modal.js' %}"></script>
@@ -41,7 +44,7 @@ Mis Preguntas
       <table id="miTabla-mispreguntas" class="col s12 bordered card-box" style="min-width: 800px;">
         <thead>
           <tr>
-            <th class="center-align" style="width: 105px">Compartir</th>
+            <th class="center-align" style="width: 105px; min-width: 105px;">Compartir</th>
             <th class="center-align" style="width: 100px">Código</th>
             <th class="center-align" style="width: 150px">Tipo</th>
             <th class="center-align">Titulo</th>
@@ -86,7 +89,7 @@ Mis Preguntas
               </button>
             </td>
             <td class="center-align">
-              <button style="background-color:#ee6e73;" class="waves-effect waves-light btn" id='{{question.id}}' type="button">
+              <button style="background-color:#ee6e73;" class="waves-effect waves-light btn disabled" id='{{question.id}}' type="button">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
             </td>
