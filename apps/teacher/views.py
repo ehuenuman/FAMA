@@ -34,7 +34,6 @@ def view_questions(request):
     if request.method == "GET":
         user = request.user.teacher
         questions = user.question.filter(teacherhasquestion__deleted=0)
-
         return render(request, 'teacher/questions.html', {'questions': questions})
     else:
         id_question = request.POST.get("id_question", "")
