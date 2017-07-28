@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.utils import timezone
+from wsgiref.util import FileWrapper
+from django.core.files import File
 
 from apps.course.models import Course
 from apps.formative.models import Formative
@@ -62,31 +64,52 @@ def share_question(request, question_id):
 
 
 @login_required
-def download_question(request, question_id):    
+def download_question(request, question_id=None):
     print("DESCARGAR PREGUNTA")
-    try:
-        question = Question.objects.get(id = question_id)
-    except Exception as e:
-        data = {"result": "error", "message": "Error al obtener el archivo"}
-        print("Error: {0}".format(e))
-        return JsonResponse(data)
-
-    if question.extension == "zip":
-        print("DESCARGAR PREGUNTA ZIP")
-        fo = open(question.url, "rb")
-        zf = fo.read()
-        fo.close()
-        response = HttpResponse(zf, content_type="application/zip")
-        response['Content-Disposition'] = 'attachment; filename="'+question.code+'.zip"'
-        return response
+    if request.method == "POST":
+        question_id = request.POST.get("id_question", "")
+        try:
+            question = Question.objects.get(id = question_id)
+            if question.extension == "zip":
+                print("DESCARGAR PREGUNTA ZIP")
+                #zf = zipfile.ZipFile(question.url, "r", zipfile.ZIP_DEFLATED)                
+                fo = open(question.url, "rb")
+                zf = fo.read()
+                print(str(zf)[1:])
+                fo.close()                
+                response = HttpResponse(str(zf)[1:], content_type="application/zip")
+                response['Content-Disposition'] = 'attachment; filename="'+question.code+'.zip"'
+                response['Content-Size'] = len(zf)
+                response['Name'] = question.code+".zip"
+                return response            
+            else:
+                print("DESCARGAR PREGUNTA XML")
+                fo = open(question.url, "r")
+                xml_file = fo.read()
+                fo.close()
+                response = HttpResponse(xml_file, content_type="text/xml")
+                response['Content-Disposition'] = 'attachment; filename="'+question.code+'.xml"'
+                response['Name'] = question.code+".xml"
+                return response
+        except Exception as e:
+            data = {"result": "error", "message": "Error al obtener la pregunta"}
+            print("Error: {0}".format(e))
+            return JsonResponse(data)
     else:
-        print("DESCARGAR PREGUNTA XML")
-        fo = open(question.url, "r")
-        xml_file = fo.read()
-        fo.close()
-        response = HttpResponse(xml_file, content_type="text/xml")
-        response['Content-Disposition'] = 'attachment; filename="'+question.code+'.xml"'
-        return response
+        try:
+            question = Question.objects.get(id = question_id)
+            fo = open(question.url, "rb")
+            zf = fo.read()        
+            fo.close()                
+            response = HttpResponse(zf, content_type="application/zip")
+            response['Content-Disposition'] = 'attachment; filename="'+question.code+'.zip"'
+            response['Content-Size'] = len(zf)
+            response['Name'] = question.code+".zip"
+            return response        
+        except Exception as e:
+            data = {"result": "error", "message": "Error al obtener la pregunta"}
+            print("Error: {0}".format(e))
+            return JsonResponse(data)
 
 
 @login_required
@@ -198,6 +221,8 @@ def decompress_zip(url, code, extension):
         zf = zipfile.ZipFile(url, "r")
         for i in zf.namelist():
             zf.extract(i, path="preguntas/"+code+"/")
+        zf.close()
         return True
     except Exception as e:
+        zf.close()
         return False
