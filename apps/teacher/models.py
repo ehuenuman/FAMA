@@ -22,6 +22,7 @@ class Question(models.Model):
     #idpregunta = models.AutoField(db_column='idPregunta', primary_key=True)  # Field name made lowercase.
     title = models.CharField(max_length=30, blank=True, null=True)
     type = models.CharField(max_length=40, blank=True, null=True)
+    spanish_type = models.CharField(max_length=50, blank=True, null=True)
     creation_date = models.DateTimeField(blank=True, null=True)  # Field name made lowercase.
     share = models.IntegerField(blank=True, null=True)
     code = models.CharField(max_length=9, blank=True, null=True)
