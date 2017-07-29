@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^crear-cuenta/email$', validate_email, name='validate_email'),
 	url(r'^', include ('apps.teacher.urls', namespace='teacher')),
     url(r'^curso/', include('apps.course.urls', namespace='course')),
-    url(r'^formativa/', include('apps.formative.urls', namespace='formative')),
+    url(r'^formativa/', include('apps.formative.urls', namespace='formative')),  
+    url(r'^pregunta/', include('apps.question.urls', namespace='question')),  
 ]
