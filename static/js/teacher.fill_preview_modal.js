@@ -22,7 +22,7 @@
   else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
 
   $("#content_preview").append('<span><b>Alternativas: </b></span></br>');
-  var agregar;
+  var agregar = "";
   for (var i = 0; i < alternativas.length ; i++) {
     agregar += '<p id='+i+'>';
     agregar += "<input name='group1' type='radio' id="+i+"/>";
