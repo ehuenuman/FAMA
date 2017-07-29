@@ -40,3 +40,25 @@ a {
   border: 1px solid #e0e0e0 !important;
   background-color: white !important;
 }
+
+.btn-danger {
+  background-color:#ee6e73;
+}
+
+.btn-danger:hover {
+  background-color: #f18487;
+}
+
+.btn-danger:focus {
+  background-color: #e74046;
+}
+
+#banner_preview,
+.modal-content {
+  padding: 0px !important;
+}
+
+#content_preview {
+  padding-left: 24px;
+  padding-right: 24px;
+}
