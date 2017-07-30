@@ -231,6 +231,16 @@ function manage_question() {
     var xml_imsmanifest = crear_imsmanifest();
     if (descargar) {
       console.log("DESCARGAR ZIP");
+      var zip = new JSZip();
+      zip.file("archivo.xml", xml_question);
+      zip.file("imsmanifest.xml", xml_imsmanifest);
+      var img = zip.folder("images");
+      img.file(nombre_foto, result.split("base64,")[1], {base64: true});
+      zip.generateAsync({type:"blob"})
+      .then(function(content) {
+          // see FileSaver.js
+          saveAs(content, titulo+".zip");
+      });
     } else {
       console.log("GUARDAR ZIP");
       var data = {
