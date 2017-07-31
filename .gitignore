@@ -6,6 +6,7 @@ Play/credentials.json
 # Archivos cache de python
 **/__pycache__
 
-# Questions folder
-preguntas/
+# Questions 
+preguntas/*.xml
+preguntas/*.zip
 
