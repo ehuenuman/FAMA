@@ -50,7 +50,7 @@ MAs Play
       <!--Student Login-->
 
       <!--Teacher Login-->
-        <form class="col s12" id="login_profesor" style="display: none;" method="POST" action="{% url 'login' %}">
+        <form class="col s12" id="login_profesor" style="display: none;" method="POST" action="{% url 'index:login' %}">
           {% csrf_token %}
           <div class="row">
             <div class="input-field col s12">
@@ -75,7 +75,7 @@ MAs Play
           <div class="row center-align">        
             <a style="color:#26a69a;" href="reestablecer.php">Olvide mi contrase&ntilde;a</a>
             <br>
-            <a style="color:#26a69a;" href="{% url 'create_account' %}">Registrarme</a>
+            <a style="color:#26a69a;" href="{% url 'index:create_account' %}">Registrarme</a>
           </div>
         </form>
         <!-- Teacher Login -->
