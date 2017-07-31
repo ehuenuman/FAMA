@@ -1,0 +1,198 @@
+{% extends 'teacher/base.html' %}
+{%load staticfiles %}
+
+{% block extracss%}
+<style type="text/css">
+  .dashed-border{
+    /*background-color: grey;*/
+    color: black;  
+    border: 1px dashed grey;
+    border-radius: 8px;
+    padding-left: 10px;
+    padding-right: 10px;    
+  }
+
+  .last-row {
+    margin-bottom: 0px;
+  }
+
+  td {
+    padding: 0px 5px;
+  }
+  
+  #answers_table {
+    margin-bottom: 5px;
+  }
+  #answers_table input {
+    margin-bottom: 0px;
+    height: 22px;
+  }
+
+  #answers_table label {
+    margin: 0px 5px 0px 0px;
+    padding: 0px;
+  }
+
+  #eliminar_foto {
+    display: block;
+    right:-80%;    
+  }
+</style>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/jquery.simplePagination.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/XMLWriter-1.0.0.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/Blob.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/FileSaver.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/question.create_choice.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+MAs Play - Selecci&oacute;n simple
+{% endblock %}
+
+{% block page-title %}
+Crear selecci&oacute;n simple
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col s12">
+    <form  enctype="multipart/form-data" class="col s12 m8 l8 offset-m2 offset-l2 card-box">
+      <div class="row">
+        <div class="col s12 center-align">
+          <div class="col s4">
+            <button id="save_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Guardar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button id="download_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-download" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Descargar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button id="preview_question" type="button" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Visualizar</span>
+            </button>  
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input data-length="30" maxlength="30" id="first_name" class="titulo-choice validate" type="text" required>
+          <label for="first_name">Título</label>
+        </div>
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input data-length="100" maxlength="100" id="first_name" class="pregunta-choice validate" type="text" required>
+          <label for="first_name">Pregunta</label>
+        </div>
+      </div>
+
+      <div class="row dashed-border">         
+        <div class="file-field input-field">
+          <div class="btn">
+            <i class="fa fa-picture-o" aria-hidden="true"></i>
+            <span class="hide-on-med-and-down">Agregar imagen</span>
+            <input id="imagen" type="file" name="archivo" accept="image/*"/ >
+          </div>
+          <div class="file-path-wrapper">
+            <input id="input_foto" name="sitebg" type="text" class="file-path">
+          </div>
+        </div>        
+        <div id="imagen-desplegada" class="center-align"></div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input class="texto_alternativo validate"  data-length="100" maxlength="100" id="first_name"  type="text">
+          <label for="first_name">Texto alternativo</label>
+        </div>
+      </div>
+
+      <div id="mensaje"></div>
+
+      <div class="row last-row dashed-border">
+        <table id="answers_table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Respuesta</th>
+              <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Acci&oacute;n</th>
+              <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="1" >
+              <td>
+                <input id="test1" name="group1" type="radio" class="check" checked="checked"/>
+                <label for="test1"></label>   
+              </td>
+              <td>
+                <input type="text" id="1" class="respuesta" data-content="alternative" required>
+              </td>
+              <td class="center-align">
+                <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
+                <i id="1" class="down fa fa-caret-down fa-3x" aria-hidden="true"></i>
+              </td>            
+              <td>
+                <button id="1" type="button" class="waves-effect waves-light btn btn-danger" data-action="delete-row">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <div class="col s12" style="padding-bottom: 10px;">
+          <button class="waves-effect waves-light btn col s12" id="add_alternative" type="button">agregar nueva alternativa</button>
+        </div>
+
+      </div>  
+    </form>
+  </div>
+</div>
+
+<div id="preview_modal" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <div class="row">
+      <div id="banner_preview" class="col s12">
+        <div class="col s6 teal center-align">
+          <h5 class="white-text"></h5>
+        </div>
+        <div class="col s6 center-align">
+          <h5><i>Vista Previa</i></h5>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div id="content_preview" class="col s12"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+<script>
+  $(document).ready(function() {
+    $("button").parents('td').css("padding-bottom", "0").css("padding-top", "0");
+    $('#nav-mobile ul.collapsible li#simple_choice').addClass('active').parent().parent().show().parent().addClass('active');  
+  });
+</script>
+{% endblock %}
