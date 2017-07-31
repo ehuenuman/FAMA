@@ -20,6 +20,7 @@ a {
   width: 240px !important;
 }
 
+/* Materialize */
 .collection {
   border-radius: 0px !important;
 }
@@ -41,8 +42,9 @@ a {
   background-color: white !important;
 }
 
+/* Buttons */
 .btn-danger {
-  background-color:#ee6e73;
+  background-color: #ee6e73;
 }
 
 .btn-danger:hover {
@@ -53,6 +55,7 @@ a {
   background-color: #e74046;
 }
 
+/* Modal Preview */
 #banner_preview,
 .modal-content {
   padding: 0px !important;
@@ -61,4 +64,9 @@ a {
 #content_preview {
   padding-left: 24px;
   padding-right: 24px;
+}
+
+/* Icons */
+i.prefix.fa {
+  color: #807B7B;
 }
