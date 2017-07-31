@@ -2,17 +2,6 @@
 {%load staticfiles %}
 
 {% block extracss%}
-<style type="text/css">
-  #banner_preview,
-  .modal-content {
-    padding: 0px !important;
-  }
-
-  #content_preview {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-</style>
 {% endblock %}
 
 {% block extrajs %}
@@ -89,7 +78,7 @@ Mis Preguntas
               </button>
             </td>
             <td class="center-align">
-              <button style="background-color:#ee6e73;" class="waves-effect waves-light btn disabled" id='{{question.id}}' type="button">
+              <button class="waves-effect waves-light btn btn-danger disabled" id='{{question.id}}' type="button">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </button>
             </td>

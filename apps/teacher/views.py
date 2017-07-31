@@ -1,15 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponse, FileResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
-from wsgiref.util import FileWrapper
-from django.core.files import File
 
 from apps.course.models import Course
 from apps.formative.models import Formative
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
 
-import xml.etree.ElementTree as ET
 import zipfile, shutil
 
 

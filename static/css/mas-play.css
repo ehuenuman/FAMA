@@ -20,6 +20,7 @@ a {
   width: 240px !important;
 }
 
+/* Materialize */
 .collection {
   border-radius: 0px !important;
 }
@@ -39,4 +40,33 @@ a {
 .card-box {
   border: 1px solid #e0e0e0 !important;
   background-color: white !important;
+}
+
+/* Buttons */
+.btn-danger {
+  background-color: #ee6e73;
+}
+
+.btn-danger:hover {
+  background-color: #f18487;
+}
+
+.btn-danger:focus {
+  background-color: #e74046;
+}
+
+/* Modal Preview */
+#banner_preview,
+.modal-content {
+  padding: 0px !important;
+}
+
+#content_preview {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Icons */
+i.prefix.fa {
+  color: #807B7B;
 }
