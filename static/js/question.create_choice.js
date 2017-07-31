@@ -94,10 +94,10 @@ $(document).ready(function() {
   /* Load image */
   $(':file').change(function(){         
     var file = $("#imagen")[0].files[0];
-    console.log("file");
-    console.log(file);
+    //console.log("file");
+    //console.log(file);
     formData = new FormData($("form")[0]);
-    console.log(formData);
+    //console.log(formData);
     var fileSize = file.size;
     if (fileSize <= 1400000 ) {
       //console.log("menor de los 1400.0Kb, tamaño: "+fileSize/1000+"Kb"); 
@@ -197,7 +197,7 @@ function validate_form(){
 } 
 
 function manage_question() {
-  console.log("1) extrayendo los datos del formulario");
+  //console.log("1) extrayendo los datos del formulario");
   titulo = $(".titulo-choice").val();
   titulo = remplazarCaracteresEspeciales(titulo);
 
@@ -230,7 +230,7 @@ function manage_question() {
   if (nombre_foto != "") {
     var xml_imsmanifest = crear_imsmanifest();
     if (descargar) {
-      console.log("DESCARGAR ZIP");
+      //console.log("DESCARGAR ZIP");
       var zip = new JSZip();
       zip.file("archivo.xml", xml_question);
       zip.file("imsmanifest.xml", xml_imsmanifest);
@@ -242,7 +242,7 @@ function manage_question() {
           saveAs(content, titulo+".zip");
       });
     } else {
-      console.log("GUARDAR ZIP");
+      //console.log("GUARDAR ZIP");
       var data = {
         "question": xml_question,
         "imsmanifest": xml_imsmanifest,
@@ -292,7 +292,7 @@ function send_question(data) {
 }
 
 function crear_pregunta_xml() {
-  console.log("2) entrando a crear_pregunta_xml");
+  //console.log("2) entrando a crear_pregunta_xml");
   var cH = new XMLWriter('UTF-8','1.0');
   cH.formatting = 'indented';   //add indentation and newlines
   cH.indentChar = ' ';          //indent with spaces
@@ -380,7 +380,7 @@ function crear_pregunta_xml() {
 };
 
 function crear_imsmanifest(){
-  console.log("3) entrando a crear_imsmanifest");
+  //console.log("3) entrando a crear_imsmanifest");
   var cH = new XMLWriter('UTF-8','1.0');
   cH.formatting = 'indented';//add indentation and newlines
   cH.indentChar = ' ';//indent with spaces
@@ -419,95 +419,4 @@ function crear_imsmanifest(){
   /*--------imprimir xml en consola---*/
   //console.log(cH);
   /*--------imprimir xml en consola---*/  
-};
-
-
-function subir_imagen(){
-  console.log("4) entrando a subir imagen");
-  //var formData = new FormData($(".formulario")[0]);
-  //console.log(formData); //el form data es variable global
-  $.ajax({
-    type: "POST",
-    url: "upload/image",
-    headers: {'X-CSRFToken': Cookies.get('csrftoken')}, 
-    data: formData,
-    cache: false,
-    contentType: false,
-    processData: false,    
-  })
-  .done(function (data) {
-    console.log(data);
-  })
-  .fail(function() {
-    console.log("Error");
-  });
-};
-
-
-function crear_zip(){
-  console.log("5) entrando a crear_zip");
-  var envio = 'nombre_imagen='+nombre_foto;
-  $.ajax({
-    type: "POST",
-    url:"crear_zip.php",
-    data: envio,
-    success: function(respuesta){
-      var file=respuesta;
-      ruta_pregunta = file;
-      console.log("5) se creo el zip correctamente : "+file);   
-      //$('.enlace').replaceWith('<a class="enlace" href='+file+'>Descargar Archivo zip</a>');     
-      preguntar_si_descarga(ruta_pregunta);  /* salto a 5.5*/
-    },
-    error: function() {
-      alert('Error al crear el zip'); 
-    }
-  });
-};
-
-
-function preguntar_si_descarga(ruta){
-  console.log("5.5) antes insertar, preguntar si desea descargar");
-  if (descargar == true) {                           /* si presiono descargar */ 
-    console.log("5.5) archivo se descargo");
-    javascript:window.open(ruta); //javascript:window.open('/tesis/'+ruta);
-    descargar = false;
-
-    var archivo_nombre = random+"."+formato;
-    var envio = 'operacion='+2+'&nombre_archivo='+archivo_nombre;
-    $.ajax({
-      type: "POST",
-      url:"ws-archivo.php",
-      data: envio,
-      success: function(respuesta){ 
-        Materialize.toast('Pregunta descargada', 3000,'rounded');
-      },
-      error: function() {
-        alert('Error al eliminar archivo'); 
-      }
-    });
-  } else {
-    console.log("5.5) archivo no se descargo");
-    insertar_pregunta(ruta);
-  }
-};
-
-
-function insertar_pregunta(ruta){
-  console.log("6) entrando a insertar_pregunta");
-  console.log("formato: "+formato);
-  console.log("ruta: "+ruta);
-  var envio = 'ruta_pregunta='+ruta+'&formato='+formato;
-
-  $.ajax({
-    type: "POST",
-    url:"insertar_pregunta.php",
-    data: envio,
-    success: function(respuesta){
-      console.log("6) la pregunta se inserto correctamente en la BD : "+respuesta);   //imprime numero id de la bd
-      Materialize.toast('Pregunta guardada', 3000,'rounded');
-    },
-    error: function() {
-      alert('Error al insertar correctamente en la BD'); 
-    }
-  });
 };
