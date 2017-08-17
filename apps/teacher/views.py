@@ -21,8 +21,8 @@ def index(request):
         'user': user, 
         'courses': courses, 
         'total_course': total_course,
-        'formatives': formatives ,
-        'total_formatives': total_formatives
+        'formatives': formatives,
+        'total_formatives': total_formatives,
         })
 
 

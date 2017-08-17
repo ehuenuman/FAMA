@@ -9,7 +9,7 @@ from apps.teacher.models import Teacher
 
 # Create your views here.
 def login(request):
-    """Verified credential account for teacher and student"""
+    """Verify credential account for teacher and student"""
     if request.method == 'GET':
         if request.user.is_authenticated:
             return redirect('teacher:home')
@@ -28,17 +28,17 @@ def login(request):
             else:
 #               messages.warning(request, "Cuenta desactivada")
                 print("Cuenta desactivada")
-                return redirect('login')
+                return redirect('login:login')
         else:
 #           messages.warning(request, "Nombre de usuario o contraseña incorrecta")
             print("Identificación incorrecta")
-            return redirect('login')
+            return redirect('login:login')
 
 
 def logout(request):
     """System logout"""
     auth.logout(request)
-    return redirect('login')
+    return redirect('login:login')
 
 
 def create_account(request):
@@ -59,7 +59,7 @@ def create_account(request):
         user.save()
         teacher.save()
 
-        return redirect('login')
+        return redirect('login:login')
 
 
 def validate_email(request):

@@ -23,7 +23,7 @@ Crear cuenta
       <center>
         <div id="error_form" class="error-message"></div>
       </center>
-      <form class="col s12" id="create_account" method="POST" action="{% url 'create_account' %}">
+      <form class="col s12" id="create_account" method="POST" action="{% url 'login:create_account' %}">
         {% csrf_token %}
         <div class="row" style="margin-bottom: 0px;">
           <div class="input-field col s12">
@@ -32,7 +32,7 @@ Crear cuenta
             <label for="email">Correo</label>
           </div>
           <div id="error_email" class="center-align" style="display: none">
-            <a style="color:#26a69a;" href="{% url 'login' %}">Ingresar con mi cuenta</a>
+            <a style="color:#26a69a;" href="{% url 'login:login' %}">Ingresar con mi cuenta</a>
           </div>
         </div>
 
@@ -73,7 +73,7 @@ Crear cuenta
         </div>
 
         <div class="row center-align">
-          <a style="color:#26a69a;" href="{% url 'login' %}">¡Tengo cuenta!</a>
+          <a style="color:#26a69a;" href="{% url 'login:login' %}">¡Tengo cuenta!</a>
         </div>
 
       </form>

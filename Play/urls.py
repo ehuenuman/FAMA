@@ -17,10 +17,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 #from django.views.generic import TemplateView
 
+from apps.login.urls import *
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include ('apps.login.urls', namespace='index')),
+
+    url(r'^', include ('apps.login.urls', namespace='login')),
 	url(r'^', include ('apps.teacher.urls', namespace='teacher')),
     url(r'^curso/', include('apps.course.urls', namespace='course')),
     url(r'^formativa/', include('apps.formative.urls', namespace='formative')),  
