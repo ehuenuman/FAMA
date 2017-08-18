@@ -1,7 +1,23 @@
 $(document).ready(function() {
+  //Click manually option
+  $(".modal-content #manually").click(function(event) {
+    $(".modal #modal_menu").addClass("hide");
+    $("#form_manually").removeClass("hide");
+  });
+  //Click upload template option
+  $(".modal-content #template").click(function(event) {
+    $(".modal #modal_menu").addClass("hide");
+    $("#form_template").removeClass("hide");
+  });
+
+
+  //Add input text new student
   $('.modal').modal({
     complete: function () {
-      $("div#add_student table td>input[name^='rut_']").parent().parent().remove(); 
+      $("div#add_student table td>input[name^='rut_']").parent().parent().remove();
+      $(".modal #modal_menu").removeClass("hide");
+      $("#form_manually").addClass("hide");      
+      $("#form_template").addClass("hide");
     }
   });
   var count = 0;
@@ -26,4 +42,6 @@ $(document).ready(function() {
 
     count++;
   });
+
+  
 });
