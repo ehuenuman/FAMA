@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-#from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from datetime import date
+import csv, os
 
 from .forms import CourseForm
 from .models import Course, CourseHasStudent
@@ -70,26 +70,79 @@ def add_students(request, course_id):
     course = Course.objects.get(id=course_id)
     if request.method == 'POST':
         data = {}
-        for i in request.POST.lists():
-            if Student.objects.filter(rut=i[1][0].upper()):
-                student = Student.objects.get(rut=i[1][0].upper())
-                #print("Existe entre todos los estudiantes")
-                try:
-                    CourseHasStudent.objects.get(course=course, student=student)
-                    #print("Existe en el curso")
-                except Exception as e:
-                    #print("No existe en el curso")
+        if request.FILES:
+            csvfile = request.FILES['csv_file']
+            
+            fout = open('templates/course/{0}.csv'.format(course_id), 'wb')
+            for chunk in csvfile.chunks():
+                fout.write(chunk)
+            fout.close()            
+
+            with open('templates/course/{0}.csv'.format(course_id)) as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    #print(row['RUT'], row['NOMBRES'], row['APELLIDOS'], row['EMAIL'])  
+                    if Student.objects.filter(rut=row['RUT'].upper()):
+                        student = Student.objects.get(rut=row['RUT'].upper())
+                        #print("Existe entre todos los estudiantes")
+                        try:
+                            CourseHasStudent.objects.get(course=course, student=student)
+                            #print("Existe en el curso")
+                        except Exception as e:
+                            #print("No existe en el curso")
+                            m = CourseHasStudent(course=course, student=student)
+                            m.save()
+                            data[student.id] = {'rut': student.rut, 'name': student.name,
+                                                'last_name': student.last_name}
+                    else:
+                        #print("Nuevo")
+                        student = Student.objects.create(
+                            rut=row['RUT'].upper(), 
+                            name=row['NOMBRES'], 
+                            last_name=row['APELLIDOS'])
+                            #Agregar email!
+                        m = CourseHasStudent(course=course, student=student)
+                        m.save()
+                        data[student.id] = {'rut': student.rut, 'name': student.name,
+                                            'last_name': student.last_name}
+                    student = None
+                    m = None
+
+            os.remove('templates/course/{0}.csv'.format(course_id))
+        else:            
+            for i in request.POST.lists():
+                if Student.objects.filter(rut=i[1][0].upper()):
+                    student = Student.objects.get(rut=i[1][0].upper())
+                    #print("Existe entre todos los estudiantes")
+                    try:
+                        CourseHasStudent.objects.get(course=course, student=student)
+                        #print("Existe en el curso")
+                    except Exception as e:
+                        #print("No existe en el curso")
+                        m = CourseHasStudent(course=course, student=student)
+                        m.save()
+                        data[student.id] = {'rut': student.rut, 'name': student.name,
+                                            'last_name': student.last_name}
+                else:
+                    #print("Nuevo")
+                    student = Student.objects.create(rut=i[1][0].upper(), name=i[1][1], last_name=i[1][2])
                     m = CourseHasStudent(course=course, student=student)
                     m.save()
                     data[student.id] = {'rut': student.rut, 'name': student.name,
                                         'last_name': student.last_name}
-            else:
-                #print("Nuevo")
-                student = Student.objects.create(rut=i[1][0].upper(), name=i[1][1], last_name=i[1][2])
-                m = CourseHasStudent(course=course, student=student)
-                m.save()
-                data[student.id] = {'rut': student.rut, 'name': student.name,
-                                    'last_name': student.last_name}
-            student = None
-            m = None
+                student = None
+                m = None
     return JsonResponse(data)
+
+
+@login_required
+def download_csv(request, course_id):
+    course = Course.objects.get(id=course_id)
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="EstudiantesCurso-{0}.csv"'.format(course.name)
+
+    writer = csv.writer(response)
+    writer.writerow(['RUT', 'NOMBRES', 'APELLIDOS', 'EMAIL'])    
+
+    return response

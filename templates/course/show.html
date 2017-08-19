@@ -5,7 +5,7 @@
 <style type="text/css">
   .modal {
     width: 75% !important;
-  }
+  }  
 </style>
 {% endblock %}
 
@@ -88,7 +88,7 @@
         <div id="list_students" style="max-height: 400px; overflow-y: auto;">
           {% if students %}
           <span>Estudiantes inscritos: 
-            <span data-count='{{ students.count }}'>{{ students.count }}</span>
+            <span id="student_count" data-count='{{ students.count }}'>{{ students.count }}</span>
           </span>
           {% for student in students %}
           <div class="card-item col s12 hoverable teal white-text valign-wrapper">
@@ -107,7 +107,7 @@
           <div clas="col s12">
             <a href="#add_student">
               <div class="card-panel teal">
-                  <span class="white-text">Agrege alumnos al curso</span><br>
+                  <span class="white-text">Agregue alumnos al curso</span><br>
               </div>
             </a>
           </div>
@@ -120,11 +120,35 @@
 
 <!-- Modal Add Student -->
 <div id="add_student" class="modal">
-  <form method="POST">
-    {% csrf_token %}
-    <div class="modal-content">
-      <h4>Agregar estudiantes al curso</h4>
-      <p>Puede rellenar manualmente los campos requeridos o usar la siguiente plantilla</p>
+  <div class="modal-header">
+      <h5 class="modal-title">Agregar estudiantes al curso</h5>
+  </div>
+
+  <div id="modal_menu">
+    <div class="modal-content row">  
+      <div class="col s12">
+        <a class="col m6 s12 center-align" id="manually">
+          <div class="btn-box">
+            <h5>Manualmente</h5>
+            <i class="fa fa-keyboard-o fa-5x" aria-hidden="true"></i>
+          </div>
+        </a>
+        <a class="col m6 s12 center-align" id="template">
+          <div class="btn-box">
+            <h5>Plantilla</h5>
+            <i class="fa fa-file-text-o fa-5x" aria-hidden="true"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+    </div>
+  </div>  
+
+  <form class="hide" id="form_manually">    
+    <div class="modal-content center-align">
+      <span>Rellene los campos con los datos de los estudiantes.</span>
       <table class="bordered">
         <thead>
           <th>RUT</th>
@@ -142,71 +166,53 @@
         </tbdoy>
       </table>
     </div>
-    <div class="row modal-footer">
-      <div>
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-        <button type="submit" class="btn-flat">Guardar estudiantes</button>
-      </div>
+    <div class="modal-footer">      
+      <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+      <button type="submit" class="btn-flat">
+        <span>Guardar estudiantes</span>
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw hide"></i>
+      </button>      
     </div>
   </form>
+
+  <form class="hide" id="form_template">    
+    <div class="modal-content row">  
+      <div class="col s12">
+        <a class="col m6 s12 center-align" href="{% url 'course:download_csv' course.id %}">
+          <div class="btn-box">
+            <h5>Descargar</h5>
+            <i class="fa fa-arrow-circle-o-down fa-5x" aria-hidden="true"></i>
+          </div>
+        </a>
+        <a class="col m6 s12 center-align">
+          <div class="btn-box file-field">
+            <h5>Cargar</h5>
+            <i class="fa fa-arrow-circle-o-down fa-5x fa-rotate-180" aria-hidden="true"></i>
+            <input type="file" name="csv_file" accept=".csv" required>
+          </div>
+        </a>
+      </div>
+      <div class="col s12 file-path-wrapper input-field hide">
+        <input class="file-path validate" id="name_file" type="text" placeholder="" disabled>
+        <label for="name_file">Archivo seleccionado</label>
+      </div>
+    </div>
+    <div class="modal-footer row">    
+      <div class="col s12">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        <button class="btn-flat" type="submit">
+          <span>Cargar</span>
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw hide"></i>
+        </button>        
+      </div>
+    </div>
+  </form> 
 </div>
+<!-- End modal add student-->
 {% endblock %}
 
 {% block footer %}
 {% endblock %}
 
 {% block js %}
-<script>
-  $('div#add_student form').submit(function(event) {
-    event.preventDefault();
-    var form = $( this ).serializeArray();
-    var initial_students = {{ students.count }};
-
-    var students = [];
-    for (var i = 1; i < form.length; i+=3) {
-      students.push([form[i]['value'], form[i+1]['value'], form[i+2]['value']]);
-    }
-
-    $.ajax({
-      url: "{% url 'course:add_students' course.id %}",
-      type: 'POST',
-      headers: {'X-CSRFToken': Cookies.get('csrftoken')},
-      dataType: 'json',
-      data: {students: students},
-    })
-    .done(function( data ) {
-      $.each(data, function(index, val) {
-        if (initial_students == 0) {
-          $('#list_students').empty().append("<span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>");
-          initial_students++;
-        }
-         var card = "<div class='card-item col s12 hoverable teal white-text valign-wrapper'>";
-            card += "<div class='col s10 left-align'>";
-            card += "<span class='col s12'>"+val.rut+"</span>";
-            card += "<span class='col s12'>"+val.name+" "+val.last_name+"</span>";
-            card += "</div>"
-            card += "<a href='!#'' class='col s2'>";
-            card += "<div class='valign col s12'>";
-            card += "<i class='fa fa-trash-o fa-2x'></i>";
-            card += "</div></a></div>";
-         $(card).insertAfter('#list_students span>span').fadeIn(800);
-      });
-      var count = $('#list_students span>span').data('count');
-      $('#list_students span>span').html(count+Object.keys(data).length);
-      $('#list_students span>span').data('count', count+Object.keys(data).length);
-      if (Object.keys(data).length == 1) {
-        Materialize.toast('Se agregó un nuevo estudiante', 5000, 'rounded')
-      } else {
-        Materialize.toast('Se agregaron '+Object.keys(data).length+' nuevos estudiantes', 5000, 'rounded')
-      }
-
-    })
-    .fail(function() {
-      Materialize.toast('Un error a ocurrido. Intento nuevamente', 5000, 'rounded')
-    });
-
-    $('div#add_student').modal('close');
-  });
-
-</script>
 {% endblock %}
