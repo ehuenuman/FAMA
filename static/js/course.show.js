@@ -19,6 +19,8 @@ $(document).ready(function() {
       $("#form_template").addClass("hide");
       $(".file-path-wrapper").addClass("hide");
       $(".modal-footer.row input.file-path").val("");
+      $("form button[type='submit'] span").removeClass("hide");
+      $("form button[type='submit'] i").addClass("hide");
     }
   });
 
@@ -60,6 +62,10 @@ $(document).ready(function() {
   //Submit manually student list
   $('div#add_student form#form_manually').submit(function(event) {
     event.preventDefault();
+
+    $('form#form_manually button[type="submit"] span').addClass('hide');
+    $('form#form_manually button[type="submit"] i').removeClass('hide');
+
     var form = $( this ).serializeArray();
     //console.log(form);
     var initial_students = $('span#student_count').data('count');  
@@ -87,6 +93,10 @@ $(document).ready(function() {
   //Submit csv student list
   $('div#add_student form#form_template').submit(function(event) {
     event.preventDefault();    
+
+    $('form#form_template button[type="submit"] span').addClass('hide');
+    $('form#form_template button[type="submit"] i').removeClass('hide');
+
     var formData = new FormData();
     formData.append('csv_file', $('input[type=file]')[0].files[0]);
 
