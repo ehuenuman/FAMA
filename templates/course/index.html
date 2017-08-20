@@ -38,13 +38,13 @@ Mis Cursos
       </thead>
       <tbody>
         {% for course in courses %}
-        <tr class="clickable-row hoverable" data-href="{% url 'course:show' course.id %}">
+        <tr class="clickable-row hoverable" data-href="{% url 'course:show' course.id_char %}">
           <td>{{ course.code }}</td>
           <td>{{ course.name }}</td>
           <td>{{ course.description }}</td>
           <td class="center-align">{{ course.semester }}/{{ course.year }}</td>
           <td class="center-align">
-            <a href="{% url 'course:edit' course.id %}" class="waves-effect waves-light btn">
+            <a href="{% url 'course:edit' course.id_char %}" class="waves-effect waves-light btn">
               <i class="fa fa-pencil"></i>
             </a>
           </td>

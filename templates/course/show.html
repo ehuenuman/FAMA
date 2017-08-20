@@ -86,10 +86,10 @@
       </li>
       <li class="collection-item center-align">
         <div id="list_students" style="max-height: 400px; overflow-y: auto;">
-          {% if students %}
           <span>Estudiantes inscritos: 
             <span id="student_count" data-count='{{ students.count }}'>{{ students.count }}</span>
           </span>
+          {% if students %}          
           {% for student in students %}
           <div class="card-item col s12 hoverable teal white-text valign-wrapper">
             <div class="col s10 left-align">
@@ -107,7 +107,7 @@
           <div clas="col s12">
             <a href="#add_student">
               <div class="card-panel teal">
-                  <span class="white-text">Agregue alumnos al curso</span><br>
+                <span class="white-text">Agregue alumnos al curso</span><br>
               </div>
             </a>
           </div>

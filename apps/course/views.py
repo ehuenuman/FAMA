@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
+from django.utils import timezone
 from datetime import date
 import csv, os
 
@@ -19,8 +20,8 @@ def view_courses(request):
 
 
 @login_required
-def show_course(request, course_id):
-    course = Course.objects.get(id=course_id)
+def show_course(request, course_id_char):
+    course = Course.objects.get(id_char=course_id_char)
     students = course.student.all().order_by('last_name')
     return render(request, 'course/show.html', {'course': course, 'students': students})
 
@@ -28,21 +29,31 @@ def show_course(request, course_id):
 @login_required
 def create_course(request):
     if request.method == "POST":
-        form = CourseForm(request.POST)
+        form = CourseForm(request.POST)        
         if form.is_valid():
             course = form.save(commit=False)
             course.teacher = request.user.teacher
             course.year = date.today().year
+            course.creation_date = timezone.now()
+            course.id_char = "{0}{1}{2}".format(
+                course.name.replace(" ", "")[:6].upper(),                
+                course.year,
+                course.semester)           
             course.save()
-            return redirect('course:show', course_id=course.id)
+            course.id_char = "{0}{1}{2}".format(
+                course.id_char,
+                course.id,
+                request.user.teacher.user_id)
+            course.save()
+            return redirect('course:show', course_id_char=course.id_char)
     else:
         form = CourseForm()
     return render(request, 'course/create.html', {'form': form, 'title': 'MAs Play - Crear Curso'})
 
 
 @login_required
-def edit_course(request, course_id):
-    course = Course.objects.get(id=course_id)
+def edit_course(request, course_id_char):
+    course = Course.objects.get(id_char=course_id_char)
     if request.method == 'GET':
         form = CourseForm(instance=course)
     else:
@@ -66,8 +77,9 @@ def delete_course(request, course_id):
 
 
 @login_required
-def add_students(request, course_id):
-    course = Course.objects.get(id=course_id)
+def add_students(request, course_id_char):
+    course = Course.objects.get(id_char=course_id_char)
+    course_id = course.id
     if request.method == 'POST':
         data = {}
         if request.FILES:
@@ -146,3 +158,13 @@ def download_csv(request, course_id):
     writer.writerow(['RUT', 'NOMBRES', 'APELLIDOS', 'EMAIL'])    
 
     return response
+
+@login_required
+def get_courses(request):
+    data = {}
+    courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
+
+    for course in courses:
+        data[course.code+"-"+course.name] = None
+
+    return JsonResponse(data)
