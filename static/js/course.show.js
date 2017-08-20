@@ -86,6 +86,7 @@ $(document).ready(function() {
       fill_student_list(data, initial_students)
     })
     .fail(function() {
+      $('div#add_student').modal('close');
       Materialize.toast('Un error a ocurrido. Intento nuevamente', 5000, 'rounded');
     });  
   });
@@ -114,6 +115,7 @@ $(document).ready(function() {
       fill_student_list(data, initial_students);
     })
     .fail(function() {
+      $('div#add_student').modal('close');
       Materialize.toast('Un error a ocurrido. Intento nuevamente', 5000, 'rounded');
     });    
     
@@ -126,7 +128,7 @@ function fill_student_list(data, initial_students) {
   $.each(data, function(index, val) {
     if (initial_students == 0) {
       $('#list_students').empty().append("<span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>");
-      initial_students++;
+      //initial_students++;
     }
      var card = "<div class='card-item col s12 hoverable teal white-text valign-wrapper'>";
         card += "<div class='col s10 left-align'>";
