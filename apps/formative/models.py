@@ -18,7 +18,7 @@ class Formative(models.Model):
 
 
 class FormativeHasQuestion(models.Model):
-    order = models.IntegerField(blank=False, null=False)
+    order = models.IntegerField()
     formative = models.ForeignKey('Formative', models.DO_NOTHING)
     question = models.ForeignKey('teacher.Question', models.DO_NOTHING)
 
@@ -29,8 +29,9 @@ class FormativeHasQuestion(models.Model):
 
 
 class Play(models.Model):
-    date = models.DateTimeField(blank=False, null=False)
-    duration = models.TimeField(blank=False, null=False)
+    date_play = models.DateTimeField()
+    start_time = models.DateTimeField()
+    duration = models.TimeField()
     formative = models.ForeignKey('Formative', models.DO_NOTHING)
     course = models.ForeignKey('course.Course', models.DO_NOTHING)
     #student = models.ManyToManyField('student.Student', through='student.Answer')
@@ -39,4 +40,4 @@ class Play(models.Model):
     class Meta:
         managed = False
         db_table = 'play'
-        ordering = ('date',)
+        ordering = ('date_play',)

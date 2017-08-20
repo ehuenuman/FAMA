@@ -2,18 +2,20 @@ from django.db import models
 
 # Create your models here.
 class Course(models.Model):
+    id = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=20)
     semester = models.CharField(max_length=10)
     year = models.CharField(max_length=4)
     description = models.CharField(max_length=200)
+    creation_date = models.DateTimeField(blank=False)
     teacher = models.ForeignKey('teacher.Teacher', models.DO_NOTHING)
     student = models.ManyToManyField('student.Student', through='CourseHasStudent')
 
     class Meta:
         managed = False
         db_table = 'course'
-        ordering = ('-id',)
+        ordering = ('-creation_date',)
 
 
 class CourseHasStudent(models.Model):

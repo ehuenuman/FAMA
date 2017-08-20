@@ -3,11 +3,11 @@ from django.db import models
 #from teacher.models import Formative
 
 # Create your models here.
-class Student(models.Model):
-    #id = models.AutoField()
+class Student(models.Model):    
     rut = models.CharField(max_length=15)
-    name = models.CharField(max_length=100, blank=True, null=True)
-    last_name = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100, blank=True)
 
     class Meta:
         managed = False
@@ -15,10 +15,9 @@ class Student(models.Model):
         unique_together = (('id', 'rut'),)
 
 
-class Answer(models.Model):
-    #id = models.AutoField()
-    answer = models.CharField(max_length=50, blank=True, null=True)
-    correct = models.IntegerField(blank=True, null=True)
+class Answer(models.Model):    
+    answer = models.CharField(max_length=50)
+    correct = models.IntegerField()
     date = models.DateTimeField(blank=True, null=True)
     student = models.ForeignKey('Student', models.DO_NOTHING)
     play = models.ForeignKey('formative.Play', models.DO_NOTHING)
@@ -27,4 +26,4 @@ class Answer(models.Model):
     class Meta:
         managed = False
         db_table = 'answer'
-        unique_together = (('id', 'question'),)
+        unique_together = (('id',),)
