@@ -1,0 +1,52 @@
+<div class="modal" id="start_formative">
+  <div class="modal-header">
+    <h5 class="modal-title">Iniciar formativa</h5>
+  </div>
+  <div class="modal-content row last-row">
+
+    <div class="row dashed-border hide step-1">
+      <div class="col s12">
+        <span>Formativa seleccionada</span>
+        <div class="card-item col s12 hoverable valign-wrapper">        
+          <div class="col s12 left-align">
+            <span class="col s12 formative-name"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row last-row dashed-border hide step-2">
+      <div class="row last-row">
+        <span class="col s12">Seleccionar curso</span>
+        <div class="input-field col s12">
+          <i class="fa fa-icon fa-search prefix"></i>
+          <input class="autocomplete" id="autocomplete-input" type="text">
+          <label for="autocomplete-input">Buscar en mis cursos</label>
+        </div>
+      </div>
+      <div class="row last-row course-list"></div>    
+    </div>
+
+    <div class="row last-row dashed-border hide step-3">
+      <div class="row last-row">
+        <span class="col s12">Tiempo l&iacute;mite para responder</span>
+        <div class="col s12">
+          <div class="card-item col s12 m4 hoverable click center-align" data-time="5">
+            <span class="col s12">5 minutos</span>
+          </div>
+          <div class="card-item col s12 m4 hoverable click center-align" data-time="10">
+            <span class="col s12">10 minutos</span>
+          </div>
+          <div class="card-item col s12 m4 hoverable click center-align" data-time="15">
+            <span class="col s12">15 minutos</span>
+          </div>          
+        </div>
+      </div>    
+    </div>
+    
+  </div>
+  <div class="modal-footer row">
+    <button class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</button>
+    <button class="waves-effect waves-green btn-flat next disabled">Continuar</button>
+  </div>
+</div>
