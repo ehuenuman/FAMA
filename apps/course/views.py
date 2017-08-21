@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from datetime import date
 import csv, os
@@ -21,6 +21,7 @@ def view_courses(request):
 
 @login_required
 def show_course(request, course_id_char):
+    print("MOSTRAR CURSO")
     course = Course.objects.get(id_char=course_id_char)
     students = course.student.all().order_by('last_name')
     return render(request, 'course/show.html', {'course': course, 'students': students})
@@ -71,9 +72,7 @@ def delete_course(request, course_id):
         course.delete()
         messages.add_message(request, messages.SUCCESS, course.code +
                              ' ' + course.name + ' borrado exitosamente')
-        return redirect('course:index')
-    # return render(request, 'course/create.html', {'form': form, 'title':
-    # 'MAs Play - Editar Curso'})
+        return redirect('course:index')    
 
 
 @login_required
@@ -161,10 +160,13 @@ def download_csv(request, course_id):
 
 @login_required
 def get_courses(request):
-    data = {}
-    courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
+    print("TODOS LOS CURSOS")
+    if request.method == "POST":
+        print("POST")
+        data = {}
+        courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
 
-    for course in courses:
-        data[course.code+"-"+course.name] = None
+        for course in courses:
+            data[course.id] = {"code": course.code, "name": course.name}
 
-    return JsonResponse(data)
+        return JsonResponse(data)
