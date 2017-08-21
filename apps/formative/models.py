@@ -32,6 +32,7 @@ class Play(models.Model):
     date_play = models.DateTimeField()
     start_time = models.DateTimeField()
     duration = models.TimeField()
+    active = models.IntegerField()
     formative = models.ForeignKey('Formative', models.DO_NOTHING)
     course = models.ForeignKey('course.Course', models.DO_NOTHING)
     #student = models.ManyToManyField('student.Student', through='student.Answer')
