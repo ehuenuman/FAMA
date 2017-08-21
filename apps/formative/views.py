@@ -5,9 +5,10 @@ from django.http import JsonResponse
 from django.utils import timezone
 
 from .forms import FormativeForm
-from .models import Formative, FormativeHasQuestion
+from .models import Formative, FormativeHasQuestion, Play
 from apps.student.models import Student
 from apps.teacher.models import Question
+from apps.course.models import Course
 
 @login_required
 def view_formatives(request):
@@ -77,3 +78,28 @@ def edit_formative(request, formative_id):
         data['redirect'] = '/formativa/'
         return JsonResponse(data)
     return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'question_selected': question_selected, 'title': 'MAs Play - Editar Formativa'})
+
+
+@login_required
+def start_formative(request):
+    if request.method == "POST":
+        formative = Formative.objects.get(id=request.POST['formative'])
+        course = Course.objects.get(id=request.POST['course'])
+        duration = request.POST['time']        
+        try:
+            play = Play.objects.create(
+                date_play=timezone.now(),
+                start_time=timezone.now(),
+                duration="00:{0}".format(duration),
+                active=1,
+                formative=formative,
+                course=course)
+            message = "OK"
+        except Exception as e:
+            message = "Error: {0}".format(e)
+
+    return JsonResponse({"message": message})
+
+
+
+
