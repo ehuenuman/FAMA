@@ -1,9 +1,12 @@
 {% extends 'teacher/base.html' %}
+{% load staticfiles %}
 
 {% block extracss%}
 {% endblock %}
 
 {% block extrajs%}
+<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/functions.start_formative.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -43,7 +46,7 @@
                 <span class="col s12">{{formative.description}}</span>
               </div>
             </a>
-            <a href="!#" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Realizar formativa" style="padding: 0px;">
+            <a class="col s2 tooltipped start-formative" data-formative-id={{formative.id}} data-formative-name="{{formative.name}}" data-position="left" data-delay="30" data-tooltip="Realizar formativa" style="padding: 0px;">
               <div class="valign col s12">
                   <i id="icon-link" class="fa fa-play-circle fa-2x"></i>
               </div>
@@ -86,7 +89,7 @@
           {% if courses %}
           {% for course in courses %}
           <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-              <a href="{% url 'course:show' course.id %}" class="col s12" style="padding: 0px;">
+              <a href="{% url 'course:show' course.id_char %}" class="col s12" style="padding: 0px;">
                 <div class="col s12 left-align">
                   <span class="col s12">{{course.code}}</span>
                   <span class="col s12">{{course.name}}</span>
@@ -107,6 +110,9 @@
     </ul>
   </div>
 </div>
+
+{% include "functions/modal_start_formative.html" %}
+
 {% endblock %}
 
 {% block footer %}
