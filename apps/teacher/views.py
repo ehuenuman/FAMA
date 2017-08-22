@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
 from apps.course.models import Course
-from apps.formative.models import Formative
+from apps.formative.models import Formative, Play
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
 
 import zipfile, shutil
@@ -17,12 +17,16 @@ def index(request):
     total_course = Course.objects.filter(teacher=user.teacher).count()
     formatives = Formative.objects.filter(teacher=user.teacher)[:5]
     total_formatives = Formative.objects.filter(teacher=user.teacher).count()
+    active_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=1)
+    closed_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=0)[:5]
     return render(request,'teacher/home.html', {
         'user': user, 
         'courses': courses, 
         'total_course': total_course,
         'formatives': formatives,
         'total_formatives': total_formatives,
+        'active_plays': active_plays,
+        'closed_plays': closed_plays,
         })
 
 
