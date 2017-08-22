@@ -25,8 +25,7 @@ $(document).ready(function(){
         });
 
         $.each($(".step-2 .row.last-row.course-list .card-item"), function(index, val) {
-          $(val).click(function(event) {
-            console.log($(event.currentTarget).data('course-id'));
+          $(val).click(function(event) {            
             courseID = $(event.currentTarget).data('course-id');
             $(".step-2 .row.last-row.course-list .card-item").removeClass("active");
             $(event.currentTarget).addClass("active");
@@ -34,8 +33,8 @@ $(document).ready(function(){
           });
         });
       })
-      .fail(function() {
-        console.log("error");
+      .fail(function(jqXHR, textStatus, e) {
+        console.log("error: " + e);
       });
 
       listCoursesReady = true;
@@ -94,8 +93,7 @@ function startFormative() {
   $.ajax({
     url: "formativa/play",
     type: "POST",
-    headers: {'X-CSRFToken': Cookies.get('csrftoken')},
-    dataType: "json",
+    headers: {'X-CSRFToken': Cookies.get('csrftoken')},    
     data: {
       "course": courseID,
       "formative": formativeID,
@@ -104,8 +102,18 @@ function startFormative() {
   })
   .done(function(data) {
     console.log(data);
+    document.location.href = data.redirect;
+    /*$("tbody.list-play").append(""
+      + "<tr>"
+      + "<td>"+data.course+"</td>"
+      + "<td>"+data.formative+"</td>"
+      + "<td>"+data.duration+"</td>"
+      + "<td class='countdown-play' data-close-play='"+data.close_play+"'></td>"
+      + "</tr>");
+    start_time();
+    */
   })
-  .fail(function() {
-    console.log("error");
+  .fail(function(jqXHR, textStatus, e) {
+    console.log("error: "+e);
   });  
 }
