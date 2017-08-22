@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-#from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
+from django.core import serializers
+from datetime import timedelta
 
 from .forms import FormativeForm
 from .models import Formative, FormativeHasQuestion, Play
@@ -88,17 +89,26 @@ def start_formative(request):
         duration = request.POST['time']        
         try:
             play = Play.objects.create(
-                date_play=timezone.now(),
-                start_time=timezone.now(),
-                duration="00:{0}".format(duration),
-                active=1,
+                creation_play=timezone.now(),
+                duration=timedelta(minutes=int(duration)),
+                start_play=timezone.now(),
+                limit_time=timedelta(hours=1),
+                close_play=timezone.now() + timedelta(hours=1),
+                is_active=1,
                 formative=formative,
                 course=course)
-            message = "OK"
+            #data = {
+            #    "duration": str(play.duration),
+            #    "close_play": play.close_play,
+            #    "formative": play.formative.name,
+            #    "formative_id": play.formative.id,
+            #    "course": play.course.name,
+            #    "course_id": play.course.id}            
+            data= {"redirect": "/home"}
         except Exception as e:
-            message = "Error: {0}".format(e)
+            data = {"message": "Error: {0}".format(e)}
 
-    return JsonResponse({"message": message})
+    return JsonResponse(data)
 
 
 
