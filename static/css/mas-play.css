@@ -39,11 +39,13 @@ a {
   color: #fff;
 }
 
+form.card-box,
 table.card-box {
   border: 1px solid #e0e0e0 !important;
   background-color: white !important;
   color: #000;
 }
+
 
 .card-item.active {
   background-color: #00695c;
