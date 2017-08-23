@@ -15,7 +15,7 @@ $(document).ready(function(){
       })
       .done(function(data) {
         $.each(data, function(index, course) {
-          var html = '<div class="col s12 m6 l4">'
+          var html = '<div class="col s12 m6">'
              html += '<div class="card-item col s12 hoverable click" data-course-id='+index+'>';
              html += '<span class="col s12">'+course.code+'</span>';
              html += '<span class="col s12">'+course.name+'</span>';           
