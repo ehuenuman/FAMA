@@ -9,6 +9,7 @@
 <script type="text/javascript" src="{% static 'js/library/jquery.countdown.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/functions.start_formative.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/teacher.home.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/play.play.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -36,7 +37,7 @@
               <th>Detener</th>
             </tr>
           </thead>
-          <tbody class="list-play">
+          <tbody class="list-active-play">
           {% for play in active_plays %}            
             <tr>
               <td>{{play.course.name}}</td>
@@ -44,8 +45,8 @@
               <td>{{play.duration}}</td>
               <!--<td class="countdown-play" data-close-play="{{play.close_play|date:'Y/m/d H:i:s'}}"></td>-->
               <td></td>
-                <td class="center-align">
-                <a href="#" class="waves-effect waves-light btn" style="background-color:#ee6e73;">
+              <td class="center-align">
+                <a class="waves-effect waves-light btn stop-formative" data-play-id="{{play.id}}" style="background-color:#ee6e73;">
                   <i class="fa fa-stop" aria-hidden="true"></i>
                 </a>
               </td>
@@ -75,13 +76,13 @@
               <th>Resultados</th>
             </tr>
           </thead>
-          <tbody class="list-play">
+          <tbody class="list-closed-play">
           {% for play in closed_plays %}            
             <tr>
               <td>{{play.course.name}}</td>
               <td>{{play.formative.name}}</td>
               <td>{{play.duration}}</td>
-              <td></td>
+              <td></td>              
             </tr>          
           {% endfor %}
           </tbody>
@@ -195,4 +196,7 @@
 {% endblock %}
 
 {% block js %}
+<script>
+  $("a.btn").parents('td').css("padding-bottom", "0").css("padding-top", "0");
+</script>
 {% endblock %}
