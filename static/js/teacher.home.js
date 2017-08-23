@@ -15,7 +15,7 @@ function start_time() {
     .on("finish.countdown", function(event) {
       $(this).html("Cerrada")
         .parent().addClass("disabled");
-      document.location.href = document.location.pahtname;
+      //document.location.href = document.location.pahtname;
     });
   });
 }
