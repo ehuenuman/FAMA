@@ -4,7 +4,8 @@ from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
 from apps.course.models import Course
-from apps.formative.models import Formative, Play
+from apps.formative.models import Formative
+from apps.play.models import Play
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
 
 import zipfile, shutil

@@ -6,7 +6,8 @@ from django.core import serializers
 from datetime import timedelta
 
 from .forms import FormativeForm
-from .models import Formative, FormativeHasQuestion, Play
+from .models import Formative, FormativeHasQuestion
+from apps.play.models import Play
 from apps.student.models import Student
 from apps.teacher.models import Question
 from apps.course.models import Course

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.formative',
     'apps.teacher',
     'apps.question',
+    'apps.play',
     'apps.student',
     'apps.course',
     'apps.login',
