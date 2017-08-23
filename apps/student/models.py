@@ -20,7 +20,7 @@ class Answer(models.Model):
     correct = models.IntegerField()
     date = models.DateTimeField(blank=True, null=True)
     student = models.ForeignKey('Student', models.DO_NOTHING)
-    play = models.ForeignKey('formative.Play', models.DO_NOTHING)
+    play = models.ForeignKey('play.Play', models.DO_NOTHING)
     question = models.ForeignKey('teacher.Question', models.DO_NOTHING)
 
     class Meta:
