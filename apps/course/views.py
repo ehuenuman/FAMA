@@ -9,6 +9,7 @@ import csv, os
 from .forms import CourseForm
 from .models import Course, CourseHasStudent
 from apps.student.models import Student
+from apps.play.models import Play
 
 
 @login_required
@@ -21,10 +22,13 @@ def view_courses(request):
 
 @login_required
 def show_course(request, course_id_char):
-    print("MOSTRAR CURSO")
     course = Course.objects.get(id_char=course_id_char)
     students = course.student.all().order_by('last_name')
-    return render(request, 'course/show.html', {'course': course, 'students': students})
+    plays = Play.objects.filter(course=course)
+    return render(
+        request,
+        'course/show.html',
+        {'course': course, 'students': students, 'plays': plays})
 
 
 @login_required
