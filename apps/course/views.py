@@ -6,6 +6,7 @@ from django.utils import timezone
 from datetime import date
 import csv, os
 
+from django.contrib.auth.models import User, Group
 from .forms import CourseForm
 from .models import Course, CourseHasStudent
 from apps.student.models import Student
@@ -23,7 +24,7 @@ def view_courses(request):
 @login_required
 def show_course(request, course_id_char):
     course = Course.objects.get(id_char=course_id_char)
-    students = course.student.all().order_by('last_name')
+    students = course.student.all().order_by('user__last_name')
     plays = Play.objects.filter(course=course)
     return render(
         request,
@@ -41,7 +42,7 @@ def create_course(request):
             course.year = date.today().year
             course.creation_date = timezone.now()
             course.id_char = "{0}{1}{2}".format(
-                course.name.replace(" ", "")[:6].upper(),                
+                course.name.replace(" ", "")[:6].upper(),
                 course.year,
                 course.semester)           
             course.save()
@@ -99,27 +100,36 @@ def add_students(request, course_id_char):
                     #print(row['RUT'], row['NOMBRES'], row['APELLIDOS'], row['EMAIL'])  
                     if Student.objects.filter(rut=row['RUT'].upper()):
                         student = Student.objects.get(rut=row['RUT'].upper())
-                        #print("Existe entre todos los estudiantes")
+                        print("Existe entre todos los estudiantes")
                         try:
                             CourseHasStudent.objects.get(course=course, student=student)
-                            #print("Existe en el curso")
+                            print("Existe en el curso")
                         except Exception as e:
-                            #print("No existe en el curso")
+                            print("No existe en el curso")
                             m = CourseHasStudent(course=course, student=student)
                             m.save()
-                            data[student.id] = {'rut': student.rut, 'name': student.name,
-                                                'last_name': student.last_name}
+                            data[student.user.id] = {'rut': student.rut, 'name': student.user.first_name,
+                                                'last_name': student.user.last_name}
                     else:
-                        #print("Nuevo")
-                        student = Student.objects.create(
-                            rut=row['RUT'].upper(), 
-                            name=row['NOMBRES'], 
+                        print("Nuevo")
+                        user = User.objects.create_user(
+                            username=row['RUT'].upper(),
+                            password=row['RUT'].upper(),
+                            first_name=row['NOMBRES'],
                             last_name=row['APELLIDOS'])
-                            #Agregar email!
+                        user.save()
+                        student = Student.objects.create(
+                            user=user,
+                            rut=row['RUT'].upper())
+
+                        group = Group.objects.get(name='Students')
+                        user.groups.add(group)
+                        user.save()
+
                         m = CourseHasStudent(course=course, student=student)
                         m.save()
-                        data[student.id] = {'rut': student.rut, 'name': student.name,
-                                            'last_name': student.last_name}
+                        data[student.user.id] = {'rut': student.rut, 'name': student.user.first_name,
+                                            'last_name': student.user.last_name}
                     student = None
                     m = None
 
@@ -128,23 +138,37 @@ def add_students(request, course_id_char):
             for i in request.POST.lists():
                 if Student.objects.filter(rut=i[1][0].upper()):
                     student = Student.objects.get(rut=i[1][0].upper())
-                    #print("Existe entre todos los estudiantes")
+                    print("Existe entre todos los estudiantes")
                     try:
                         CourseHasStudent.objects.get(course=course, student=student)
-                        #print("Existe en el curso")
+                        print("Existe en el curso")
                     except Exception as e:
-                        #print("No existe en el curso")
+                        print("No existe en el curso")
                         m = CourseHasStudent(course=course, student=student)
                         m.save()
-                        data[student.id] = {'rut': student.rut, 'name': student.name,
-                                            'last_name': student.last_name}
+                        data[student.user.id] = {'rut': student.rut, 'name': student.user.name,
+                                            'last_name': student.user.last_name}
                 else:
-                    #print("Nuevo")
-                    student = Student.objects.create(rut=i[1][0].upper(), name=i[1][1], last_name=i[1][2])
+                    print("Nuevo")
+                    user = User.objects.create_user(
+                        username=i[1][0].upper(),
+                        password=i[1][0].upper(),
+                        first_name=i[1][1],
+                        last_name=i[1][2])
+                    user.save()
+
+                    student = Student.objects.create(
+                        user=user,
+                        rut=i[1][0].upper())
+
+                    group = Group.objects.get(name='Students')
+                    user.groups.add(group)
+                    user.save()
+
                     m = CourseHasStudent(course=course, student=student)
                     m.save()
-                    data[student.id] = {'rut': student.rut, 'name': student.name,
-                                        'last_name': student.last_name}
+                    data[student.user.id] = {'rut': student.rut, 'name': student.user.first_name,
+                                        'last_name': student.user.last_name}
                 student = None
                 m = None
     return JsonResponse(data)
@@ -163,8 +187,7 @@ def download_csv(request, course_id):
     return response
 
 @login_required
-def get_courses(request):
-    print("TODOS LOS CURSOS")
+def get_courses(request):    
     if request.method == "POST":
         print("POST")
         data = {}
