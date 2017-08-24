@@ -27,33 +27,39 @@
         <h5>Formativas en curso</h5>
       </li>
       <li class="collection-item center-align col s12">
-        <table class="col s12 bordered card-box">
-          <thead>
-            <tr>
-              <th>Curso</th>
-              <th>Formativa</th>
-              <th>Tiempo</th>
-              <th>Resultados</th>
-              <th>Detener</th>
-            </tr>
-          </thead>
-          <tbody class="list-active-play">
-          {% for play in active_plays %}            
-            <tr>
-              <td>{{play.course.name}}</td>
-              <td>{{play.formative.name}}</td>
-              <td>{{play.duration}}</td>
-              <!--<td class="countdown-play" data-close-play="{{play.close_play|date:'Y/m/d H:i:s'}}"></td>-->
-              <td></td>
-              <td class="center-align">
-                <a class="waves-effect waves-light btn stop-formative" data-play-id="{{play.id}}" style="background-color:#ee6e73;">
-                  <i class="fa fa-stop" aria-hidden="true"></i>
-                </a>
-              </td>
-            </tr>          
-          {% endfor %}
-          </tbody>
-        </table>              
+        <div style="width:100%;overflow-x:scroll;">
+          <table class="col s12 bordered card-box">
+            <thead>
+              <tr>
+                <th>Curso</th>
+                <th>Formativa</th>
+                <th>Tiempo</th>
+                <th class="center-align">Resultados</th>
+                <th class="center-align">Detener</th>
+              </tr>
+            </thead>
+            <tbody class="list-active-play">
+            {% for play in active_plays %}            
+              <tr>
+                <td>{{play.course.name}}</td>
+                <td>{{play.formative.name}}</td>
+                <td>{{play.duration}}</td>
+                <!--<td class="countdown-play" data-close-play="{{play.close_play|date:'Y/m/d H:i:s'}}"></td>-->
+                <td class="center-align" style="width: 100px;">
+                  <a class="waves-effect waves-light btn" style="width: 80px;">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                  </a>
+                </td>
+                <td class="center-align" style="width: 100px;">
+                  <a class="waves-effect waves-light btn stop-formative" data-play-id="{{play.id}}" style="background-color:#ee6e73; width: 80px;">
+                    <i class="fa fa-stop" aria-hidden="true"></i>
+                  </a>
+                </td>
+              </tr>          
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </li>
     </ul>
   </div>
@@ -63,30 +69,43 @@
 <div class="row last-row">
   <div class="col s12">
     <ul class="collection with-header">
-      <li class="collection-header">        
-        <h5>Formativas finalizadas</h5>
+      <li class="collection-header valign-wrapper">        
+        <div class="left-align col s6">
+          <h5>Formativas finalizadas</h5>
+        </div>
+        <div class="valign right-align col s6">
+            <a href="#">
+              <i class="fa fa-list fa-2x" style="color: #000000"></i>
+            </a>
+        </div>
       </li>
       <li class="collection-item center-align col s12">
-        <table class="col s12 bordered card-box">
-          <thead>
-            <tr>
-              <th>Curso</th>
-              <th>Formativa</th>
-              <th>Tiempo</th>
-              <th>Resultados</th>
-            </tr>
-          </thead>
-          <tbody class="list-closed-play">
-          {% for play in closed_plays %}            
-            <tr>
-              <td>{{play.course.name}}</td>
-              <td>{{play.formative.name}}</td>
-              <td>{{play.duration}}</td>
-              <td></td>              
-            </tr>          
-          {% endfor %}
-          </tbody>
-        </table>              
+        <div style="width:100%;overflow:scroll;">
+          <table class="col s12 bordered card-box">
+            <thead>
+              <tr>
+                <th>Curso</th>
+                <th>Formativa</th>
+                <th>Tiempo</th>
+                <th class="center-align">Resultados</th>
+              </tr>
+            </thead>
+            <tbody class="list-closed-play">
+            {% for play in closed_plays %}            
+              <tr>
+                <td>{{play.course.name}}</td>
+                <td>{{play.formative.name}}</td>
+                <td>{{play.duration}}</td>
+                <td class="center-align" style="width: 100px;">
+                  <a class="waves-effect waves-light btn" style="width: 80px;">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                  </a>
+                </td>          
+              </tr>          
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </li>
     </ul>
   </div>
