@@ -100,18 +100,18 @@ def add_students(request, course_id_char):
                     #print(row['RUT'], row['NOMBRES'], row['APELLIDOS'], row['EMAIL'])  
                     if Student.objects.filter(rut=row['RUT'].upper()):
                         student = Student.objects.get(rut=row['RUT'].upper())
-                        print("Existe entre todos los estudiantes")
+                        ##print("Existe entre todos los estudiantes")
                         try:
                             CourseHasStudent.objects.get(course=course, student=student)
-                            print("Existe en el curso")
+                            #print("Existe en el curso")
                         except Exception as e:
-                            print("No existe en el curso")
+                            #print("No existe en el curso")
                             m = CourseHasStudent(course=course, student=student)
                             m.save()
                             data[student.user.id] = {'rut': student.rut, 'name': student.user.first_name,
                                                 'last_name': student.user.last_name}
                     else:
-                        print("Nuevo")
+                        #print("Nuevo")
                         user = User.objects.create_user(
                             username=row['RUT'].upper(),
                             password=row['RUT'].upper(),
@@ -138,18 +138,18 @@ def add_students(request, course_id_char):
             for i in request.POST.lists():
                 if Student.objects.filter(rut=i[1][0].upper()):
                     student = Student.objects.get(rut=i[1][0].upper())
-                    print("Existe entre todos los estudiantes")
+                    #print("Existe entre todos los estudiantes")
                     try:
                         CourseHasStudent.objects.get(course=course, student=student)
-                        print("Existe en el curso")
+                        #print("Existe en el curso")
                     except Exception as e:
-                        print("No existe en el curso")
+                        #print("No existe en el curso")
                         m = CourseHasStudent(course=course, student=student)
                         m.save()
                         data[student.user.id] = {'rut': student.rut, 'name': student.user.name,
                                             'last_name': student.user.last_name}
                 else:
-                    print("Nuevo")
+                    #print("Nuevo")
                     user = User.objects.create_user(
                         username=i[1][0].upper(),
                         password=i[1][0].upper(),
@@ -189,7 +189,7 @@ def download_csv(request, course_id):
 @login_required
 def get_courses(request):    
     if request.method == "POST":
-        print("POST")
+        #print("POST")
         data = {}
         courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
 
