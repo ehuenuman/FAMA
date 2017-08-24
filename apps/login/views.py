@@ -11,7 +11,7 @@ from apps.teacher.models import Teacher
 def login(request):
     """Verify credential account for teacher and student"""
     if request.method == 'GET':
-        if request.user.is_authenticated:
+        if request.user.is_authenticated:            
             return redirect('teacher:home')
         else:
             return render(request, 'index.html')
@@ -21,6 +21,7 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
+#                request.session.set_expiry(1800)
                 auth.login(request, user)
                 print("Identificación correcta")
 #               messages.success(request, "Identificación correcta")
