@@ -53,11 +53,10 @@ def create_account(request):
             email=request.POST.get('email', ''),
             password=request.POST.get('password1', ''),
             first_name=request.POST.get('first_name', ''),
-            last_name=request.POST.get('last_name', ''),)
+            last_name=request.POST.get('last_name', ''))
         user.save()
 
-        teacher = Teacher.objects.create(user=user)
-        teacher.save()
+        teacher = Teacher.objects.create(user=user)        
 
         user.groups.add(group)
         user.save()
