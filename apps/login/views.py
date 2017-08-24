@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib import auth
 from django.http import JsonResponse
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from apps.teacher.models import Teacher
 
 # Create your views here.
@@ -47,18 +47,20 @@ def create_account(request):
     if request.method == 'GET':
         return render(request, 'login/new-account.html')
     else:
+        group = Group.objects.get(name='Teachers')
         user = User.objects.create_user(
             username=request.POST.get('email', ''),
             email=request.POST.get('email', ''),
             password=request.POST.get('password1', ''),
             first_name=request.POST.get('first_name', ''),
-            last_name=request.POST.get('last_name', ''))
-
-        teacher = Teacher.objects.create(
-            user=user,
-            email=request.POST.get('email', ''))
+            last_name=request.POST.get('last_name', ''),)
         user.save()
+
+        teacher = Teacher.objects.create(user=user)
         teacher.save()
+
+        user.groups.add(group)
+        user.save()
 
         return redirect('login:login')
 
@@ -73,7 +75,6 @@ def validate_email(request):
         except Exception as e:
             data['message'] = "available"
             
-        return JsonResponse(data)
-        
+        return JsonResponse(data)     
         
 
