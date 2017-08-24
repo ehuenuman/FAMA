@@ -19,7 +19,7 @@ def index(request):
     formatives = Formative.objects.filter(teacher=user.teacher)[:5]
     total_formatives = Formative.objects.filter(teacher=user.teacher).count()
     active_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=1)
-    closed_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=0).order_by('close_play').reverse()[:5]
+    closed_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=0).order_by('close_play').reverse()[:3]
     return render(request,'teacher/home.html', {
         'user': user, 
         'courses': courses, 
