@@ -73,11 +73,15 @@
               </ul>
             </div>
           </li>
-          <li><div class="divider"></div></li>
-          <li class="bold"><a href="{% url 'login:logout' %}" class="waves-effect waves-teal"><i class="fa fa-sign-out fa-lg"></i>Salir</a></li>
-          <li class="bold"><a href="" class="waves-effect waves-teal"><i class="fa fa-cog fa-lg"></i>Configurar Cuenta</a></li>
         </ul>
-      </li>        
+      </li>
+      <li><div class="divider"></div></li>
+      <li class="bold">
+        <a href="{% url 'login:logout' %}" class="waves-effect waves-teal"><i class="fa fa-sign-out fa-lg"></i>Salir</a>
+      </li>
+      <li class="bold">
+        <a href="" class="waves-effect waves-teal"><i class="fa fa-cog fa-lg"></i>Configurar Cuenta</a>
+      </li>
     </ul>
   </header>
   {% endblock %}
