@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Play(models.Model):
+    id_char = models.CharField(max_length=100, unique=True)
     creation_play = models.DateTimeField()
     duration = models.DurationField()
     start_play = models.DateTimeField()
