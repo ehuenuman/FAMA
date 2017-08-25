@@ -16,22 +16,24 @@ def login(request):
         else:
             return render(request, 'index.html')
     else:       
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
+        username = request.POST['username']
+        password = request.POST.get('password', request.POST['username'])        
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-#                request.session.set_expiry(1800)
-                auth.login(request, user)
                 print("Identificación correcta")
-#               messages.success(request, "Identificación correcta")
-                return redirect('teacher:home')
+                auth.login(request, user)
+                if teacher_check(user):
+                    print("Profesor")
+                    return redirect('teacher:home')
+                else:
+                    print("Estudiante")
+                    request.session.set_expiry(3600)
+                    return redirect('student:home')
             else:
-#               messages.warning(request, "Cuenta desactivada")
                 print("Cuenta desactivada")
                 return redirect('login:login')
         else:
-#           messages.warning(request, "Nombre de usuario o contraseña incorrecta")
             print("Identificación incorrecta")
             return redirect('login:login')
 
@@ -77,3 +79,9 @@ def validate_email(request):
         return JsonResponse(data)     
         
 
+def teacher_check(user):
+    return user.groups.filter(name='Teachers').exists()
+
+
+def student_check(user):
+    return user.groups.filter(name='Students').exists()
