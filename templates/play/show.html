@@ -1,0 +1,66 @@
+{% extends 'student/base.html' %}
+{% load staticfiles %}
+
+{% block extracss%}
+{% endblock %}
+
+{% block extrajs%}
+{% endblock %}
+
+{% block title %}
+MAs Play
+{% endblock %}
+
+{% block title-page %}
+{% endblock %}
+
+{% block content %}
+{% if formative %}
+<div class="row">
+  <div class="col s12">
+    <ul class="collection with-header">
+      <li class="collection-header">        
+        <h5>{{formative.name}}</h5>
+      </li>
+      <li class="collection-item center-align">
+        {{formative.description}}
+      </li>
+      <li class="collection-item list-group col s12">
+        <div class="list-group-item col s4">
+          {{ questions.count }} preguntas
+        </div>
+        <div class="list-group-item col s4">
+          <i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>&nbsp;{{ play.duration }}
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% if questions %}
+<div class="row">
+  <div class="col s12">
+    <ul class="collection with-header">
+      <li class="collection-header col s12 valign-wrapper">
+        <div class="col s6" style="padding-left: 0px;"><h5>Preguntas</h5></div>
+        <div class="col s6 valign">
+          <a class="waves-effect waves-light btn col s12">Comenzar</a>
+        </div>
+      </li>      
+      {% for question in questions %}
+      <a class="collection-item col s12" href="{% url 'play:reply' play.id_char question.id %}">
+        <div class="col s12 m9">{{ question.title }}</div>
+        <div class="col s12 m3">{{ question.spanish_type }}</div>
+      </a>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
