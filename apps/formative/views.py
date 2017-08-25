@@ -90,6 +90,10 @@ def start_formative(request):
         duration = request.POST['time']        
         try:
             play = Play.objects.create(
+                id_char="{0}{1}{2}".format(
+                    course.name.replace(" ", "")[:6].upper(),
+                    "r",
+                    formative.name.replace(" ", "")[:6].upper()),
                 creation_play=timezone.now(),
                 duration=timedelta(minutes=int(duration)),
                 start_play=timezone.now(),
@@ -98,6 +102,11 @@ def start_formative(request):
                 is_active=1,
                 formative=formative,
                 course=course)
+
+            play.id_char = "{0}{1}".format(                    
+                play.id_char,
+                play.id)
+            play.save()
             #data = {
             #    "duration": str(play.duration),
             #    "close_play": play.close_play,
@@ -105,7 +114,7 @@ def start_formative(request):
             #    "formative_id": play.formative.id,
             #    "course": play.course.name,
             #    "course_id": play.course.id}            
-            data= {"redirect": "/home"}
+            data= {"redirect": "/principal"}
         except Exception as e:
             data = {"message": "Error: {0}".format(e)}
 
