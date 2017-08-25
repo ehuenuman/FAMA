@@ -8,7 +8,7 @@ $(document).ready(function(){
   $("a.start-formative").click(function(event) {
     if (listCoursesReady == false) {
       $.ajax({
-        url: "curso/all",
+        url: "/curso/all",
         type: "POST",
         headers: {'X-CSRFToken': Cookies.get('csrftoken')},
         dataType: "json",   
@@ -91,7 +91,7 @@ $(document).ready(function(){
 
 function startFormative() {
   $.ajax({
-    url: "formativa/play",
+    url: "/formativa/play",
     type: "POST",
     headers: {'X-CSRFToken': Cookies.get('csrftoken')},    
     data: {
