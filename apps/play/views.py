@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.core import serializers
 from datetime import timedelta
 
+from apps.question.views import question_data
 from .models import Play
 from apps.formative.models import Formative
 from apps.teacher.models import Question
@@ -42,7 +43,12 @@ def reply_play(request, play_id_char, question_id):
     play = Play.objects.get(id_char=play_id_char)
     formative = Formative.objects.get(id=play.formative.id)
     if validate_question(formative, question_id):
-        return JsonResponse({"data": "OK"})
+        question = Question.objects.get(id=question_id)
+        data = question_data(question)
+        if question.type == "choice":
+            return render(request, "question/reply_choice.html", {
+                "question": data
+                })
     else:
         return redirect('play:show', play_id_char=play_id_char)
 
