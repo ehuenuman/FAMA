@@ -25,6 +25,7 @@ urlpatterns = [
 
     url(r'^', include ('apps.login.urls', namespace='login')),
 	url(r'^', include ('apps.teacher.urls', namespace='teacher')),
+    url(r'^', include ('apps.student.urls', namespace='student')),
     url(r'^curso/', include('apps.course.urls', namespace='course')),
     url(r'^formativa/', include('apps.formative.urls', namespace='formative')),  
     url(r'^pregunta/', include('apps.question.urls', namespace='question')),
