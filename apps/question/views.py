@@ -122,3 +122,72 @@ def save_zip(request, spanish_type):
         print("Error: {0}".format(e))
         response["result"] = "fail"
         return response
+
+
+def question_data(question):
+    # Obtener datos pregunta
+    data = {
+        "result": "success",
+        "url": question.url,
+        "type": question.type,
+        "extension": question.extension,
+        "code": question.code}
+    # Si es zip
+    if question.extension == "zip":
+        # Descomprimir
+        success = decompress_zip(
+            question.url, 
+            question.code, 
+            question.extension)
+        #print(success)
+        if success:
+            print("LEER XML")
+            # Obtener archivo.xml
+            # Obtener imsmanifest.xml
+            try:
+                fo = open("preguntas/"+question.code+"/archivo.xml", "r")
+                archivo = fo.read()
+                fo.close()
+                fo = open("preguntas/"+question.code+"/imsmanifest.xml", "r")
+                imsmanifest = fo.read()
+                fo.close()
+            except Exception as e:
+                data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+                return data
+            #print(archivo)
+            data["archivo"] = archivo
+            #print(imsmanifest)
+            data["imsmanifest"] = imsmanifest                        
+            # Eliminar carpeta descomprimida
+            #delete_folder(question.code)
+        else:
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.zip"}
+            return data
+    # Si no es zip
+    else:
+        print("LEER XML")
+        # Obtener archivo.xml
+        try:
+            fo = open(question.url, "r")
+            archivo = fo.read()
+            fo.close()
+        except Exception as e:
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+            return data
+        data["archivo"] = archivo
+        data["imsmanifest"] = ""                
+    # Enviar información
+    return data
+
+
+def decompress_zip(url, code, extension):
+    print("DESCOMPRIMIENDO")
+    try:
+        zf = zipfile.ZipFile(url, "r")
+        for i in zf.namelist():
+            zf.extract(i, path="preguntas/"+code+"/")
+        zf.close()
+        return True
+    except Exception as e:
+        zf.close()
+        return False

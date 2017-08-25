@@ -1,8 +1,10 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
+from apps.login.views import teacher_check
+from apps.question.views import question_data
 from apps.course.models import Course
 from apps.formative.models import Formative
 from apps.play.models import Play
@@ -13,25 +15,29 @@ import zipfile, shutil
 
 @login_required
 def index(request):
-    user = request.user
-    courses = Course.objects.filter(teacher=user.teacher).order_by('id').reverse()[:5]
-    total_course = Course.objects.filter(teacher=user.teacher).count()
-    formatives = Formative.objects.filter(teacher=user.teacher)[:5]
-    total_formatives = Formative.objects.filter(teacher=user.teacher).count()
-    active_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=1)
-    closed_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=0).order_by('close_play').reverse()[:3]
-    return render(request,'teacher/home.html', {
-        'user': user, 
-        'courses': courses, 
-        'total_course': total_course,
-        'formatives': formatives,
-        'total_formatives': total_formatives,
-        'active_plays': active_plays,
-        'closed_plays': closed_plays,
-        })
+    if teacher_check(request.user):
+        user = request.user
+        courses = Course.objects.filter(teacher=user.teacher).order_by('id').reverse()[:5]
+        total_course = Course.objects.filter(teacher=user.teacher).count()
+        formatives = Formative.objects.filter(teacher=user.teacher)[:5]
+        total_formatives = Formative.objects.filter(teacher=user.teacher).count()
+        active_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=1)
+        closed_plays = Play.objects.filter(formative__teacher=user.teacher, is_active=0).order_by('close_play').reverse()[:3]
+        return render(request,'teacher/home.html', {
+            'user': user, 
+            'courses': courses, 
+            'total_course': total_course,
+            'formatives': formatives,
+            'total_formatives': total_formatives,
+            'active_plays': active_plays,
+            'closed_plays': closed_plays,
+            })
+    else:
+        return redirect('student:home')
 
 
 @login_required
+@user_passes_test(teacher_check)
 def view_questions(request):
     if request.method == "GET":
         user = request.user.teacher
@@ -51,6 +57,7 @@ def view_questions(request):
                 return JsonResponse(data)
 
 @login_required
+@user_passes_test(teacher_check)
 def share_question(request, question_id):
     if request.method == 'POST':
         question = Question.objects.get(id = question_id)
@@ -67,6 +74,7 @@ def share_question(request, question_id):
 
 
 @login_required
+@user_passes_test(teacher_check)
 def download_question(request, question_id=None):
     print("DESCARGAR PREGUNTA")
     if request.method == "POST":
@@ -116,6 +124,7 @@ def download_question(request, question_id=None):
 
 
 @login_required
+@user_passes_test(teacher_check)
 def add_question(request):
     if request.method == "GET":
         return render(request, "teacher/add_question.html")
@@ -147,6 +156,7 @@ def add_question(request):
 
 
 @login_required
+@user_passes_test(teacher_check)
 def delete_folder(request):
     data = {}
     if request.method == "POST":
@@ -162,70 +172,3 @@ def delete_folder(request):
             return JsonResponse(data)
 
 
-def question_data(question):
-    # Obtener datos pregunta
-    data = {
-        "result": "success",
-        "url": question.url,
-        "type": question.type,
-        "extension": question.extension,
-        "code": question.code}
-    # Si es zip
-    if question.extension == "zip":
-        # Descomprimir
-        success = decompress_zip(
-            question.url, 
-            question.code, 
-            question.extension)
-        #print(success)
-        if success:
-            print("LEER XML")
-            # Obtener archivo.xml
-            # Obtener imsmanifest.xml
-            try:
-                fo = open("preguntas/"+question.code+"/archivo.xml", "r")
-                archivo = fo.read()
-                fo.close()
-                fo = open("preguntas/"+question.code+"/imsmanifest.xml", "r")
-                imsmanifest = fo.read()
-                fo.close()
-            except Exception as e:
-                data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
-                return data
-            #print(archivo)
-            data["archivo"] = archivo
-            #print(imsmanifest)
-            data["imsmanifest"] = imsmanifest                        
-            # Eliminar carpeta descomprimida
-            #delete_folder(question.code)
-        else:
-            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.zip"}
-            return data
-    # Si no es zip
-    else:
-        print("LEER XML")
-        # Obtener archivo.xml
-        try:
-            fo = open(question.url, "r")
-            archivo = fo.read()
-            fo.close()
-        except Exception as e:
-            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
-            return data
-        data["archivo"] = archivo
-        data["imsmanifest"] = ""                
-    # Enviar información
-    return data
-
-
-def decompress_zip(url, code, extension):
-    print("DESCOMPRIMIENDO")
-    try:
-        zf = zipfile.ZipFile(url, "r")
-        for i in zf.namelist():
-            zf.extract(i, path="preguntas/"+code+"/")
-        zf.close()
-        return True
-    except Exception as e:
-        zf.close()
-        return False
