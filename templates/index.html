@@ -1,9 +1,11 @@
 {% extends 'login/base.html' %}
+{%load staticfiles %}
 
 {% block extracss%}
 {% endblock %}
 
 {% block extrajs%}
+<script src="{% static 'js/login.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -33,13 +35,13 @@ MAs Play
       <div class="error-message col s12 center-align" id="error_form"></div>
       
       <!--Student Login-->
-        <form class="col s12" id="login_alumno" method="POST"><!--action="login.php"-->
+        <form class="col s12" id="login_alumno" method="POST" action="{% url 'login:login' %}"><!--action="login.php"-->
           {% csrf_token %}
           <div class="row">
             <div class="input-field col s12">
               <i class="fa fa-user prefix" aria-hidden="true"></i>
-                <input placeholder="123456789-K" id="rut" type="text" class="validate" maxlength="15" length="15" pattern="[0-9]+-[kK0-9]" required>
-                <label for="rut">RUT:</label>
+                <input placeholder="123456789-K" name="username" type="text" class="validate" maxlength="15" pattern="[0-9]+-[kK0-9]" required>
+                <label for="username">RUT:</label>
             </div>
           </div>          
           
@@ -55,7 +57,7 @@ MAs Play
           <div class="row">
             <div class="input-field col s12">
               <i class="fa fa-envelope prefix" aria-hidden="true"></i>
-                <input placeholder="" name="username" type="email" class="validate" maxlength="100" length="100" required>
+                <input placeholder="" name="username" type="email" class="validate" maxlength="254" required>
                 <label for="username">Correo:</label>
             </div>
           </div>
@@ -84,26 +86,4 @@ MAs Play
 {% endblock %}
 
 {% block js %}
-<script>
-  function switchForm() {
-    if ($("input[type='checkbox']")[0].checked) {
-      logTeacher();
-    }
-    else {
-      logStudent();
-    }
-  }
-
-  function logTeacher() {
-    $("input[type='checkbox']")[0].checked = true;
-    $("#login_alumno").hide(1000); 
-    $("#login_profesor").show(1000);
-  }
-
-  function logStudent() {
-    $("input[type='checkbox']")[0].checked = false;
-    $("#login_profesor").hide(1000);
-    $("#login_alumno").show(1000);    
-  }
-</script>
 {% endblock %}
