@@ -1,0 +1,102 @@
+{% extends 'student/base.html' %}
+{% load staticfiles %}
+
+{% block extracss%}
+{% endblock %}
+
+{% block extrajs%}
+{% endblock %}
+
+{% block title %}
+MAs Play
+{% endblock %}
+
+{% block title-page %}
+{% endblock %}
+
+{% block content %}
+{% if active_plays %}
+<div class="row">
+  <div class="col s12">
+    <ul class="collection with-header">
+      <li class="collection-header">        
+        <h5>Formativas</h5>
+      </li>
+      <li class="collection-item center-align col s12">
+        <div style="width:100%;overflow-x:scroll;">
+          <table class="col s12 bordered card-box">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Aplica en</th>
+                <th>Tiempo</th>
+                <th class="center-align"></th>                
+              </tr>
+            </thead>
+            <tbody class="list-active-play">
+            {% for play in active_plays %}            
+              <tr>
+                <td>{{play.formative.name}}</td>
+                <td>{{play.course.name}}</td>
+                <td>{{play.duration}}</td>                
+                <td class="center-align" style="width: 100px;">
+                  <a class="waves-effect waves-light btn" href="{% url 'play:show' play.id_char %}" style="width: 80px;">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </a>
+                </td>                
+              </tr>          
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% if closed_plays %}
+<div class="row">
+  <div class="col s12">
+    <ul class="collection with-header">
+      <li class="collection-header">        
+        <h5>Finalizadas</h5>
+      </li>
+      <li class="collection-item center-align col s12">
+        <div style="width:100%;overflow-x:scroll;">
+          <table class="col s12 bordered card-box">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Se aplic&oacute; en</th>
+                <th>Tiempo</th>
+                <th class="center-align">Resultados</th>                
+              </tr>
+            </thead>
+            <tbody class="list-active-play">
+            {% for play in closed_plays %}            
+              <tr>
+                <td>{{play.formative.name}}</td>
+                <td>{{play.course.name}}</td>
+                <td>{{play.duration}}</td>                
+                <td class="center-align" style="width: 100px;">
+                  <a class="waves-effect waves-light btn" style="width: 80px;">
+                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                  </a>
+                </td>                
+              </tr>          
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}

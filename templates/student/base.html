@@ -1,0 +1,105 @@
+{%load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- import css -->
+  <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mas-play.css' %}">
+  {% block extracss %}
+  {% endblock %}
+  <!-- import js -->
+  <script type="text/javascript" src="{% static 'js/library/jquery-3.1.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/library/materialize.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/mas-play.js' %}"></script>
+  {% block extrajs %}
+  {% endblock %}
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>
+  <title>{% block title %} MAs Play {% endblock %}</title>
+</head>
+<body>
+  
+  {% block header %}
+  <header>
+    <nav class="top-nav" style="margin-bottom: 20px;">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
+          <a id="page-title" class="brand-logo">{% block page-title %}{% endblock %}</a>
+        </div>
+      </div>
+    </nav>
+    <ul id="nav-mobile" class="side-nav fixed">
+      <div class="center-align">
+        <div style="width: 100%; height: 100px; background-color: gray"></div>
+      </div>
+      <div class="center-align">      
+        {{ user.first_name|title }}&nbsp;{{ user.last_name|title }}
+      </div>
+      <li><div class="divider"></div></li>
+      <li class="bold">
+        <a href="{% url 'login:login' %}" class="waves-effect waves-teal"><i class="fa fa-home fa-lg"></i>Inicio</a>
+      </li>
+      <!--
+      <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+          <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Formativas</a>
+            <div class="collapsible-body">
+              <ul>
+                <li id="list_formatives"><a href="{% url 'formative:index' %}"><i class="fa fa-list-ul"></i>Creadas</a></li>
+                <li id="new_formative"><a href="{% url 'formative:create' %}"><i class="fa fa-plus"></i>Nueva Formativa</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Cursos</a>
+            <div class="collapsible-body">
+              <ul>
+                <li id="list_courses"><a href="{% url 'course:index' %}"><i class="fa fa-list-ul"></i>Lista de Cursos</a></li>
+                <li id="new_course"><a href="{% url 'course:create' %}"><i class="fa fa-plus"></i>Nuevo Curso</a></li>               
+              </ul>
+            </div>
+          </li>
+          <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Preguntas</a>
+            <div class="collapsible-body">
+              <ul>
+                <li id="list_questions"><a href="{% url 'teacher:questions' %}"><i class="fa fa-list-ul"></i>Almacenadas</a></li>
+                <li id="add_question"><a href="{% url 'teacher:add_question' %}"><i class="fa fa-plus"></i>Agregar Pregunta</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="bold"><a class="collapsible-header waves-effect waves-teal">Crear Pregunta</a>
+            <div class="collapsible-body">
+              <ul>
+                <li id="simple_choice"><a href="{% url 'question:create_choice' %}"><i class="fa fa-crosshairs" aria-hidden="true"></i></i>Selección simple</a></li>
+              </ul>
+            </div>
+          </li>          
+        </ul>
+      </li>
+      -->
+      <li><div class="divider"></div></li>
+      <li class="bold">
+        <a href="{% url 'login:logout' %}" class="waves-effect waves-teal"><i class="fa fa-sign-out fa-lg"></i>Salir</a>
+      </li>
+      <li class="bold">
+        <a href="" class="waves-effect waves-teal"><i class="fa fa-cog fa-lg"></i>Configurar Cuenta</a>
+      </li>      
+    </ul>
+  </header>
+  {% endblock %}
+  
+  <main>
+  {% block content %}
+  {% endblock %}
+  </main>
+
+  {% block footer %}
+  {% endblock %}
+
+  {% block js %}
+  {% endblock %}
+
+</body>
+</html>
