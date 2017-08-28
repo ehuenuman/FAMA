@@ -46,7 +46,7 @@ MAs Play
         <div class="col s6 valign">
           <a class="waves-effect waves-light btn col s12">Comenzar</a>
         </div>
-      </li>      
+      </li>
       {% for question in questions %}
       <a class="collection-item col s12" href="{% url 'play:reply' play.id_char question.id %}">
         <div class="col s12 m9">{{ question.title }}</div>
