@@ -1,0 +1,45 @@
+{% extends 'student/base.html' %}
+{% load staticfiles %}
+
+{% block extracss%}
+{% endblock %}
+
+{% block extrajs%}
+{% endblock %}
+
+{% block title %}
+MAs Play
+{% endblock %}
+
+{% block title-page %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12 white">
+    <div class="col s12">
+      <h5 class="title">{{ question.title }}</h5>
+    </div>
+    <div class="col s12 dashed-border">
+      <div class="col s12 question">{{ question.question }}</div>
+      <div class="col s12 image"></div>
+      <div class="col s12 text"></div>
+    </div>
+    <span>Seleccione una alternativa</span>
+    <ul class="collection">    
+      {% for alternative in question.alternatives %}      
+      <li class="collection-item">
+        <input name="alternatives" type="radio" id="{{ alternative.id }}"/>
+        <label for="{{ alternative.id }}">{{ alternative.text }}</label>
+      </li>
+      {% endfor %}      
+    </ul>
+  </div>  
+</div>  
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
