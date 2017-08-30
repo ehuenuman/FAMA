@@ -42,15 +42,15 @@ MAs Play
   <div class="col s12">
     <ul class="collection with-header">
       <li class="collection-header col s12 valign-wrapper">
-        <div class="col s6" style="padding-left: 0px;"><h5>Preguntas</h5></div>
+        <div class="s6"><h5>Preguntas</h5></div>
         <div class="col s6 valign">
-          <a class="waves-effect waves-light btn col s12">Comenzar</a>
+          <a class="waves-effect waves-light btn s12">Comenzar</a>
         </div>
       </li>
       {% for question in questions %}
       <a class="collection-item col s12" href="{% url 'play:reply' play.id_char question.id %}">
-        <div class="col s12 m9">{{ question.title }}</div>
-        <div class="col s12 m3">{{ question.spanish_type }}</div>
+        <div class="s12 m9">{{ question.title }}</div>
+        <div class="s12 m3">{{ question.spanish_type }}</div>
       </a>
       {% endfor %}
     </ul>
