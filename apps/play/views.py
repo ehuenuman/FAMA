@@ -28,12 +28,13 @@ def show_play(request, play_id_char):
         play = Play.objects.get(id_char=play_id_char)
         formative = Formative.objects.get(id=play.formative.id)
         questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
-        print(questions)
+        first_question = questions[0]
 
         return render(request, "play/show.html", {
             "play": play,
             "formative": formative,
-            "questions": questions
+            "questions": questions,
+            "first_q": first_question
             })
 
 
