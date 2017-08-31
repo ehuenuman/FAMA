@@ -53,6 +53,7 @@ def view_questions(request):
                 data = question_data(question)
                 return JsonResponse(data)
             except Exception as e:
+                print("Error:", e)
                 data = {"result": "error", "message": "Error al obtener la pregunta"}
                 return JsonResponse(data)
 
