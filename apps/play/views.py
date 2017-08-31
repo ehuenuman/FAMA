@@ -26,12 +26,13 @@ def stop_play(request):
 def show_play(request, play_id_char):
     if request.method == "GET":
         play = Play.objects.get(id_char=play_id_char)
+
         formative = Formative.objects.get(id=play.formative.id)
         questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
         first_question = questions[0]
 
         return render(request, "play/show.html", {
-            "play": play,
+            "play": play,            
             "formative": formative,
             "questions": questions,
             "first_q": first_question
