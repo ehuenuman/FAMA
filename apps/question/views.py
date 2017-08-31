@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
+import base64
+import xml.etree.ElementTree as ET
 from io import BytesIO
 from PIL import Image
 import os, zlib, base64, zipfile, shutil
@@ -114,7 +116,7 @@ def save_zip(request, spanish_type):
  
         zip_file.close()
 
-        shutil.rmtree("preguntas/{0}/".format(code))
+        #shutil.rmtree("preguntas/{0}/".format(code))
 
         response["result"] = "success"
         return response
@@ -140,8 +142,7 @@ def question_data(question):
             question.code, 
             question.extension)
         #print(success)
-        if success:
-            print("LEER XML")
+        if success:            
             # Obtener archivo.xml
             # Obtener imsmanifest.xml
             try:
@@ -150,22 +151,22 @@ def question_data(question):
                 fo.close()
                 fo = open("preguntas/"+question.code+"/imsmanifest.xml", "r")
                 imsmanifest = fo.read()
-                fo.close()
+                fo.close()                
             except Exception as e:
+                print("Error:", e)
                 data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
                 return data
             #print(archivo)
             data["archivo"] = archivo
             #print(imsmanifest)
-            data["imsmanifest"] = imsmanifest                        
+            data["imsmanifest"] = imsmanifest            
             # Eliminar carpeta descomprimida
             #delete_folder(question.code)
         else:
             data = {"result": "error", "message": "Error al obtener la pregunta. Cod.zip"}
             return data
     # Si no es zip
-    else:
-        print("LEER XML")
+    else:        
         # Obtener archivo.xml
         try:
             fo = open(question.url, "r")
@@ -189,5 +190,5 @@ def decompress_zip(url, code, extension):
         zf.close()
         return True
     except Exception as e:
-        zf.close()
+        print("Error decompress_zip:", e)
         return False
