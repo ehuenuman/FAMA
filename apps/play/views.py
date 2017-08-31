@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 from apps.question.views import question_data
 from .models import Play
-from apps.formative.models import Formative
+from apps.formative.models import Formative, FormativeHasQuestion
 from apps.teacher.models import Question
 
 # Create your views here.
@@ -47,7 +47,7 @@ def reply_play(request, play_id_char, question_id):
         namespace = {"ns1": "http://www.imsglobal.org/xsd/imsqti_v2p1",
             "ns2": "http://www.w3.org/2001/XMLSchema-instance",
             "ns3": "http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"}
-        question = Question.objects.get(id=question_id)
+        question = Question.objects.get(id=question_id)        
         data = question_data(question)
         if question.type == "choice":
             print(data["archivo"])
@@ -55,21 +55,40 @@ def reply_play(request, play_id_char, question_id):
             print(root)
             data = {}
             alternatives = []
+            data["id"] = question.id
+            data["code"] = question.code
             data["title"] = root.get("title")
             data["question"] = root.find("*//ns1:prompt", namespace).text
+            
+            if question.extension == "zip":
+                data["alternative_text"] = root.findall("*//ns1:p", namespace)[0].text
+                data["image"] = root.find("*//ns1:img", namespace).get("src")
+
             for elem in root.iterfind("*//ns1:simpleChoice", namespace):
                 alternatives.append({"text": elem.text, "id": elem.get("identifier")})
                 print(elem.get("identifier"), elem.text)
 
             data["alternatives"] = alternatives
 
-            print(data)            
+            order_question = FormativeHasQuestion.objects.get(formative=formative, question=question)
+            total_questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
+            print(order_question.order, total_questions.count());
+            if order_question.order == 0:
+                data["next"] = total_questions[1].id
+            elif order_question.order == (total_questions.count() - 1):
+                data["prev"] = total_questions[order_question.order-1].id
+            else:
+                data["next"] = total_questions[order_question.order+1].id
+                data["prev"] = total_questions[order_question.order-1].id
+        
+            
 
             return render(request, 
                 "question/reply_choice.html", 
                 {
                     "question": data,
-                    "alternatives": alternatives
+                    "alternatives": alternatives,
+                    "play": play
                 })
     else:
         return redirect('play:show', play_id_char=play_id_char)
