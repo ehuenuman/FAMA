@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class Student(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     rut = models.CharField(unique=True, max_length=15)
+    play = models.ManyToManyField('play.Play', through='Reply')
 
     class Meta:
         managed = False
@@ -25,3 +26,17 @@ class Answer(models.Model):
         managed = False
         db_table = 'answer'
         unique_together = (('id',),)
+
+
+class Reply(models.Model):
+    """docstring for Reply"""
+    play = models.ForeignKey('play.Play', models.DO_NOTHING)
+    student = models.ForeignKey('Student', models.DO_NOTHING)
+    start_reply = models.DateTimeField()
+    stop_reply = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'reply'
+        unique_together = (('play', 'student'),)
+        

@@ -10,9 +10,7 @@ class Play(models.Model):
     close_play = models.DateTimeField()
     is_active = models.IntegerField()
     formative = models.ForeignKey('formative.Formative', models.DO_NOTHING)
-    course = models.ForeignKey('course.Course', models.DO_NOTHING)
-    #student = models.ManyToManyField('student.Student', through='student.Answer')
-    #question = models.ManyToManyField('teacher.Question', through='student.Answer')
+    course = models.ForeignKey('course.Course', models.DO_NOTHING)    
 
     class Meta:
         managed = False
