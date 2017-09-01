@@ -32,11 +32,21 @@ def show_play(request, play_id_char):
         questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
         first_question = questions[0]
 
+        try:
+            reply = Reply.objects.get(student=request.user.student, play=play)
+            status = reply.is_active
+            close_reply = reply.close_reply
+        except Exception as e:
+            status = 1
+            close_reply = ""
+
         return render(request, "play/show.html", {
             "play": play,            
             "formative": formative,
             "questions": questions,
-            "first_q": first_question
+            "first_q": first_question,
+            "status": status,
+            "close_reply": close_reply
             })
 
 
@@ -54,11 +64,12 @@ def reply_play(request, play_id_char, question_id):
                 student=request.user.student,
                 play= play,
                 start_reply=timezone.now(),
-                close_reply=timezone.now() + play.duration)
+                close_reply=timezone.now() + play.duration,
+                is_active=1)
             close_reply = reply.close_reply         
         except Exception as e:
             print("Error: No se pudo crear reply. ", e)
-    if validate_question(formative, question_id):
+    if validate_question(formative, question_id) and reply.is_active == 1:
         namespace = {"ns1": "http://www.imsglobal.org/xsd/imsqti_v2p1",
             "ns2": "http://www.w3.org/2001/XMLSchema-instance",
             "ns3": "http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"}
