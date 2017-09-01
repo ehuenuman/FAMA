@@ -10,6 +10,7 @@ from apps.question.views import question_data
 from .models import Play
 from apps.formative.models import Formative, FormativeHasQuestion
 from apps.teacher.models import Question
+from apps.student.models import Reply
 
 # Create your views here.
 @login_required
@@ -39,22 +40,34 @@ def show_play(request, play_id_char):
             })
 
 
-
 @login_required
 def reply_play(request, play_id_char, question_id):
     #print(play_id_char, question_id)
     play = Play.objects.get(id_char=play_id_char)
     formative = Formative.objects.get(id=play.formative.id)
+    try:
+        reply = Reply.objects.get(student=request.user.student, play=play)
+        close_reply = reply.close_reply        
+    except Exception as e:
+        try:
+            reply = Reply.objects.create(
+                student=request.user.student,
+                play= play,
+                start_reply=timezone.now(),
+                close_reply=timezone.now() + play.duration)
+            close_reply = reply.close_reply         
+        except Exception as e:
+            print("Error: No se pudo crear reply. ", e)
     if validate_question(formative, question_id):
         namespace = {"ns1": "http://www.imsglobal.org/xsd/imsqti_v2p1",
             "ns2": "http://www.w3.org/2001/XMLSchema-instance",
             "ns3": "http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"}
-        question = Question.objects.get(id=question_id)        
-        data = question_data(question)
+        question = Question.objects.get(id=question_id)
+        data = question_data(question)        
         if question.type == "choice":
-            print(data["archivo"])
+            #print(data["archivo"])
             root = ET.fromstring(data["archivo"])
-            print(root)
+            #print(root)
             data = {}
             alternatives = []
             data["id"] = question.id
@@ -68,29 +81,29 @@ def reply_play(request, play_id_char, question_id):
 
             for elem in root.iterfind("*//ns1:simpleChoice", namespace):
                 alternatives.append({"text": elem.text, "id": elem.get("identifier")})
-                print(elem.get("identifier"), elem.text)
+                #print(elem.get("identifier"), elem.text)
 
             data["alternatives"] = alternatives
 
             order_question = FormativeHasQuestion.objects.get(formative=formative, question=question)
             total_questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
-            print(order_question.order, total_questions.count());
+            #print(order_question.order, total_questions.count());
             if order_question.order == 0:
                 data["next"] = total_questions[1].id
             elif order_question.order == (total_questions.count() - 1):
                 data["prev"] = total_questions[order_question.order-1].id
             else:
                 data["next"] = total_questions[order_question.order+1].id
-                data["prev"] = total_questions[order_question.order-1].id
-        
-            
+                data["prev"] = total_questions[order_question.order-1].id                
 
-            return render(request, 
+            return render(
+                request, 
                 "question/reply_choice.html", 
                 {
                     "question": data,
                     "alternatives": alternatives,
-                    "play": play
+                    "play": play,
+                    "close_reply": close_reply
                 })
     else:
         return redirect('play:show', play_id_char=play_id_char)
