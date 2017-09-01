@@ -34,6 +34,7 @@ class Reply(models.Model):
     student = models.ForeignKey('Student', models.DO_NOTHING)
     start_reply = models.DateTimeField()
     close_reply = models.DateTimeField()
+    is_active = models.IntegerField()
 
     class Meta:
         managed = False
