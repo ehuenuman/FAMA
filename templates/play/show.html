@@ -43,15 +43,25 @@ MAs Play
     <ul class="collection with-header">
       <li class="collection-header col s12 valign-wrapper">
         <div class="s6"><h5>Preguntas</h5></div>        
-        <div class="col s6 valign">
-          <a class="waves-effect waves-light btn s12" href="{% url 'play:reply' play.id_char first_q.id %}">Comenzar</a>
+        <div class="col s6 valign">        
+          {% if status == 1 %}
+            <a class="waves-effect waves-light btn s12" href="{% url 'play:reply' play.id_char first_q.id %}">Comenzar</a>
+          {% else %}
+            <a class="waves-effect waves-light btn s12 disabled">Comenzar</a>
+          {% endif %}
         </div>
       </li>
       {% for question in questions %}
-      <a class="collection-item col s12" href="{% url 'play:reply' play.id_char question.id %}">
-        <div class="s12 m9">{{ question.title }}</div>
-        <div class="s12 m3">{{ question.spanish_type }}</div>
-      </a>
+        {% url 'play:reply' play.id_char question.id as question_url %}
+        {% if status == 1 %}
+          <a class="collection-item col s12" href="{{ question_url }}">
+        {% else %}
+          <a class="collection-item col s12">
+        {% endif %}
+            <div class="s12 m9">{{ question.title }}</div>
+            <div class="s12 m3">{{ question.spanish_type }}</div>
+          </a>
+        
       {% endfor %}
     </ul>
   </div>
