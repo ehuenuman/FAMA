@@ -33,7 +33,7 @@ class Reply(models.Model):
     play = models.ForeignKey('play.Play', models.DO_NOTHING)
     student = models.ForeignKey('Student', models.DO_NOTHING)
     start_reply = models.DateTimeField()
-    stop_reply = models.DateTimeField()
+    close_reply = models.DateTimeField()
 
     class Meta:
         managed = False
