@@ -27,7 +27,7 @@ MAs Play
       </li>
       <li class="collection-item list-group col s12">
         <div class="list-group-item col s4">
-          {{ questions.count }} preguntas
+          {{ questions.count }} pregunta{{ questions.count|pluralize }}
         </div>
         <div class="list-group-item col s4">
           <i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
@@ -45,9 +45,9 @@ MAs Play
         <div class="s6"><h5>Preguntas</h5></div>        
         <div class="col s6 valign">        
           {% if status == 1 %}
-            <a class="waves-effect waves-light btn s12" href="{% url 'play:reply' play.id_char first_q.id %}">Comenzar</a>
+            <a class="waves-effect waves-light btn s12 right" href="{% url 'play:reply' play.id_char first_q.id %}">Comenzar</a>
           {% else %}
-            <a class="waves-effect waves-light btn s12 disabled">Comenzar</a>
+            <a class="waves-effect waves-light btn s12 right disabled">Comenzar</a>
           {% endif %}
         </div>
       </li>
