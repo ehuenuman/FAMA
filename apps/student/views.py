@@ -10,9 +10,9 @@ from apps.play.models import Play
 def index(request):
     if student_check(request.user):
         student = request.user.student
-        courses = Course.objects.filter(student=student)
-        active_plays = Play.objects.filter(course=courses, is_active=1)
-        closed_plays = Play.objects.filter(course=courses, is_active=0)
+        courses = Course.objects.filter(student=student)        
+        active_plays = Play.objects.filter(course__in=courses, is_active=1)        
+        closed_plays = Play.objects.filter(course__in=courses, is_active=0).order_by("-close_play")
 
         return render(request,'student/home.html', {
             'courses': courses,
