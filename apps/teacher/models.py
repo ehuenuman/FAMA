@@ -16,6 +16,7 @@ class Question(models.Model):
     title = models.CharField(max_length=30)
     type = models.CharField(max_length=40)
     spanish_type = models.CharField(max_length=50)
+    correct = models.CharField(max_length=100)
     creation_date = models.DateTimeField() 
     share = models.IntegerField()
     code = models.CharField(max_length=9, blank=True)
