@@ -78,12 +78,20 @@ def reply_play(request, play_id_char, question_id):
                 "ns2": "http://www.w3.org/2001/XMLSchema-instance",
                 "ns3": "http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"}
             question = Question.objects.get(id=question_id)
-            data = question_data(question)        
+            data_of_question = question_data(question)
+            data = {}
+            try:
+                answer = Answer.objects.filter(
+                    student=request.user.student,
+                    play=play,
+                    question=question)[:1]
+                data["answer"] = answer[0].answer
+            except Exception as e:
+                print("No existe respuesta: " ,e)
             if question.type == "choice":
                 #print(data["archivo"])
-                root = ET.fromstring(data["archivo"])
+                root = ET.fromstring(data_of_question["archivo"])
                 #print(root)
-                data = {}
                 alternatives = []
                 data["id"] = question.id
                 data["code"] = question.code
