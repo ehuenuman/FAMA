@@ -7,6 +7,7 @@ Play/credentials.json
 **/__pycache__
 
 # Questions 
-preguntas/*.xml
-preguntas/*.zip
+preguntas/*
+#preguntas/*.xml
+#preguntas/*.zip
 

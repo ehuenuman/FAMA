@@ -161,7 +161,7 @@ $(document).ready(function() {
 
     if (nombre_foto!='') {
       $("#content_preview").append('<span><b>Imagen:</span></br>');
-      $("#content_preview").append("<center>img src='"+result+"' width='250px'/></center>");
+      $("#content_preview").append("<center><img src='"+result+"' width='250px'/></center>");
     }
 
     if (pregunta!="") $("#content_preview").append('<span><b>Pregunta: </b>'+pregunta+'</span></br>');

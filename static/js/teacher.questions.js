@@ -21,7 +21,7 @@ $(document).ready(function() {
 function share_question(id_checkbox) {
   $.ajax({
     type: 'POST',
-    url: document.location.pathname + "/share/" + id_checkbox,
+    url: document.location.pathname + "share/" + id_checkbox,
     headers: {'X-CSRFToken': Cookies.get('csrftoken')},
     dataType: 'json',
   })

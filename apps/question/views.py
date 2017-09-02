@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
+import base64
+import xml.etree.ElementTree as ET
 from io import BytesIO
 from PIL import Image
 import os, zlib, base64, zipfile, shutil
@@ -114,7 +116,7 @@ def save_zip(request, spanish_type):
  
         zip_file.close()
 
-        shutil.rmtree("preguntas/{0}/".format(code))
+        #shutil.rmtree("preguntas/{0}/".format(code))
 
         response["result"] = "success"
         return response
@@ -122,3 +124,71 @@ def save_zip(request, spanish_type):
         print("Error: {0}".format(e))
         response["result"] = "fail"
         return response
+
+
+def question_data(question):
+    # Obtener datos pregunta
+    data = {
+        "result": "success",
+        "url": question.url,
+        "type": question.type,
+        "extension": question.extension,
+        "code": question.code}
+    # Si es zip
+    if question.extension == "zip":
+        # Descomprimir
+        success = decompress_zip(
+            question.url, 
+            question.code, 
+            question.extension)
+        #print(success)
+        if success:            
+            # Obtener archivo.xml
+            # Obtener imsmanifest.xml
+            try:
+                fo = open("preguntas/"+question.code+"/archivo.xml", "r")
+                archivo = fo.read()
+                fo.close()
+                fo = open("preguntas/"+question.code+"/imsmanifest.xml", "r")
+                imsmanifest = fo.read()
+                fo.close()                
+            except Exception as e:
+                print("Error:", e)
+                data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+                return data
+            #print(archivo)
+            data["archivo"] = archivo
+            #print(imsmanifest)
+            data["imsmanifest"] = imsmanifest            
+            # Eliminar carpeta descomprimida
+            #delete_folder(question.code)
+        else:
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.zip"}
+            return data
+    # Si no es zip
+    else:        
+        # Obtener archivo.xml
+        try:
+            fo = open(question.url, "r")
+            archivo = fo.read()
+            fo.close()
+        except Exception as e:
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+            return data
+        data["archivo"] = archivo
+        data["imsmanifest"] = ""                
+    # Enviar información
+    return data
+
+
+def decompress_zip(url, code, extension):
+    print("DESCOMPRIMIENDO")
+    try:
+        zf = zipfile.ZipFile(url, "r")
+        for i in zf.namelist():
+            zf.extract(i, path="preguntas/"+code+"/")
+        zf.close()
+        return True
+    except Exception as e:
+        print("Error decompress_zip:", e)
+        return False
