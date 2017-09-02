@@ -15,7 +15,7 @@ class Play(models.Model):
     class Meta:
         managed = False
         db_table = 'play'
-        ordering = ('creation_play', 'start_play')
+        ordering = ('-creation_play', '-start_play')
 
     def duration_to_time(self):
         return "{0} min.".format(int(self.duration.seconds/60))
