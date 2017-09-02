@@ -76,7 +76,7 @@ $(document).ready(function() {
     }
 
     $.ajax({
-      url: document.location.pathname+"/agregar-estudiantes",
+      url: document.location.pathname+"agregar-estudiantes",
       type: 'POST',
       headers: {'X-CSRFToken': Cookies.get('csrftoken')},
       dataType: 'json',
@@ -104,7 +104,7 @@ $(document).ready(function() {
     var initial_students = $('span#student_count').data('count');
     
     $.ajax({
-      url: document.location.pathname+"/agregar-estudiantes",
+      url: document.location.pathname+"agregar-estudiantes",
       type: 'POST',
       headers: {'X-CSRFToken': Cookies.get('csrftoken')},      
       data: formData,
