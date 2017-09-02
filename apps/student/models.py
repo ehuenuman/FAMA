@@ -26,6 +26,7 @@ class Answer(models.Model):
         managed = False
         db_table = 'answer'
         unique_together = (('id',),)
+        ordering = ('-date',)
 
 
 class Reply(models.Model):
