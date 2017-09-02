@@ -8,16 +8,16 @@ from apps.play.models import Play
 # Create your views here.
 @login_required
 def index(request):
-	if student_check(request.user):
-		student = request.user.student
-		courses = Course.objects.filter(student=student)
-		active_plays = Play.objects.filter(course=courses, is_active=1)
-		closed_plays = Play.objects.filter(course=courses, is_active=0)
+    if student_check(request.user):
+        student = request.user.student
+        courses = Course.objects.filter(student=student)
+        active_plays = Play.objects.filter(course=courses, is_active=1)
+        closed_plays = Play.objects.filter(course=courses, is_active=0)
 
-		return render(request,'student/home.html', {
-			'courses': courses,
-			'active_plays': active_plays,
-			'closed_plays': closed_plays,
-			})
-	else:
-		return redirect('teacher:home')
+        return render(request,'student/home.html', {
+            'courses': courses,
+            'active_plays': active_plays,
+            'closed_plays': closed_plays,
+            })
+    else:
+        return redirect('teacher:home')
