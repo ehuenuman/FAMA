@@ -16,6 +16,10 @@ class Formative(models.Model):
         unique_together = (('id', 'teacher'),)
         ordering = ('-creation_date',)
 
+    def has(self, question):
+        """Verify if question belongs to this formative"""
+        return self.question.filter(id=question).exists()
+
 
 class FormativeHasQuestion(models.Model):
     formative = models.ForeignKey('Formative', models.DO_NOTHING)
