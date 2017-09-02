@@ -24,7 +24,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="col s12 m12 l7">
+  <div class="col s12 m12 l6">
     <ul class="collection with-header">
       <li class="collection-header">
         <div class="valign-wrapper" style="margin-bottom: 0px">
@@ -41,26 +41,26 @@
           </div>
         </div>
       </li>
-      <li class="collection-item center-align">
+      <li class="collection-item center-align col s12">
         <div>
-          {% if formatives %}
-          {% for formative in formatives %}
-          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-            <a href="{% url 'formative:show' formative.id %}" class="col s10" style="padding: 0px;">
+          {% if plays %}
+          {% for play in plays %}
+          <div class="card-item col s12 hoverable valign-wrapper">
+            <a href="#" class="col s10" style="padding: 0px;">
               <div class="col s12 left-align">
-                <span class="col s12">{{formative.name}}</span>
-                <span class="col s12">{{formative.description}}</span>
+                <span class="col s12">{{play.formative.name}}</span>
+                <span class="col s12">{{play.formative.description}}</span>
               </div>
             </a>
-            <a href="!#" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Realizar formativa" style="padding: 0px;">
+            <a href="!#" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Resultados" style="padding: 0px;">
               <div class="valign col s12">
-                <i id="icon-link" class="fa fa-play-circle fa-2x"></i>
+                <i id="icon-link" class="fa fa-bar-chart fa-2x"></i>
               </div>
             </a>
           </div>
           {% endfor %}
           {% else %}
-          <a href="#" class="card-item col s12 hoverable teal white-text">
+          <a href="#" class="card-item col s12 hoverable">
             <span>Comenzar primera formativa del curso</span>
           </a>
           {% endif %}
@@ -70,7 +70,7 @@
     </ul>
   </div>
 
-  <div class="col s12 m12 l5">
+  <div class="col s12 m12 l6">
     <ul class="collection with-header">
       <li class="collection-header">
         <div class="valign-wrapper" style="margin-bottom: 0px">
@@ -94,7 +94,7 @@
           <div class="card-item col s12 hoverable teal white-text valign-wrapper">
             <div class="col s10 left-align">
               <span class="col s12">{{student.rut}}</span>
-              <span class="col s12">{{student.name}} {{student.last_name}}</span>
+              <span class="col s12">{{student.user.name}} {{student.user.last_name}}</span>
             </div>
             <a href="!#" class="col s2">
               <div class="valign col s12">
@@ -106,8 +106,8 @@
           {% else %}
           <div clas="col s12">
             <a href="#add_student">
-              <div class="card-panel teal">
-                <span class="white-text">Agregue alumnos al curso</span><br>
+              <div class="card-panel">
+                <span>Agregue alumnos al curso</span><br>
               </div>
             </a>
           </div>

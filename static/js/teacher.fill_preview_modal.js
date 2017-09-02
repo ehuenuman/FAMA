@@ -15,7 +15,7 @@
 
   if (url_imagen!='') {
   	$("#content_preview").append('<span><b>Imagen:</span></br>');
-  	$("#content_preview").append("<center><img src='static/"+codigo+"/"+url_imagen+"' width='250px'/></center>");
+  	$("#content_preview").append("<center><img src='/static/"+codigo+"/"+url_imagen+"' width='250px'/></center>");
   }
 
   if (prompt!="") $("#content_preview").append('<span><b>Pregunta: </b>'+prompt+'</span></br>');

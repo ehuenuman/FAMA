@@ -5,12 +5,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Teacher(models.Model):
     user = models.OneToOneField(User, primary_key=True)
-    email = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    creation_date = models.DateTimeField()
-    last_login = models.DateTimeField(blank=True)
     question = models.ManyToManyField('Question', through='TeacherHasQuestion')
 
     class Meta:

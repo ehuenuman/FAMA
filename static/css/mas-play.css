@@ -135,3 +135,29 @@ i.prefix.fa {
 .row.last-row {
     margin-bottom: 0px;
 }
+
+
+/* Reply Question */
+.reply-container {
+  background-color: #FFFFFF;
+}
+
+.title-container {
+  background-color: #009688;
+}
+
+.title-container .title {
+  color: #FFFFFF;
+}
+
+.question-container .question {
+  font-weight: bold;
+}
+.question-container .text {
+  margin: 5px 0px;
+  font-style: italic;
+}
+
+.reply-control i.fa {
+  color: #000000;
+}

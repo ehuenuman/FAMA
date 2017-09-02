@@ -299,7 +299,7 @@ function extraer_datos_xml_order(){
 function eliminar_carpeta_zip() {
   if(extension == "zip") {
     $.ajax({
-      url:"delete-folder",
+      url:"/delete-folder",
       type: "POST",
       headers: {'X-CSRFToken': Cookies.get('csrftoken')},
       data: {code: codigo},

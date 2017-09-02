@@ -21,9 +21,8 @@ class Course(models.Model):
 class CourseHasStudent(models.Model):
     course = models.ForeignKey('Course', models.DO_NOTHING)
     student = models.ForeignKey('student.Student', models.DO_NOTHING)
-#    student_rut = models.ForeignKey('Student', models.DO_NOTHING, related_name="course_has_student_rut")
 
     class Meta:
         managed = False
         db_table = 'course_has_student'
-        unique_together = (('id', 'course', 'student'),)
+        unique_together = (('course', 'student'),)

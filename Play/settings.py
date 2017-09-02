@@ -151,3 +151,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'preguntas'),
     )
+
+# Celery configurations options
+CELERY_BROKER_URL = 'amqp://localhost'

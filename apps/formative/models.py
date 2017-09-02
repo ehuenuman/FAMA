@@ -18,11 +18,12 @@ class Formative(models.Model):
 
 
 class FormativeHasQuestion(models.Model):
-    order = models.IntegerField()
     formative = models.ForeignKey('Formative', models.DO_NOTHING)
     question = models.ForeignKey('teacher.Question', models.DO_NOTHING)
+    order = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'formative_has_question'
         unique_together = (('formative', 'question'),)
+        ordering = ('order',)
