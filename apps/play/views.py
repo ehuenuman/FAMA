@@ -55,7 +55,7 @@ def show_play(request, play_id_char):
 def reply_play(request, play_id_char, question_id):    
     play = Play.objects.get(id_char=play_id_char)
     if request.method == "GET":
-        formative = Formative.objects.get(id=play.formative.id)
+        formative = Formative.objects.get(id=play.formative.id)            
         try:
             reply = Reply.objects.get(student=request.user.student, play=play)
             close_reply = reply.close_reply        
@@ -63,7 +63,7 @@ def reply_play(request, play_id_char, question_id):
             try:
                 reply = Reply.objects.create(
                     student=request.user.student,
-                    play= play,
+                    play=play,
                     start_reply=timezone.now(),
                     close_reply=timezone.now() + play.duration,
                     is_active=1)
@@ -73,7 +73,7 @@ def reply_play(request, play_id_char, question_id):
                 stop_reply.apply_async([reply.id], countdown=play.duration.seconds)
             except Exception as e:
                 print("Error: No se pudo crear reply. ", e)
-        if validate_question(formative, question_id) and reply.is_active == 1:
+        if formative.has(question_id) and reply.is_active == 1:
             namespace = {"ns1": "http://www.imsglobal.org/xsd/imsqti_v2p1",
                 "ns2": "http://www.w3.org/2001/XMLSchema-instance",
                 "ns3": "http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"}
@@ -145,8 +145,3 @@ def reply_play(request, play_id_char, question_id):
             data["data"]= "Error al guardar la respuesta"
 
         return JsonResponse(data)
-
-
-def validate_question(formative, question_id):
-    """Verifica la formativa posee la pregunta entregada"""
-    return formative.question.filter(id=question_id).exists()
