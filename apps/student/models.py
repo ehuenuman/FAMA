@@ -15,7 +15,7 @@ class Student(models.Model):
 
 
 class Answer(models.Model):    
-    answer = models.CharField(max_length=50)
+    answer = models.CharField(max_length=100)
     correct = models.IntegerField()
     date = models.DateTimeField()
     student = models.ForeignKey('Student', models.DO_NOTHING)
