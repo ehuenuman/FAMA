@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $(".materialboxed").materialbox();
   $("li.collection-item").click(function(event) {   
     $(this).children("input")[0].click();
   });
@@ -7,8 +8,8 @@ $(document).ready(function() {
     if ($("li.collection-item input:checked").length == 1) {
       $.ajax({
         url: document.location.pathname,
-        type: 'POST',
-        headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+        type: "POST",
+        headers: {"X-CSRFToken": Cookies.get("csrftoken")},
         dataType: "JSON",
         data: {answer: $("li.collection-item input:checked")[0].id},
       })
