@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 
 from apps.question.views import question_data
 from .models import Play
+from .task import stop_reply
 from apps.formative.models import Formative, FormativeHasQuestion
 from apps.teacher.models import Question
 from apps.student.models import Reply
@@ -66,7 +67,10 @@ def reply_play(request, play_id_char, question_id):
                 start_reply=timezone.now(),
                 close_reply=timezone.now() + play.duration,
                 is_active=1)
-            close_reply = reply.close_reply         
+            close_reply = reply.close_reply
+            print(reply.student.user.first_name)
+            print(reply.play.formative.name)
+            stop_reply.apply_async([reply.id], countdown=play.duration.seconds)
         except Exception as e:
             print("Error: No se pudo crear reply. ", e)
     if validate_question(formative, question_id) and reply.is_active == 1:
