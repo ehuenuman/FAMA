@@ -39,8 +39,12 @@ MAs Play
     <ul class="collection">    
       <li class="collection-item center-align">Seleccione una alternativa</li>
       {% for alternative in question.alternatives %}      
-      <li class="collection-item">
-        <input name="alternatives" type="radio" id="{{ alternative.id }}"/>
+      <li class="collection-item">        
+        {% if alternative.id == question.answer %}
+          <input name="alternatives" type="radio" id="{{ alternative.id }}" checked>
+        {% else %}
+          <input name="alternatives" type="radio" id="{{ alternative.id }}">
+        {% endif %}
         <label for="{{ alternative.id }}">{{ alternative.text }}</label>
       </li>
       {% endfor %}      
