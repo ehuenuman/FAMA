@@ -16,14 +16,14 @@ $(document).ready(function() {
         if (data.data == "OK") {
           Materialize.toast("Respuesta guardada", 1000, "rounded")
         } else {
-          Materialize.toast(data.data, 3000, "rounded")
+          Materialize.toast(data.data, 1000, "rounded")
         }
       })
       .fail(function() {
-        Materialize.toast("Un error ha ocurrido", 3000, "rounded")
+        Materialize.toast("Un error ha ocurrido", 1000, "rounded")
       });
     } else {
-       Materialize.toast("Selecciona una alternativa", 3000, "rounded")
+       Materialize.toast("Selecciona una alternativa", 1000, "rounded")
     }
   });
 });
