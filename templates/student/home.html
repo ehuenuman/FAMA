@@ -11,7 +11,8 @@
 MAs Play
 {% endblock %}
 
-{% block title-page %}
+{% block page-title %}
+Mis Formativas
 {% endblock %}
 
 {% block content %}
@@ -20,7 +21,7 @@ MAs Play
   <div class="col s12">
     <ul class="collection with-header">
       <li class="collection-header">        
-        <h5>Formativas</h5>
+        <h5>Disponibles</h5>
       </li>
       {% for play in active_plays %}       
       <a class="collection-item col s12" href="{% url 'play:show' play.id_char %}">
@@ -53,36 +54,33 @@ MAs Play
   <div class="col s12">
     <ul class="collection with-header">
       <li class="collection-header">        
-        <h5>Finalizadas</h5>
+        <h5>Cerradas</h5>
       </li>
-      <li class="collection-item center-align col s12">
-        <div style="width:100%;overflow-x:scroll;">
-          <table class="col s12 bordered card-box">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Se aplic&oacute; en</th>
-                <th>Tiempo</th>
-                <th class="center-align">Resultados</th>                
-              </tr>
-            </thead>
-            <tbody class="list-active-play">
-            {% for play in closed_plays %}            
-              <tr>
-                <td>{{play.formative.name}}</td>
-                <td>{{play.course.name}}</td>
-                <td>{{play.duration}}</td>                
-                <td class="center-align" style="width: 100px;">
-                  <a class="waves-effect waves-light btn" style="width: 80px;">
-                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                  </a>
-                </td>                
-              </tr>          
-            {% endfor %}
-            </tbody>
-          </table>
+      {% for play in closed_plays %}
+      <a class="collection-item col s12" href="#">
+        <div class="s12">
+          <div class="col s9 list-group">
+            <div class="s12 l4 list-group-item truncate">
+            <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
+            </div>
+            <div class="s12 l4 list-group-item">
+              <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.name}}
+            </div>
+          </div>        
+          <div class="col s3 right-align">
+            <div class="waves-effect waves-teal btn">
+              <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
+            </div>  
+          </div>
         </div>
-      </li>
+        <div class="col s4 l4 list-group-item">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
+        </div>
+        <div class="col s4 l4 list-group-item">
+          <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
+        </div>
+      </a>
+      {% endfor %}
     </ul>
   </div>
 </div>
