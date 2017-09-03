@@ -11,30 +11,27 @@ from apps.teacher.models import Teacher
 def login(request):
     """Verify credential account for teacher and student"""
     if request.method == 'GET':
-        if request.user.is_authenticated:            
+        if request.user.is_authenticated:
             return redirect('teacher:home')
-        else:
+        else:            
             return render(request, 'index.html')
     else:       
         username = request.POST['username']
-        password = request.POST.get('password', request.POST['username'])        
+        password = request.POST.get('password', request.POST['username'])
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                print("Identificación correcta")
                 auth.login(request, user)
                 if teacher_check(user):
-                    print("Profesor")
                     return redirect('teacher:home')
-                else:
-                    print("Estudiante")
+                else:                    
                     request.session.set_expiry(3600)
                     return redirect('student:home')
             else:
-                print("Cuenta desactivada")
+                messages.warning(request, 'Cuenta desactivada')
                 return redirect('login:login')
         else:
-            print("Identificación incorrecta")
+            messages.error(request, 'Credenciales incorrectas')
             return redirect('login:login')
 
 
