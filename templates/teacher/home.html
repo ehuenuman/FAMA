@@ -41,10 +41,10 @@
               </div>
             </div>
             <div class="col s5 m4 right-align">
-              <div class="waves-effect waves-red btn btn-danger stop-formative" data-play-id="{{play.id}}">
+              <div class="waves-effect waves-ligth btn btn-danger stop-formative" data-play-id="{{play.id}}">
                 <i class="fa fa-stop fa-2x" aria-hidden="true"></i>
               </div>
-              <div class="waves-effect waves-teal btn" data-play-id="{{play.id}}">
+              <div class="waves-effect waves-light btn" data-play-id="{{play.id}}">
                 <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
               </div>
             </div>
@@ -81,7 +81,7 @@
               </div>
             </div>        
             <div class="col s3 right-align">
-              <div class="waves-effect waves-teal btn">
+              <div class="waves-effect waves-light btn">
                 <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
               </div>  
             </div>
@@ -124,7 +124,7 @@
           {% if formatives %}
           {% for formative in formatives %}
           <div class="card-item col s12 hoverable valign-wrapper">
-            <a href="{% url 'formative:show' formative.id %}" class="col s10" style="padding: 0px;">
+            <a class="col s10" style="padding: 0px;">
               <div class="col s12 left-align">
                 <span class="col s12">{{formative.name}}</span>
                 <span class="col s12">{{formative.description}}</span>
