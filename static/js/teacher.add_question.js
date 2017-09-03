@@ -2,7 +2,7 @@ $(document).ready(function() {
   /* Save shared question */
   $("#save_question").click(function() {
     if ($("#shared_code").val() == "") {
-      $("input#shared_code").next("label").attr("data-error", "Código requerido");
+      $("input#shared_code").next("label").attr("data-error", "C\u00F3digo requerido");
       $("input#shared_code").removeClass("valid").addClass("invalid");
     } else {
       save_question();      
@@ -12,7 +12,7 @@ $(document).ready(function() {
   /* Preview shared question */
   $("#preview_question").click(function() {
     if ($("#shared_code").val() == "") {
-      $("input#shared_code").next("label").attr("data-error", "Código requerido");
+      $("input#shared_code").next("label").attr("data-error", "C\u00F3digo requerido");
       $("input#shared_code").removeClass("valid").addClass("invalid");
     } else {
       preview_question();
@@ -32,12 +32,11 @@ function save_question() {
     dataType: 'json',
   })
   .done(function(data) {
-    if (data.result == "error") {
-        Materialize.toast(data.message, 3000,'rounded');
+    if (data.result == "error") {        
         $("input#shared_code").next("label").attr("data-error", data.message);
         $("input#shared_code").removeClass("valid").addClass("invalid");
     } else {
-        Materialize.toast('Pregunta agregada', 3000,'rounded');
+        $("input#shared_code").next("label").attr("data-success", "Pregunta agregada");        
         $("input#shared_code").val("").removeClass("valid");
     }
   })
@@ -58,8 +57,7 @@ function preview_question() {
     dataType: 'json',
   })
   .done(function(data){
-    if (data.result == "error") {
-        Materialize.toast(data.message, 3000,'rounded');
+    if (data.result == "error") {        
         $("input#shared_code").next("label").attr("data-error", data.message);
         $("input#shared_code").removeClass("valid").addClass("invalid");
     } else {
