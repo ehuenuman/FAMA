@@ -23,14 +23,16 @@
   
   {% block header %}
   <header>
-    <nav class="top-nav" style="margin-bottom: 20px;">
-      <div class="container">
-        <div class="nav-wrapper">
-          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
-          <a id="page-title" class="brand-logo">{% block page-title %}{% endblock %}</a>
+    <div class="navbar-fixed row">
+      <nav class="top-nav" style="margin-bottom: 20px;">
+        <div class="container">
+          <div class="nav-wrapper">
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
+            <a id="page-title" class="brand-logo">{% block page-title %}{% endblock %}</a>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
     <ul id="nav-mobile" class="side-nav fixed">
       <div class="center-align">
         <div style="width: 100%; height: 100px; background-color: gray"></div>
