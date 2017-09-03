@@ -135,7 +135,7 @@ def add_question(request):
         try:
             question = Question.objects.get(code = shared_code)
         except Exception as e:
-            data = {"result": "error", "message": "C&oacute;digo erroneo"}
+            data = {"result": "error", "message": "C\u00F3digo erroneo"}
             return JsonResponse(data)
 
         if question.share == 0:     # Dont Shared
