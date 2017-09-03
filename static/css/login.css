@@ -13,7 +13,6 @@
   background-color:  #26a69a;
   width: 100%;
   height: 100px;
-  margin-bottom: 20px;
 }
 
 .log-title-container .log-title {
@@ -26,16 +25,35 @@
 }
 
 .switch {
-  margin-bottom: 20px; 
+  margin-bottom: 15px; 
+}
+
+.messages {
+  margin-bottom: 15px;
+}
+.messages .error {
+  background-color: #e57373;
+  border: solid 1px #f44336;
+  border-radius: 5px;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 5px;
+}
+
+.messages .warning {
+  background-color: #ffb74d;
+  border: solid 1px #ff9800;
+  border-radius: 5px;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 5px;
 }
 
 .fa {
   color: #807B7B;
   font-size: 30px;
 }
-.error-message {
-  color: red;
-}
-.success-message {
-  color: green;
+
+a {
+  color: #26a69a;
 }
