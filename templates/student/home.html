@@ -24,7 +24,7 @@ Mis Formativas
         <h5>Disponibles</h5>
       </li>
       {% for play in active_plays %}       
-      <a class="collection-item col s12" href="{% url 'play:show' play.id_char %}">
+      <a class="collection-item col s12 black-text" href="{% url 'play:show' play.id_char %}">
         <div class="s12">
           <div class="col s9 list-group">
             <div class="s12 l4 list-group-item truncate">
@@ -57,7 +57,7 @@ Mis Formativas
         <h5>Cerradas</h5>
       </li>
       {% for play in closed_plays %}
-      <a class="collection-item col s12" href="#">
+      <a class="collection-item col s12 black-text" href="#">
         <div class="s12">
           <div class="col s9 list-group">
             <div class="s12 l4 list-group-item truncate">
