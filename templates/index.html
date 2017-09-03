@@ -18,21 +18,26 @@ MAs Play
       <div class="log-title-container center-align">        
         <div class="log-title">Iniciar Sesi&oacute;n</div>
       </div>
-      <center>
-        <div class="switch">
-          <label>
-            Alumno
-            <input id="check" type="checkbox" onChange="switchForm()">
-            <span class="lever"></span>
-            Profesor
-          </label>
-        </div>
-      </center>
 
-      <div class="error-message col s12 center-align" id="error_form"></div>
+      <div class="col s12 switch">
+        <ul class="tabs">
+          <li class="tab col s6"><a class="active" href="#student_log">Estudiante</a></li>            
+          <li class="tab col s6"><a href="#teacher_log">Profesor</a></li>
+        </ul>
+      </div>
+
+      {% if messages %}
+        <div class="messages col s12">
+        {% for message in messages %}
+          <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+          </div>
+        {% endfor %}
+        </div>
+      {% endif %}
       
-      <!--Student Login-->
-      <form class="col s12" id="login_alumno" method="POST" action="{% url 'login:login' %}">
+      <!--Student Login-->      
+      <form class="col s12" id="student_log" method="POST" action="{% url 'login:login' %}">
         {% csrf_token %}
         <div class="row">
           <div class="input-field col s12">
@@ -44,38 +49,34 @@ MAs Play
         <div class="row">
           <button class="waves-effect waves-light btn col s12" type="submit">Iniciar</button>
         </div>
-      </form>
+      </form>      
       <!--Student Login-->
 
-      <!--Teacher Login-->
-      <form class="col s12" id="login_profesor" style="display: none;" method="POST" action="{% url 'login:login' %}">
-        {% csrf_token %}
-        <div class="row">
-          <div class="input-field col s12">
-            <i class="fa fa-envelope prefix" aria-hidden="true"></i>
-              <input placeholder="" name="username" type="email" class="validate" maxlength="254" required>
-              <label for="username">Correo:</label>
-          </div>
+      <!--Teacher Login-->      
+      <form class="col s12" id="teacher_log" method="POST" action="{% url 'login:login' %}">
+        {% csrf_token %}        
+        <div class="input-field col s12">
+          <i class="fa fa-envelope prefix" aria-hidden="true"></i>
+          <input placeholder="" name="username" type="email" class="validate" maxlength="254" required>
+          <label for="username">Correo</label>
         </div>
-
-        <div class="row">
-          <div class="input-field col s12">
-            <i class="fa fa-key prefix" aria-hidden="true"></i>
-              <input placeholder="" name="password" type="password" class="validate" required>
-              <label for="password">Contrase&ntilde;a:</label>
-          </div>
-        </div>
+        
+        <div class="input-field col s12">
+          <i class="fa fa-key prefix" aria-hidden="true"></i>
+          <input placeholder="" name="password" type="password" class="validate" required>
+          <label for="password">Contrase&ntilde;a</label>
+        </div>        
         
         <div class="row">
           <button class="waves-effect waves-light btn col s12"  type="submit">Iniciar</button>
         </div>
 
         <div class="row center-align">        
-          <a style="color:#26a69a;" href="reestablecer.php">Olvide mi contrase&ntilde;a</a>
+          <a href="#">Olvide mi contrase&ntilde;a</a>
           <br>
-          <a style="color:#26a69a;" href="{% url 'login:create_account' %}">Registrarme</a>
+          <a href="{% url 'login:create_account' %}">Registrarme</a>
         </div>
-      </form>
+      </form>      
       <!-- Teacher Login -->
     </div>
   </div>
