@@ -1,10 +1,7 @@
 {% extends 'teacher/base.html' %}
 
 {% block extracss %}
-<style type="text/css">
-  body {
-    /*background-color: white;*/
-  }
+<style type="text/css">  
   .clickable-row {
     cursor: pointer;
   }
@@ -25,51 +22,30 @@ Mis Cursos
 {% block content %}
 <div class="row">
   <div class="col s12">
-    <div style="width:100%;overflow:scroll;">
-      <table class="col s12 bordered card-box">
+    <div style="overflow-x: auto;">
+      <table class="bordered card-box">
         <thead>
           <tr>
-            <th data-field="code">C&oacute;digo</th>
-            <th data-field="name">Nombre</th>
-            <th data-field="description">Descripción</th>
+            <th data-field="code" style="min-width: 60px;">C&oacute;digo</th>
+            <th data-field="name" style="min-width: 150px;">Nombre</th>
+            <th data-field="description" style="min-width: 150px;">Descripción</th>
             <th data-field="semester">Semestre/A&ntilde;o</th>
-            <th class="center-align" style="width: 100px; min-width: 100px;" data-field="edit">Modificar</th>
-            <th class="center-align" style="width: 100px; min-width: 100px;" data-field="delete">Eliminar</th>
+            <th class="center-align" style="width: 80px" data-field="edit">Modificar</th>
           </tr>
         </thead>
         <tbody>
           {% for course in courses %}
           <tr class="clickable-row hoverable" data-href="{% url 'course:show' course.id_char %}">
             <td>{{ course.code }}</td>
-            <td>{{ course.name }}</td>
-            <td>{{ course.description }}</td>
+            <td>{{ course.name|truncatewords_html:5 }}</td>
+            <td>{{ course.description|truncatewords_html:10 }}</td>
             <td class="center-align">{{ course.semester }}/{{ course.year }}</td>
             <td class="center-align">
               <a href="{% url 'course:edit' course.id_char %}" class="waves-effect waves-light btn">
                 <i class="fa fa-pencil"></i>
               </a>
-            </td>
-            <td class="center-align">
-              <a href="#delete_{{course.id}}" class="waves-effect waves-light btn" style="background-color:#ee6e73;">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-          <!-- Delete Modal -->
-          <div id="delete_{{course.id}}" class="modal">
-            <div class="modal-content">
-              <h4>¡Cuidado!</h4>
-              <p>¿Realmente desea eliminar el curso {{course.code}} {{course.name}}?</p>
-            </div>
-            <div class="modal-footer">
-              <form action="{% url 'course:delete' course.id %}" method="POST">
-                {% csrf_token %}
-                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">No, cancelar</a>
-                <button class="modal-action modal-close waves-effect waves-green btn-flat">Si, eliminar</button>
-              </form>
-            </div>
-          </div>
-          <!-- End delete modal -->
+            </td>          
+          </tr>        
           {% endfor %}
         </tbody>
       </table>
