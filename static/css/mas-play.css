@@ -13,7 +13,7 @@ body {
 }
 
 a {
-  color: white;
+  color: #ffffff;
 }
 
 .side-nav {
@@ -29,23 +29,25 @@ a {
   padding: 10px 20px !important;
 }
 
-.card-box,
+/* Cards */
 .card-item {
   padding: 7px !important;
   margin-top: 5px !important;
   margin-bottom: 5px !important;
   border-radius: 0px !important;
   background-color: #009688; /*Teal*/
-  color: #fff;
+  color: #FFFFFF;
 }
 
-form.card-box,
-table.card-box {
-  border: 1px solid #e0e0e0 !important;
-  background-color: white !important;
-  color: #000;
+.card-box {
+  padding: 7px !important;
+  margin-top: 7px !important;
+  margin-bottom: 14px !important;
+  border-radius: 0px !important;
+  border: 1px solid #E0E0E0 !important;
+  background-color: #FFFFFF !important;
+  color: #000000;
 }
-
 
 .card-item.active {
   background-color: #00695c;
