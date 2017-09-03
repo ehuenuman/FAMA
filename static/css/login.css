@@ -31,6 +31,7 @@
 .messages {
   margin-bottom: 15px;
 }
+
 .messages .error {
   background-color: #e57373;
   border: solid 1px #f44336;
