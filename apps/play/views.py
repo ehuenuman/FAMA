@@ -19,6 +19,7 @@ def stop_play(request):
     if request.method == "POST":
         play = Play.objects.get(id=request.POST["playId"])
         play.is_active = 0
+        play.close_play = timezone.now()
         play.save()
 
         return JsonResponse({"data": "OK"})
