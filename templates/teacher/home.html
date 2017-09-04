@@ -60,13 +60,13 @@
   <div class="col s12">
     <ul class="collection with-header">
       <li class="collection-header valign-wrapper">        
-        <div class="left-align col s6">
+        <div class="left-align col s10">
           <h5>Formativas finalizadas</h5>
         </div>
-        <div class="valign right-align col s6">
-            <a href="#">
-              <i class="fa fa-list fa-2x" style="color: #000000"></i>
-            </a>
+        <div class="valign right-align col s2">
+          <a href="#">
+            <i class="fa fa-list fa-2x" style="color: #000000"></i>
+          </a>
         </div>
       </li>
       {% for play in closed_plays %}
@@ -76,7 +76,7 @@
               <div class="s12 l4 list-group-item truncate">
               <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
               </div>
-              <div class="s12 l4 list-group-item">
+              <div class="s12 l4 list-group-item truncate">
                 <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.name}}
               </div>
             </div>        
@@ -86,10 +86,10 @@
               </div>  
             </div>
           </div>
-          <div class="col s6 m4 l4 list-group-item">
+          <div class="col s4 m4 list-group-item">
             <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
           </div>
-          <div class="col s6 m4 l4 list-group-item">
+          <div class="col s8 m4 list-group-item">
             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
           </div>
         </li>
