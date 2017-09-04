@@ -1,17 +1,21 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.utils import timezone
 from django.core import serializers
+from django.db.models import Sum
 from datetime import timedelta
 import xml.etree.ElementTree as ET
 
+from django.contrib.auth.models import User
+from apps.login.views import teacher_check
 from apps.question.views import question_data
 from .models import Play
 from .task import stop_reply
 from apps.formative.models import Formative, FormativeHasQuestion
+from apps.course.models import Course
 from apps.teacher.models import Question
-from apps.student.models import Answer, Reply
+from apps.student.models import Student, Answer, Reply
 
 # Create your views here.
 @login_required
@@ -141,16 +145,59 @@ def reply_play(request, play_id_char, question_id):
         else:
             correct = 0
         try:
-            answer = Answer.objects.create(
-                answer=student_answer,
-                correct=correct,
-                date=timezone.now(),
-                student=student,
-                play=play,
-                question=question)
-            data["data"] = "OK"
-        except Exception as e:
-            print("Error al guardar la respuesta: ", e)
-            data["data"]= "Error al guardar la respuesta"
+            answer = Answer.objects.get(student=student, play=play, question=question)
+        except:
+            answer = None
+        if answer is None:
+            try:
+                Answer.objects.create(answer=student_answer, correct=correct, date=timezone.now(), student=student, play=play, question=question)
+                data["data"] = "OK"
+            except Exception as e:
+                print("Error al guardar la respuesta: ", e)
+                data["data"]= "Error al guardar la respuesta"
+        else:
+            try:
+                answer.answer = student_answer
+                answer.correct = correct
+                answer.date = timezone.now()
+                answer.save()
+                data["data"] = "OK"
+            except Exception as e:
+                print("Error al guardar la respuesta: ", e)
+                data["data"]= "Error al guardar la respuesta"
 
         return JsonResponse(data)
+
+
+@login_required
+@user_passes_test(teacher_check)
+def play_result(request, play_id_char):
+    play = Play.objects.get(id_char=play_id_char)
+    formative = Formative.objects.get(id=play.formative.id)
+    questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")  
+    course = Course.objects.get(id=play.course.id)
+    students = User.objects.filter(student__course=course.id).only("first_name").values("id", "first_name", "last_name").order_by("last_name")
+    temp = []
+    for student in students:
+        answer = Answer.objects.filter(student=student["id"], play=play.id).values("question", "correct")
+        student["answers"] = answer
+        temp.append(student)
+
+    #print(students)
+    #print(answer)
+    #print(student)
+    #print(temp)
+    #answers = Answer.objects.filter(play=play.id)
+    #print(answers)
+
+    return render(
+        request,
+        "play/result.html", 
+        {
+            "play": play,
+            "formative": formative,
+            "questions": questions,
+            "course": course,
+            "students": temp,
+            
+        })
