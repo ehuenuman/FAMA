@@ -1,0 +1,153 @@
+{% extends 'teacher/base.html' %}
+{% load staticfiles %}
+
+{% block extracss%}
+<style>
+  .flex-container {
+    display: -webkit-flex;
+    display: flex;
+  }
+
+  .flex-container .col {
+    height: auto;
+  }
+
+  .flex-container .col .col {
+    height: 100%;
+  }
+
+  .reply {
+    border-radius: 0px;
+  }
+
+  .reply.correct {
+    background-color: #4caf50;
+  }
+
+  .reply.incorrect {
+    background-color: #f44336;
+  }
+</style>
+{% endblock %}
+
+{% block extrajs%}
+{% endblock %}
+
+{% block title %}
+MAs Play
+{% endblock %}
+
+{% block page-title %}
+Resultados
+{% endblock %}
+
+{% block content %}
+<!--
+<div class="row">
+  <div class="col s12">
+    <div class="col s3">
+      <div class="col s12 card-box">
+        <div class="s12 list-group">
+          <div class="s12 list-group-item truncate">
+            <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{ play.formative.name }}
+          </div>
+          <div class="s12 list-group-item">
+            <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{ play.course.name }}
+          </div>
+          <div class="s12 list-group-item">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
+          </div>
+          <div class="s12 list-group-item">
+            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
+          </div>
+        </div>
+      </div>  
+    </div>
+    <div class="col s3" style="height: auto;">
+      <div class="col s12 card-box">
+        <div class="s12 list-group">
+          <div class="s12 list-group-item center-align truncate">
+            {{ formative.name }}
+          </div>
+          <div class="divider"></div>
+          <div class="s12 list-group-item">
+            {{ formative.description|truncatechars_html:67 }}
+          </div>
+          <div class="s12 list-group-item">
+           <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{ formative.question.count }}&nbsp;Pregunta{{ formative.question.count|pluralize }}
+          </div>
+          <div class="s12 list-group-item">
+            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col s3">
+      <div class="col s12 card-box">
+        <div class="s12 list-group">
+          <div class="s12 list-group-item center-align truncate">
+            {{ course.name }}
+          </div>
+          <div class="divider"></div>
+          <div class="s12 list-group-item">
+            {{ course.description|truncatechars_html:67 }}
+          </div>
+          <div class="s12 list-group-item">
+           <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{ course.student.count }}&nbsp;Estudiante{{ course.student.count|pluralize }}
+          </div>
+          <div class="s12 list-group-item">
+            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<div class="row">
+  <div class="col s12">
+    <div style="overflow-x: auto;">
+      <table class="card-box" style="font-size: 13px;" cellspacing="5">
+        <thead>          
+          <tr>
+            <th style="width: 250px;">Estudiante</th>
+            {% for question in questions %}
+              <th class="center-align" data-question="{{ question.id }}">{{ question.id|truncatechars_html:20 }}</th>
+            {% endfor %}
+            <th class="center-align" style="width: 100px;">Total</th>
+          </tr>
+        </thead>
+        <tbody>        
+          {% for student in students %}          
+            <tr>
+              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>
+              {% for question in questions %}
+                <td
+                  {% for answer in student.answers %}        
+                    {% if answer.question == question.id %}
+                      {% if answer.correct == 1 %}
+                         class="center-align reply correct" data-student="{{ student.id }}" data-question="{{ question.id }}">
+                          <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                      {% else %}
+                        class="center-align reply incorrect" data-student="{{ student.id }}" data-question="{{ question.id }}">
+                          <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                      {% endif %}                    
+                    {% endif %}                
+                  {% endfor %} 
+                  </td>
+              {% endfor %}
+              <td></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
