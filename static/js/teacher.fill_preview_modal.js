@@ -31,6 +31,7 @@
   };
   $('#content_preview').append(agregar);
   $('#preview_modal').modal('open');
+  resetear_variables();
 };
 
  function cargar_choice_pantalla(){
