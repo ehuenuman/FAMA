@@ -44,9 +44,9 @@
               <div class="waves-effect waves-ligth btn btn-danger stop-formative" data-play-id="{{play.id}}">
                 <i class="fa fa-stop fa-2x" aria-hidden="true"></i>
               </div>
-              <div class="waves-effect waves-light btn" data-play-id="{{play.id}}">
+              <a class="btn waves-effect waves-light" href="{% url 'play:result' play.id_char %}">
                 <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
-              </div>
+              </a>
             </div>
           </div>
         </li>
@@ -81,9 +81,9 @@
               </div>
             </div>        
             <div class="col s3 right-align">
-              <div class="waves-effect waves-light btn">
+              <a class="btn waves-effect waves-light" href="{% url 'play:result' play.id_char %}">
                 <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
-              </div>  
+              </a>
             </div>
           </div>
           <div class="col s4 m4 list-group-item">
