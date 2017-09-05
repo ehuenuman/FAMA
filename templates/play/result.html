@@ -107,12 +107,12 @@ Resultados
 <div class="row">
   <div class="col s12">
     <div style="overflow-x: auto;">
-      <table class="card-box" style="font-size: 13px;" cellspacing="5">
+      <table class="card-box" style="font-size: 13px;">
         <thead>          
           <tr>
             <th style="width: 250px;">Estudiante</th>
             {% for question in questions %}
-              <th class="center-align" data-question="{{ question.id }}">{{ question.id|truncatechars_html:20 }}</th>
+              <th class="center-align" data-question="{{ question.id }}">{{ question.title|truncatechars_html:20 }}</th>
             {% endfor %}
             <th class="center-align" style="width: 100px;">Total</th>
           </tr>
@@ -120,7 +120,7 @@ Resultados
         <tbody>        
           {% for student in students %}          
             <tr>
-              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>
+              <td class="truncate" data-student="{{ student.id }}">{{ student.username|title }} {{ student.last_name|title }}</td>
               {% for question in questions %}
                 <td
                   {% for answer in student.answers %}        
@@ -136,9 +136,20 @@ Resultados
                   {% endfor %} 
                   </td>
               {% endfor %}
-              <td></td>
+              <td class="center-align">{{ student.corrects }}</td>
             </tr>
           {% endfor %}
+          <tr>
+            <td><b>Total</b></td>
+            {% for question in questions %}
+              {% for total in total_for_question %}
+                {% if total.question == question.id %}
+                  <td class="center-align">{{ total.correct__sum }}</td>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+            <td></td>
+          </tr>
         </tbody>
       </table>
     </div>
