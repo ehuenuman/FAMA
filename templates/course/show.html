@@ -46,13 +46,13 @@
           {% if plays %}
           {% for play in plays %}
           <div class="card-item col s12 hoverable valign-wrapper">
-            <a href="#" class="col s10" style="padding: 0px;">
+            <a href="{% url 'play:result' play.id_char %}" class="col s10" style="padding: 0px;">
               <div class="col s12 left-align">
                 <span class="col s12">{{play.formative.name}}</span>
                 <span class="col s12">{{play.formative.description}}</span>
               </div>
             </a>
-            <a href="!#" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Resultados" style="padding: 0px;">
+            <a href="{% url 'play:result' play.id_char %}" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Resultados" style="padding: 0px;">
               <div class="valign col s12">
                 <i id="icon-link" class="fa fa-bar-chart fa-2x"></i>
               </div>
@@ -92,21 +92,21 @@
           {% if students %}          
           {% for student in students %}
           <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-            <div class="col s10 left-align">
+            <div class="col s12 left-align">
               <span class="col s12">{{student.rut}}</span>
-              <span class="col s12">{{student.user.name}} {{student.user.last_name}}</span>
+              <span class="col s12">{{student.user.first_name|title}} {{student.user.last_name|title}}</span>
             </div>
-            <a href="!#" class="col s2">
+            <!--<a href="!#" class="col s2">
               <div class="valign col s12">
                   <i class="fa fa-trash-o fa-2x"></i>
               </div>
-            </a>
+            </a>-->
           </div>
           {% endfor %}
           {% else %}
           <div clas="col s12">
             <a href="#add_student">
-              <div class="card-panel">
+              <div class="card-item hoverable">
                 <span>Agregue alumnos al curso</span><br>
               </div>
             </a>
