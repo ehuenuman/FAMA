@@ -8,7 +8,7 @@ $(document).ready(function(){
   $("a.start-formative").click(function(event) {
     if (listCoursesReady == false) {
       $.ajax({
-        url: "/curso/all",
+        url: $(event.currentTarget).data("url"),
         type: "POST",
         headers: {'X-CSRFToken': Cookies.get('csrftoken')},
         dataType: "json",   
@@ -76,7 +76,7 @@ $(document).ready(function(){
         $(".modal-footer.row button.next").data("next", "play").text("Comenzar formativa");
       } else { //play
         $("#start_formative.modal").modal("close");
-        startFormative()
+        startFormative($(event.currentTarget).data("url"))
       }
     }
   });
@@ -89,9 +89,9 @@ $(document).ready(function(){
   });
 });
 
-function startFormative() {
+function startFormative(url) {
   $.ajax({
-    url: "/formativa/play",
+    url: url,
     type: "POST",
     headers: {'X-CSRFToken': Cookies.get('csrftoken')},    
     data: {
