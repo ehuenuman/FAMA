@@ -13,16 +13,12 @@ Crear cuenta
 {% endblock %}
 
 {% block content %}
-  <div class="contenedor">
+  <div class="log-container">
     <div class="row">
-      <div style="background-color:#26a69a;width:100%;height:100px;margin-bottom:20px;">
-        <center>
-          <p id="iniciar">Crear Cuenta</p>
-        </center>
+      <div class="log-title-container center-align">        
+        <div class="log-title">Crear Cuenta</div>
       </div>
-      <center>
-        <div id="error_form" class="error-message"></div>
-      </center>
+
       <form class="col s12" id="create_account" method="POST" action="{% url 'login:create_account' %}">
         {% csrf_token %}
         <div class="row" style="margin-bottom: 0px;">
@@ -43,15 +39,7 @@ Crear cuenta
             <label for="password1">Contrase&ntilde;a</label>
           </div>
         </div>
-        <!--
-        <div class="row" style="margin-bottom: 0px;">
-          <div class="input-field col s12">
-            <i class="fa fa-key prefix" aria-hidden="true"></i>
-            <input name="password2" type="password" class="validate" required>
-            <label for="password2">Repetir contrase&ntilde;a</label>
-          </div>
-        </div>
-        -->
+
         <div class="row" style="margin-bottom: 0px;">
           <div class="input-field col s12">
             <i class="fa fa-user prefix" aria-hidden="true"></i>
@@ -99,7 +87,11 @@ Crear cuenta
         $("div#error_email").show();
       } else {
         $("div#error_form").text("");
-        $("button[type='submit']").removeClass('disabled');
+        if ( $("input[type='email']")[0].value != "" ) {
+          $("button[type='submit']").removeClass('disabled');
+        } else {
+          $("button[type='submit']").addClass('disabled');
+        }
         $("div#error_email").hide();
       }
     })
