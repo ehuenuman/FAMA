@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
-from Play.settings import BASE_DIR
+from play.settings import BASE_DIR
 import base64, os
 import xml.etree.ElementTree as ET
 from io import BytesIO

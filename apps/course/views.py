@@ -6,7 +6,7 @@ from django.utils import timezone
 from datetime import date
 import csv, os
 
-from Play.settings import BASE_DIR
+from play.settings import BASE_DIR
 from django.contrib.auth.models import User, Group
 from .forms import CourseForm
 from .models import Course, CourseHasStudent
