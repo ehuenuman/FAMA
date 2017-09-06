@@ -100,20 +100,14 @@ function startFormative(url) {
       "time": formativeTime
     },
   })
-  .done(function(data) {
-    console.log(data);
-    document.location.href = data.redirect;
-    /*$("tbody.list-play").append(""
-      + "<tr>"
-      + "<td>"+data.course+"</td>"
-      + "<td>"+data.formative+"</td>"
-      + "<td>"+data.duration+"</td>"
-      + "<td class='countdown-play' data-close-play='"+data.close_play+"'></td>"
-      + "</tr>");
-    start_time();
-    */
+  .done(function(data) {    
+    if (data.redirect == "OK") {
+      document.location.href = document.location.pathname;
+    } else {
+      console.log(data.message);  
+    }
   })
   .fail(function(jqXHR, textStatus, e) {
-    console.log("error: "+e);
+    console.log("Error: "+e);
   });  
 }

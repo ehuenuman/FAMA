@@ -106,9 +106,11 @@ def start_formative(request):
             play.id_char = "{0}{1}".format(                    
                 play.id_char,
                 play.id)
-            play.save()                    
-            data= {"redirect": "/principal"}
+            play.save()            
+            data = {"redirect": "OK"}
+
         except Exception as e:
+            print("Error: ", e)
             data = {"message": "Error: {0}".format(e)}
 
     return JsonResponse(data)
