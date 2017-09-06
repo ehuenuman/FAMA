@@ -69,25 +69,9 @@ function preview_question(id_question) {
 };
 
 function download_question(id_question) {  
-  /*
-  $.fileDownload(document.location.pathname+"/download/"+id_question, {
-    failCallback: function (html, url) {
-      Materialize.toast('Error al obtener la pregunta.', 3000, 'rounded');  
-    }
-  });
-  */
-  /*
-  $.fileDownload(document.location.pathname+"/download", {
-    //preparingMessageHtml: "We are preparing your report, please wait...",
-    //failMessageHtml: "There was a problem generating your report, please try again.",
-    httpMethod: "POST",
-    data: {id_question: id_question}
-  });
-  */
-  
   $.ajax({
     type: "POST",
-    url: document.location.pathname+"/download",
+    url: document.location.pathname+"download",
     headers: {'X-CSRFToken': Cookies.get('csrftoken')},
     data: {id_question: id_question},  
   })
@@ -98,7 +82,7 @@ function download_question(id_question) {
       saveAs(file)
     } else {
       if ( content_type == "application/zip" ) {
-        $.fileDownload(document.location.pathname+"/download/"+id_question, {
+        $.fileDownload(document.location.pathname+"download/"+id_question, {
           failCallback: function (html, url) {
             Materialize.toast('Error al obtener la pregunta', 3000, 'rounded');  
           }
