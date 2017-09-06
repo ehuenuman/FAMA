@@ -2,7 +2,7 @@ $(document).ready(function() {
   $(".stop-formative").click(function(event) {
     //console.log($(event.currentTarget).parent().parent().detach());
     $.ajax({
-      url: "/play/stop",
+      url: $(event.currentTarget).data("url"),
       type: "POST",
       headers: {'X-CSRFToken': Cookies.get('csrftoken')},
       dataType: "json",
