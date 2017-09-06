@@ -106,14 +106,7 @@ def start_formative(request):
             play.id_char = "{0}{1}".format(                    
                 play.id_char,
                 play.id)
-            play.save()
-            #data = {
-            #    "duration": str(play.duration),
-            #    "close_play": play.close_play,
-            #    "formative": play.formative.name,
-            #    "formative_id": play.formative.id,
-            #    "course": play.course.name,
-            #    "course_id": play.course.id}            
+            play.save()                    
             data= {"redirect": "/principal"}
         except Exception as e:
             data = {"message": "Error: {0}".format(e)}
