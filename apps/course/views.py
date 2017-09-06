@@ -6,6 +6,7 @@ from django.utils import timezone
 from datetime import date
 import csv, os
 
+from Play.settings import BASE_DIR
 from django.contrib.auth.models import User, Group
 from .forms import CourseForm
 from .models import Course, CourseHasStudent
@@ -89,12 +90,12 @@ def add_students(request, course_id_char):
         if request.FILES:
             csvfile = request.FILES['csv_file']
             
-            fout = open('templates/course/{0}.csv'.format(course_id), 'wb')
+            fout = open(BASE_DIR+'/templates/course/{0}.csv'.format(course_id), 'wb')
             for chunk in csvfile.chunks():
                 fout.write(chunk)
-            fout.close()            
+            fout.close() 
 
-            with open('templates/course/{0}.csv'.format(course_id)) as csvfile:
+            with open(BASE_DIR+'/templates/course/{0}.csv'.format(course_id)) as csvfile:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     #print(row['RUT'], row['NOMBRES'], row['APELLIDOS'], row['EMAIL'])  
@@ -133,7 +134,7 @@ def add_students(request, course_id_char):
                     student = None
                     m = None
 
-            os.remove('templates/course/{0}.csv'.format(course_id))
+            os.remove(BASE_DIR+'/templates/course/{0}.csv'.format(course_id))
         else:            
             for i in request.POST.lists():
                 if Student.objects.filter(rut=i[1][0].upper()):
@@ -146,7 +147,7 @@ def add_students(request, course_id_char):
                         #print("No existe en el curso")
                         m = CourseHasStudent(course=course, student=student)
                         m.save()
-                        data[student.user.id] = {'rut': student.rut, 'name': student.user.name,
+                        data[student.user.id] = {'rut': student.rut, 'name': student.user.first_name,
                                             'last_name': student.user.last_name}
                 else:
                     #print("Nuevo")
