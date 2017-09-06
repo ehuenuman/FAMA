@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
+from play.settings import BASE_DIR
 from apps.login.views import teacher_check
 from apps.question.views import question_data
 from apps.course.models import Course
@@ -77,6 +78,7 @@ def share_question(request, question_id):
 @login_required
 @user_passes_test(teacher_check)
 def download_question(request, question_id=None):
+    #Se puede mejorar poniendo data-url en html
     print("DESCARGAR PREGUNTA")
     if request.method == "POST":
         question_id = request.POST.get("id_question", "")
@@ -85,7 +87,7 @@ def download_question(request, question_id=None):
             if question.extension == "zip":
                 print("DESCARGAR PREGUNTA ZIP")
                 #zf = zipfile.ZipFile(question.url, "r", zipfile.ZIP_DEFLATED)                
-                fo = open(question.url, "rb")
+                fo = open(BASE_DIR+"/"+question.url, "rb")
                 zf = fo.read()
                 print(str(zf)[1:])
                 fo.close()                
@@ -96,7 +98,7 @@ def download_question(request, question_id=None):
                 return response            
             else:
                 print("DESCARGAR PREGUNTA XML")
-                fo = open(question.url, "r")
+                fo = open(BASE_DIR+"/"+question.url, "r")
                 xml_file = fo.read()
                 fo.close()
                 response = HttpResponse(xml_file, content_type="text/xml")
@@ -110,7 +112,7 @@ def download_question(request, question_id=None):
     else:
         try:
             question = Question.objects.get(id = question_id)
-            fo = open(question.url, "rb")
+            fo = open(BASE_DIR+"/"+question.url, "rb")
             zf = fo.read()        
             fo.close()                
             response = HttpResponse(zf, content_type="application/zip")
