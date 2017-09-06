@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
-import base64
+from Play.settings import BASE_DIR
+import base64, os
 import xml.etree.ElementTree as ET
 from io import BytesIO
 from PIL import Image
@@ -97,10 +98,10 @@ def save_zip(request, spanish_type):
 
         os.makedirs("preguntas/{0}".format(code))
         os.makedirs("preguntas/{0}/images".format(code))
-        file = open("preguntas/{0}/archivo.xml".format(code), "w")
+        file = open(BASE_DIR+"/preguntas/{0}/archivo.xml".format(code), "w")
         file.write(question_xml)
         file.close()
-        file = open("preguntas/{0}/imsmanifest.xml".format(code), "w")
+        file = open(BASE_DIR+"/preguntas/{0}/imsmanifest.xml".format(code), "w")
         file.write(imsmanifest_xml)
         file.close()
                 
@@ -146,10 +147,10 @@ def question_data(question):
             # Obtener archivo.xml
             # Obtener imsmanifest.xml
             try:
-                fo = open("preguntas/"+question.code+"/archivo.xml", "r")
+                fo = open(BASE_DIR+"/preguntas/"+question.code+"/archivo.xml", "r")
                 archivo = fo.read()
                 fo.close()
-                fo = open("preguntas/"+question.code+"/imsmanifest.xml", "r")
+                fo = open(BASE_DIR+"/preguntas/"+question.code+"/imsmanifest.xml", "r")
                 imsmanifest = fo.read()
                 fo.close()                
             except Exception as e:
@@ -169,10 +170,11 @@ def question_data(question):
     else:        
         # Obtener archivo.xml
         try:
-            fo = open(question.url, "r")
+            fo = open(BASE_DIR+"/"+question.url, "r")
             archivo = fo.read()
             fo.close()
         except Exception as e:
+            print("Error:", e)
             data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
             return data
         data["archivo"] = archivo
@@ -182,11 +184,11 @@ def question_data(question):
 
 
 def decompress_zip(url, code, extension):
-    print("DESCOMPRIMIENDO")
+    print("DESCOMPRIMIENDO")    
     try:
-        zf = zipfile.ZipFile(url, "r")
+        zf = zipfile.ZipFile(BASE_DIR+"/"+url, "r")
         for i in zf.namelist():
-            zf.extract(i, path="preguntas/"+code+"/")
+            zf.extract(i, path=BASE_DIR+"/preguntas/"+code+"/")
         zf.close()
         return True
     except Exception as e:
