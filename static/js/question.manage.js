@@ -51,14 +51,14 @@ function extrear_datos_imsmanifest(){
       }
       n++;
     });
-  };  
+  };
 };
 
 function extrear_datos_xml_choice(){
 
   //console.log("2) Procesando ARCHIVO XML ");
 
-  $(xml_archivo).find('assessmentItem').each( function(){
+  $(xml_archivo).find('assessmentItem').each( function() {
     texto_titulo        = $(this).attr('title');
     texto_identificador = $(this).attr('identifier');
     respuesta_correcta  = $(xml_archivo).find('assessmentItem responseDeclaration correctResponse value').text();
@@ -83,6 +83,10 @@ function extrear_datos_xml_choice(){
 
   });
 };
+
+/*#################################################################################################################
+Unused Functions
+ ##################################################################################################################*/
 
 function extraer_datos_xml_inlinechoice(){
 
