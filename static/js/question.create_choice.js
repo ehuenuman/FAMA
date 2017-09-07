@@ -220,7 +220,7 @@ function manage_question() {
     } else {
       var estado = "desactivado";
     }
-    var respuesta = $('#'+numero_id+'.respuesta').val();    
+    var respuesta = remplazarCaracteresEspeciales($('#'+numero_id+'.respuesta').val());
 
     respuestas[inicio] = respuesta;
     inicio++;
