@@ -120,7 +120,7 @@ Resultados
         <tbody>        
           {% for student in students %}          
             <tr>
-              <td class="truncate" data-student="{{ student.id }}">{{ student.username|title }} {{ student.last_name|title }}</td>
+              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>
               {% for question in questions %}
                 <td
                   {% for answer in student.answers %}        
