@@ -64,7 +64,7 @@ $(document).ready(function () {
       data: {name: data[1].value, description: data[2].value, questions: questions},
     })
     .done(function(data) {
-      document.location.href = data.redirect;
+      document.location.href = "/fama"+data.redirect;
     })
     .fail(function() {
       Materialize.toast('Un error a ocurrido. Intente nuevamente', 5000, 'rounded')
