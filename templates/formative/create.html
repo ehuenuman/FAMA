@@ -24,14 +24,18 @@
 {% endblock %}
 
 {% block title %}
-{{ title }}
+  {% if form.name.value != None %}
+    FAMA - Nueva Formativa
+  {% else %}
+    FAMA - Editar Formativa
+  {% endif %}
 {% endblock %}
 
 {% block page-title %}
   {% if form.name.value != None %}
     Editar Formativa {{ form.name.value }}
   {% else %}
-    Crear Formativa
+    Nueva Formativa
   {% endif %}
 {% endblock %}
 
