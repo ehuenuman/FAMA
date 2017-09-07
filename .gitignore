@@ -14,3 +14,5 @@ preguntas/*
 # Logs files
 logs/*
 
+# SFTP config
+sftp-config.json
