@@ -19,19 +19,19 @@ MAs Play
 <div class="row reply-container">
   <div class="row title-container">
     <div class="col s12 center-align">
-      <h5 class="title">{{ question.title }}</h5>
+      <h5 class="title">{{ question.title|safe }}</h5>
     </div>
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.question }}</div>
+      <div class="col s12 dashed-border question center-align">{{ question.question|safe }}</div>
       {% if question.alternative_text %}
-      <div class="col s12 text">{{ question.alternative_text }}</div>
+        <div class="col s12 text">{{ question.alternative_text|safe }}</div>
       {% endif %}
       {% if question.image %}
-      <div class="center-align">
-        <img class="responsive-img materialboxed image" src="/fama/media/{{ question.code }}/{{ question.image }}">
-      </div>
+        <div class="center-align">
+          <img class="responsive-img materialboxed image" src="/fama/media/{{ question.code }}/{{ question.image }}">
+        </div>
       {% endif %}
     </div>
   </div>
@@ -45,7 +45,7 @@ MAs Play
         {% else %}
           <input name="alternatives" type="radio" id="{{ alternative.id }}">
         {% endif %}
-        <label for="{{ alternative.id }}">{{ alternative.text }}</label>
+        <label for="{{ alternative.id }}">{{ alternative.text|safe }}</label>
       </li>
       {% endfor %}      
     </ul>
