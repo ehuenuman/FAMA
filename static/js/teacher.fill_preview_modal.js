@@ -26,7 +26,7 @@
   for (var i = 0; i < alternativas.length ; i++) {
     agregar += '<p id='+i+'>';
     agregar += "<input name='group1' type='radio' id="+i+"/>";
-    agregar += "<label for="+i+">"+alternativas[i]+"</label>";
+    agregar += "<label for="+i+">"+alternativas[i]+"</label>";    
     agregar += "</p>";
   };
   $('#content_preview').append(agregar);
