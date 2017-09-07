@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+from django.utils.encoding import smart_text
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
@@ -54,7 +56,7 @@ def save_question(request, spanish_type):
             incorporation_date=question.creation_date,
             deleted=0)
 
-        file = open(question.url, "w")
+        file = open(BASE_DIR+"/"+question.url, "w")
         file.write(question_xml)
         file.close()    
 
