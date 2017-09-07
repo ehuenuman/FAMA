@@ -55,7 +55,7 @@ def create_course(request):
             return redirect('course:show', course_id_char=course.id_char)
     else:
         form = CourseForm()
-    return render(request, 'course/create.html', {'form': form, 'title': 'MAs Play - Crear Curso'})
+    return render(request, 'course/create.html', {'form': form, 'title': 'Crear Curso'})
 
 
 @login_required

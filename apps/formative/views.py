@@ -48,7 +48,7 @@ def create_formative(request):
     else:
         questions = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
         form = FormativeForm()
-    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'MAs Play - Crear Formativa'})
+    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'Crear Formativa'})
 
 
 @login_required
