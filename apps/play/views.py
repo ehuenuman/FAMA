@@ -116,13 +116,14 @@ def reply_play(request, play_id_char, question_id):
                 order_question = FormativeHasQuestion.objects.get(formative=formative, question=question)
                 total_questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
                 #print(order_question.order, total_questions.count());
-                if order_question.order == 0:
-                    data["next"] = total_questions[1].id
-                elif order_question.order == (total_questions.count() - 1):
-                    data["prev"] = total_questions[order_question.order-1].id
-                else:
-                    data["next"] = total_questions[order_question.order+1].id
-                    data["prev"] = total_questions[order_question.order-1].id                
+                if total_questions.count() > 1:
+                    if order_question.order == 0:
+                        data["next"] = total_questions[1].id
+                    elif order_question.order == (total_questions.count() - 1):
+                        data["prev"] = total_questions[order_question.order-1].id
+                    else:
+                        data["next"] = total_questions[order_question.order+1].id
+                        data["prev"] = total_questions[order_question.order-1].id                
 
                 return render(
                     request, 
