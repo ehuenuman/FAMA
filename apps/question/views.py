@@ -31,6 +31,7 @@ def create_choice(request):
 def save_question(request, spanish_type):
     question_xml = request.POST.get("question", "")
     title = request.POST.get("title", "")
+    correct = request.POST.get("correct", "")
     random = request.POST.get("number", "")
     type_question = request.POST.get("type", "")
     extension = request.POST.get("extension", "")
@@ -41,6 +42,7 @@ def save_question(request, spanish_type):
             title=title,
             type=type_question,
             spanish_type=spanish_type,
+            correct="alternativa{0}".format(correct),
             creation_date=timezone.now(),
             share=0,
             extension=extension)
@@ -72,6 +74,7 @@ def save_zip(request, spanish_type):
     question_xml = request.POST.get("question", "")
     imsmanifest_xml = request.POST.get("imsmanifest", "")
     title = request.POST.get("title", "")
+    correct = request.POST.get("correct", "")
     random = request.POST.get("number", "")
     type_question = request.POST.get("type", "")
     extension = request.POST.get("extension", "")
@@ -83,6 +86,7 @@ def save_zip(request, spanish_type):
             title=title,
             type=type_question,
             spanish_type=spanish_type,
+            correct="alternativa{0}".format(correct),
             creation_date=timezone.now(),
             share=0,
             extension=extension)
