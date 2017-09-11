@@ -4,7 +4,7 @@ from django.db import models
 class Formative(models.Model):
     #id = models.AutoField()
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, blank=True)
     creation_date = models.DateTimeField()
     teacher = models.ForeignKey('teacher.Teacher', models.DO_NOTHING)
     course = models.ManyToManyField('course.Course', through='play.Play')
