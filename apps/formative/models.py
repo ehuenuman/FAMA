@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 class Formative(models.Model):
     #id = models.AutoField()
-    name = models.CharField(max_length=50, blank=False, null=False)
-    description = models.CharField(max_length=200, blank=False, null=False)
-    creation_date = models.DateTimeField(blank=False)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+    creation_date = models.DateTimeField()
     teacher = models.ForeignKey('teacher.Teacher', models.DO_NOTHING)
     course = models.ManyToManyField('course.Course', through='play.Play')
     question = models.ManyToManyField('teacher.Question', through='FormativeHasQuestion')
