@@ -251,7 +251,8 @@ function manage_question() {
         "type": "choice",
         "extension": "zip",
         "image": result,
-        "name_image": nombre_foto
+        "name_image": nombre_foto,
+        "correct": correcta
       }
       send_question(data);
     }
@@ -265,7 +266,8 @@ function manage_question() {
         "title": titulo,
         "number": random,
         "type": "choice",
-        "extension": "xml"
+        "extension": "xml",
+        "correct": correcta
       }
       send_question(data);
     }
