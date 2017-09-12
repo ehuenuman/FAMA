@@ -13,7 +13,7 @@ class Teacher(models.Model):
 
 
 class Question(models.Model):    
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=30, blank=True)
     type = models.CharField(max_length=40)
     spanish_type = models.CharField(max_length=50)
     correct = models.CharField(max_length=100)
