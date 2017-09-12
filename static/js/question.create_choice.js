@@ -144,7 +144,7 @@ $(document).ready(function() {
   }
 
   /* Fill modal preview */
-  $("#preview_question").click(function(){ 
+  $("button[data-action='preview_question']").click(function(){ 
     titulo = $(".titulo-choice").val();
     pregunta = $(".pregunta-choice").val();
     texto_alternativo = $(".texto_alternativo").val();
