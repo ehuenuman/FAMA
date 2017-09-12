@@ -62,7 +62,8 @@ Crear Selecci&oacute;n Simple
 
 <div class="row">
   <div class="col s12">
-    <form  enctype="multipart/form-data" class="col s12 m8 l8 offset-m2 offset-l2 card-box">
+    <form  enctype="multipart/form-data" class="col s12 m10 l8 offset-m1 offset-l2 card-box">
+      
       <div class="row">
         <div class="col s12 center-align">
           <div class="col s4">
@@ -78,23 +79,24 @@ Crear Selecci&oacute;n Simple
             </button>
           </div>
           <div class="col s4">
-            <button id="preview_question" type="button" class="waves-effect waves-light btn col s12">
+            <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
               <i class="fa fa-eye" aria-hidden="true"></i>
               <span class="hide-on-small-only">Visualizar</span>
             </button>  
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input data-length="30" maxlength="30" id="first_name" class="titulo-choice validate" type="text" required>
-          <label for="first_name">Título</label>
+          <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" data-length="30" maxlength="30" id="title" type="text">
+          <label for="title">Título de la pregunta (Opcional)</label>
         </div>
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input data-length="100" maxlength="100" id="first_name" class="pregunta-choice validate" type="text" required>
-          <label for="first_name">Pregunta</label>
+          <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" data-length="100" maxlength="100" id="alternative_text"  type="text">
+          <label for="alternative_text">Texto complementario (Opcional)</label>
         </div>
       </div>
 
@@ -103,10 +105,10 @@ Crear Selecci&oacute;n Simple
           <div class="btn">
             <i class="fa fa-picture-o" aria-hidden="true"></i>
             <span class="hide-on-med-and-down">Agregar imagen</span>
-            <input id="imagen" type="file" name="archivo" accept="image/*"/ >
+            <input id="imagen" type="file" name="archivo" accept="image/*"/>
           </div>
           <div class="file-path-wrapper">
-            <input id="input_foto" name="sitebg" type="text" class="file-path">
+            <input class="file-path" id="input_foto" name="sitebg" type="text" placeholder="Imagen Opcional">
           </div>
         </div>        
         <div id="imagen-desplegada" class="center-align"></div>
@@ -115,18 +117,18 @@ Crear Selecci&oacute;n Simple
       <div class="row">
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="texto_alternativo validate"  data-length="100" maxlength="100" id="first_name"  type="text">
-          <label for="first_name">Texto alternativo</label>
+          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" data-length="100" maxlength="100" id="question" type="text" required>
+          <label for="question">Pregunta</label>
         </div>
       </div>
 
       <div id="mensaje"></div>
 
-      <div class="row last-row dashed-border">
+      <div class="row dashed-border">
         <table id="answers_table">
           <thead>
             <tr>
-              <th></th>
+              <th>Correcta</th>
               <th>Respuesta</th>
               <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Acci&oacute;n</th>
               <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Eliminar</th>
@@ -134,12 +136,12 @@ Crear Selecci&oacute;n Simple
           </thead>
           <tbody>
             <tr id="1" >
-              <td>
+              <td>              
                 <input id="test1" name="group1" type="radio" class="check" checked="checked"/>
-                <label for="test1"></label>   
+                <label for="test1"></label>
               </td>
               <td>
-                <input type="text" id="1" class="respuesta" data-content="alternative" required>
+                <input class="respuesta" id="1" type="text" placeholder="Ejemplo: GTM-3" data-content="alternative" required>
               </td>
               <td class="center-align">
                 <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
@@ -159,6 +161,29 @@ Crear Selecci&oacute;n Simple
         </div>
 
       </div>  
+
+      <div class="row last-row">
+        <div class="col s12 center-align">
+          <div class="col s4">
+            <button id="save_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Guardar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button id="download_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-download" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Descargar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Visualizar</span>
+            </button>  
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 </div>
