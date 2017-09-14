@@ -180,15 +180,15 @@
       <div class="col s12">
         <a class="col m6 s12 center-align" href="{% url 'course:download_csv' course.id %}">
           <div class="btn-box">
-            <h5>Descargar</h5>
+            <h6>Descargar Plantilla</h6>
             <i class="fa fa-arrow-circle-o-down fa-5x" aria-hidden="true"></i>
           </div>
         </a>
         <a class="col m6 s12 center-align">
           <div class="btn-box file-field">
-            <h5>Cargar</h5>
+            <h6>Cargar Plantilla</h6>
             <i class="fa fa-arrow-circle-o-down fa-5x fa-rotate-180" aria-hidden="true"></i>
-            <input type="file" name="csv_file" accept=".csv" required>
+            <input type="file" name="csv_file" accept="application/vnd.ms-excel" required>
           </div>
         </a>
       </div>
