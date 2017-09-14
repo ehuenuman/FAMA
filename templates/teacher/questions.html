@@ -30,9 +30,7 @@
     <div style="overflow-x:auto;">
       <table id="miTabla-mispreguntas" class="col s12 bordered card-box">
         <thead>
-          <tr>
-            <th class="center-align" style="width: 105px; min-width: 105px;">Compartir</th>
-            <th class="center-align" style="min-width: 100px;">C&oacute;digo</th>
+          <tr>            
             <th class="left-align" style="min-width: 180px;">Tipo</th>
             <th class="left-align" style="min-width: 150px;">T&iacute;tulo</th>
             <th class="center-align" style="min-width: 100px;">Fecha</th>            
@@ -44,22 +42,7 @@
         <tbody class="galler">
           {% if questions %}
             {% for question in questions %}
-            <tr id='{{question.id}}'>
-              {% if question.share == 0 %}
-                <td>
-                  <div class="switch">
-                    <label>No<input type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
-                  </div>
-                </td>
-                <td class="codigo center-align" id='{{question.id}}'></td>
-              {% else %}                
-                <td>
-                  <div class="switch">
-                    <label>No<input checked="" type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
-                  </div>
-                </td>
-                <td class="codigo center-align" id='{{question.id}}'>{{question.code}}</td>
-              {% endif %}
+            <tr id='{{question.id}}'>              
               <td>{{question.spanish_type}}</td>
               <td>{{question.title}}</td>
               <td class="center-align">{{question.incorporation_date|date:"Y-m-d"}}</td>
