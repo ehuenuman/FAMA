@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class Student(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     rut = models.CharField(unique=True, max_length=15)
+    study = models.CharField(max_length=100)
     play = models.ManyToManyField('play.Play', through='Reply')
 
     class Meta:
