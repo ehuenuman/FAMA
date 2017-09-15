@@ -15,8 +15,4 @@ preguntas/*
 logs/*
 
 # SFTP config
-<<<<<<< HEAD
 sftp-config.json
-=======
-sftp-config.json
->>>>>>> 63907782a2a582c8e5229ce6d86e7ca35a3d2b77
