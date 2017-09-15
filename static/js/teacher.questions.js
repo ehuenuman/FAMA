@@ -21,7 +21,7 @@ $(document).ready(function() {
 function share_question(id_checkbox) {
   $.ajax({
     type: 'POST',
-    url: document.location.pathname + "/share/" + id_checkbox,
+    url: document.location.pathname + "share/" + id_checkbox,
     headers: {'X-CSRFToken': Cookies.get('csrftoken')},
     dataType: 'json',
   })
@@ -50,7 +50,7 @@ function preview_question(id_question) {
   })
   .done(function(data){
     if (data.result == "error") {
-        Materialize.toast(data.message, 3000,'rounded');        
+        Materialize.toast(data.message, 3000,'rounded');
     } else {
         //Materialize.toast('Pregunta valida', 3000,'rounded');
         url           = data.url;
@@ -68,49 +68,33 @@ function preview_question(id_question) {
   });
 };
 
-function download_question(id_question) {  
-  /*
-  $.fileDownload(document.location.pathname+"/download/"+id_question, {
-    failCallback: function (html, url) {
-      Materialize.toast('Error al obtener la pregunta.', 3000, 'rounded');  
-    }
-  });
-  */
-  /*
-  $.fileDownload(document.location.pathname+"/download", {
-    //preparingMessageHtml: "We are preparing your report, please wait...",
-    //failMessageHtml: "There was a problem generating your report, please try again.",
-    httpMethod: "POST",
-    data: {id_question: id_question}
-  });
-  */
-  
+function download_question(id_question) {
   $.ajax({
     type: "POST",
-    url: document.location.pathname+"/download",
+    url: document.location.pathname+"download",
     headers: {'X-CSRFToken': Cookies.get('csrftoken')},
-    data: {id_question: id_question},  
+    data: {id_question: id_question},
   })
-  .done(function( data, textStatus, jqXHR ) {    
+  .done(function( data, textStatus, jqXHR ) {
     content_type = jqXHR.getResponseHeader("content-type");
-    if ( content_type == "text/xml" ) {       
+    if ( content_type == "text/xml" ) {
       var file = new File([jqXHR.responseText], jqXHR.getResponseHeader("Name"), {type: content_type});
       saveAs(file)
     } else {
       if ( content_type == "application/zip" ) {
-        $.fileDownload(document.location.pathname+"/download/"+id_question, {
+        $.fileDownload(document.location.pathname+"download/"+id_question, {
           failCallback: function (html, url) {
-            Materialize.toast('Error al obtener la pregunta', 3000, 'rounded');  
+            Materialize.toast('Error al obtener la pregunta', 3000, 'rounded');
           }
-        });        
+        });
         /*
         console.log(jqXHR)
         console.log(jqXHR.getAllResponseHeaders())
         console.log(data)
         console.log(data.length);
         var buffer = new Uint8Array(str2bytes(data)).buffer;
-        var blob = new Blob([buffer], {type: content_type});    
-        console.log(blob.size);        
+        var blob = new Blob([buffer], {type: content_type});
+        console.log(blob.size);
         saveAs(blob, jqXHR.getResponseHeader("Name"));
         */
       } else {
@@ -119,6 +103,7 @@ function download_question(id_question) {
     }
   })
   .fail(function( jqXHR, textStatus, errorThrown ) {
+    console.log(errorThrown);
     Materialize.toast('Un error ha ocurrido. Intente nuevamente', 3000, 'rounded');
   });
   

@@ -27,7 +27,7 @@ function procesar_choice_datos(){
   if (extension == "zip") {
     extrear_datos_imsmanifest();   
     cargar_datos_modal_choice();
-    eliminar_carpeta_zip()
+    //eliminar_carpeta_zip()
   } else {
     cargar_datos_modal_choice();
   }

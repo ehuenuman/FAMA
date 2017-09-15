@@ -10,12 +10,12 @@
 {% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/library/js.cookie.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/course.show.js' %}"></script>
 {% endblock %}
 
 {% block title %}
-  MAs Play - {{course.name}}
+  FAMA - {{course.name}}
 {% endblock %}
 
 {% block page-title %}
@@ -24,7 +24,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="col s12 m12 l7">
+  <div class="col s12 m12 l6">
     <ul class="collection with-header">
       <li class="collection-header">
         <div class="valign-wrapper" style="margin-bottom: 0px">
@@ -41,26 +41,26 @@
           </div>
         </div>
       </li>
-      <li class="collection-item center-align">
+      <li class="collection-item center-align col s12">
         <div>
-          {% if formatives %}
-          {% for formative in formatives %}
-          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-            <a href="{% url 'formative:show' formative.id %}" class="col s10" style="padding: 0px;">
+          {% if plays %}
+          {% for play in plays %}
+          <div class="card-item col s12 hoverable valign-wrapper">
+            <a href="{% url 'play:result' play.id_char %}" class="col s10" style="padding: 0px;">
               <div class="col s12 left-align">
-                <span class="col s12">{{formative.name}}</span>
-                <span class="col s12">{{formative.description}}</span>
+                <span class="col s12">{{play.formative.name}}</span>
+                <span class="col s12">{{play.formative.description}}</span>
               </div>
             </a>
-            <a href="!#" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Realizar formativa" style="padding: 0px;">
+            <a href="{% url 'play:result' play.id_char %}" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Resultados" style="padding: 0px;">
               <div class="valign col s12">
-                <i id="icon-link" class="fa fa-play-circle fa-2x"></i>
+                <i id="icon-link" class="fa fa-bar-chart fa-2x"></i>
               </div>
             </a>
           </div>
           {% endfor %}
           {% else %}
-          <a href="#" class="card-item col s12 hoverable teal white-text">
+          <a href="#" class="card-item col s12 hoverable">
             <span>Comenzar primera formativa del curso</span>
           </a>
           {% endif %}
@@ -70,7 +70,7 @@
     </ul>
   </div>
 
-  <div class="col s12 m12 l5">
+  <div class="col s12 m12 l6">
     <ul class="collection with-header">
       <li class="collection-header">
         <div class="valign-wrapper" style="margin-bottom: 0px">
@@ -86,28 +86,28 @@
       </li>
       <li class="collection-item center-align">
         <div id="list_students" style="max-height: 400px; overflow-y: auto;">
-          {% if students %}
           <span>Estudiantes inscritos: 
             <span id="student_count" data-count='{{ students.count }}'>{{ students.count }}</span>
           </span>
+          {% if students %}          
           {% for student in students %}
           <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-            <div class="col s10 left-align">
+            <div class="col s12 left-align">
               <span class="col s12">{{student.rut}}</span>
-              <span class="col s12">{{student.name}} {{student.last_name}}</span>
+              <span class="col s12">{{student.user.first_name|title}} {{student.user.last_name|title}}</span>
             </div>
-            <a href="!#" class="col s2">
+            <!--<a href="!#" class="col s2">
               <div class="valign col s12">
                   <i class="fa fa-trash-o fa-2x"></i>
               </div>
-            </a>
+            </a>-->
           </div>
           {% endfor %}
           {% else %}
           <div clas="col s12">
             <a href="#add_student">
-              <div class="card-panel teal">
-                  <span class="white-text">Agregue alumnos al curso</span><br>
+              <div class="card-item hoverable">
+                <span>Agregue alumnos al curso</span><br>
               </div>
             </a>
           </div>
@@ -180,15 +180,15 @@
       <div class="col s12">
         <a class="col m6 s12 center-align" href="{% url 'course:download_csv' course.id %}">
           <div class="btn-box">
-            <h5>Descargar</h5>
+            <h6>Descargar Plantilla</h6>
             <i class="fa fa-arrow-circle-o-down fa-5x" aria-hidden="true"></i>
           </div>
         </a>
         <a class="col m6 s12 center-align">
           <div class="btn-box file-field">
-            <h5>Cargar</h5>
+            <h6>Cargar Plantilla</h6>
             <i class="fa fa-arrow-circle-o-down fa-5x fa-rotate-180" aria-hidden="true"></i>
-            <input type="file" name="csv_file" accept=".csv" required>
+            <input type="file" name="csv_file" accept="application/vnd.ms-excel" required>
           </div>
         </a>
       </div>

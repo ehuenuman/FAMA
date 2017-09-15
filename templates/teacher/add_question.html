@@ -16,48 +16,48 @@
 {% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/question.manage.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/question.process_type.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/teacher.fill_preview_modal.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/teacher.add_question.js' %}"></script>
+<script src="{% static 'js/library/js.cookie.js' %}"></script>
+<script src="{% static 'js/question.manage.js' %}"></script>
+<script src="{% static 'js/question.process_type.js' %}"></script>
+<script src="{% static 'js/teacher.fill_preview_modal.js' %}"></script>
+<script src="{% static 'js/teacher.add_question.js' %}"></script>
 {% endblock %}
 
 {% block title %}
-MAs Play - Agregar Pregunta
+  FAMA - Agregar Pregunta
 {% endblock %}
 
 {% block page-title %}
-Agregar Pregunta
+  Agregar Pregunta
 {% endblock %}
 
 {% block content %}
 <div class="row">
   <div class="col s12">
-    <div class="col s12 m8 offset-m2 card-box">
+    <div class="col s12 m10 l6 offset-m1 offset-l3 card-box">
       <div class="row">
-        <div class="col s6" style="padding-bottom: 10px;">
-          <button class="waves-effect waves-light btn col s12" id="save_question">
-            <i class="fa fa-floppy-o" aria-hidden="true"></i>
-            <span>Guardar</span>
-          </button>
+          <div class="col s6">
+            <button class="waves-effect waves-light btn col s12" id="save_question">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              <span>Guardar</span>
+            </button>
+          </div>
+          <div class="col s6">
+            <button class="waves-effect waves-light btn col s12" id="preview_question">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <span>Visualizar</span>
+            </button>
+          </div>
         </div>
-        <div class="col s6">
-          <button class="waves-effect waves-light btn col s12" id="preview_question">
-            <i class="fa fa-eye" aria-hidden="true"></i>
-            <span>Visualizar</span>
-          </button>
+        <div class="row">
+          <div class="input-field col s12" >
+            <i class="fa fa-pencil-square-o fa-2x prefix" aria-hidden="true"></i>
+            <input id="shared_code" placeholder="" maxlength="9" data-length="9" type="text" class="
+            validate">
+            <label for="shared_code">Ingrese c&oacute;digo de la pregunta compartida</label>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12" >
-          <i class="fa fa-pencil-square-o fa-2x prefix" aria-hidden="true"></i>
-          <input id="shared_code" placeholder="" maxlength="9" data-length="9" type="text" class="
-          validate">
-          <label for="shared_code">Ingrese código de la pregunta compartida</label>
-        </div>
-      </div>
-    </div>
+    </div>    
   </div>  
 </div>
 

@@ -5,92 +5,64 @@
 {% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="{% static 'js/jquery.simplePagination.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/Blob.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/FileSaver.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery.fileDownload.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/question.manage.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/question.process_type.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/teacher.fill_preview_modal.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/teacher.questions.js' %}"></script>
+<script src="{% static 'js/library/jquery.simplePagination.js' %}"></script>
+<script src="{% static 'js/library/js.cookie.js' %}"></script>
+<script src="{% static 'js/library/Blob.js' %}"></script>
+<script src="{% static 'js/library/FileSaver.min.js' %}"></script>
+<script src="{% static 'js/library/jquery.fileDownload.js' %}"></script>
+<script src="{% static 'js/question.manage.js' %}"></script>
+<script src="{% static 'js/question.process_type.js' %}"></script>
+<script src="{% static 'js/teacher.fill_preview_modal.js' %}"></script>
+<script src="{% static 'js/teacher.questions.js' %}"></script>
 {% endblock %}
 
 {% block title %}
-MAs Play - Mis Preguntas
+  FAMA - Mis Preguntas
 {% endblock %}
 
 {% block page-title %}
-Mis Preguntas
+  Mis Preguntas
 {% endblock %}
 
 {% block content %}
 <div class="row">
-  <div class="col s12">
-    <!--<button class="guardar_pregunta" type="button">Guardar pregunta</button>-->
-    <!-- <input  type="text"      id='1' class="respuesta"> -->
-    <div style="width:100%;overflow:scroll;">
-      <table id="miTabla-mispreguntas" class="col s12 bordered card-box" style="min-width: 800px;">
+  <div class="col s12">    
+    <div style="overflow-x:auto;">
+      <table id="miTabla-mispreguntas" class="col s12 bordered card-box">
         <thead>
-          <tr>
-            <th class="center-align" style="width: 105px; min-width: 105px;">Compartir</th>
-            <th class="center-align" style="width: 100px">C&oacute;digo</th>
-            <th class="left-align" style="width: 180px">Tipo</th>
-            <th class="left-align">T&iacute;tulo</th>
-            <th class="center-align" style="width: 100px">Fecha</th>
-            <!-- <th>Editar</th> -->
-            <th class="center-align" style="width: 100px">Descargar</th>
-            <th class="center-align" style="width: 100px">Visualizar</th>
-            <th class="center-align" style="width: 100px">Eliminar</th>
+          <tr>            
+            <th class="left-align" style="min-width: 180px;">Tipo</th>
+            <th class="left-align" style="min-width: 150px;">T&iacute;tulo</th>
+            <th class="center-align" style="min-width: 100px;">Fecha</th>            
+            <th class="center-align" style="width: 80px;">Descargar</th>
+            <th class="center-align" style="width: 80px;">Visualizar</th>            
           </tr>
         </thead>
       
         <tbody class="galler">
           {% if questions %}
-          {% for question in questions %}
-          <tr id='{{question.id}}'>
-            {% if question.share == 0 %}
-              <td>
-                <div class="switch">
-                  <label>No<input type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
-                </div>
+            {% for question in questions %}
+            <tr id='{{question.id}}'>              
+              <td>{{question.spanish_type}}</td>
+              <td>{{question.title}}</td>
+              <td class="center-align">{{question.incorporation_date|date:"Y-m-d"}}</td>
+              <td class="center-align">
+                <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' data-action="download" type="button">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                </button>
               </td>
-              <td class="codigo center-align" id='{{question.id}}'></td>
-            {% else %}                
-              <td>
-                <div class="switch">
-                  <label>No<input checked="" type="checkbox" id='{{question.id}}'><span class="lever"></span>Si</label>
-                </div>
-              </td>
-              <td class="codigo center-align" id='{{question.id}}'>{{question.code}}</td>
-            {% endif %}
-            <td>{{question.spanish_type}}</td>
-            <td>{{question.title}}</td>
-            <td class="center-align">{{question.incorporation_date|date:"Y-m-d"}}</td>
-            <td class="center-align">
-              <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' data-action="download" type="button">
-                <i class="fa fa-download" aria-hidden="true"></i>
-              </button>
-            </td>
-            <td class="center-align">
-              <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' data-action="preview" type="button">
-                <i class="fa fa-eye" aria-hidden="true"></i>
-              </button>
-            </td>
-            <td class="center-align">
-              <button class="waves-effect waves-light btn btn-danger disabled" id='{{question.id}}' type="button">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-          {% else %}
-          No posee preguntas
+              <td class="center-align">
+                <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' data-action="preview">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+              </td>        
+            </tr>
+            {% endfor %}
           {% endif %}
         </tbody>      
       </table>
     </div>
-    <div style="width:100%;height:50px;border:0px solid black;">
+    <div >
       <center><div class="pagination"></div></center>
     </div>
   </div>

@@ -3,11 +3,11 @@ from django.db import models
 # Create your models here.
 class Formative(models.Model):
     #id = models.AutoField()
-    name = models.CharField(max_length=50, blank=False, null=False)
-    description = models.CharField(max_length=200, blank=False, null=False)
-    creation_date = models.DateTimeField(blank=False)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200, blank=True)
+    creation_date = models.DateTimeField()
     teacher = models.ForeignKey('teacher.Teacher', models.DO_NOTHING)
-    course = models.ManyToManyField('course.Course', through='Play')
+    course = models.ManyToManyField('course.Course', through='play.Play')
     question = models.ManyToManyField('teacher.Question', through='FormativeHasQuestion')
 
     class Meta:
@@ -16,27 +16,18 @@ class Formative(models.Model):
         unique_together = (('id', 'teacher'),)
         ordering = ('-creation_date',)
 
+    def has(self, question):
+        """Verify if question belongs to this formative"""
+        return self.question.filter(id=question).exists()
+
 
 class FormativeHasQuestion(models.Model):
-    order = models.IntegerField(blank=False, null=False)
     formative = models.ForeignKey('Formative', models.DO_NOTHING)
     question = models.ForeignKey('teacher.Question', models.DO_NOTHING)
+    order = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'formative_has_question'
         unique_together = (('formative', 'question'),)
-
-
-class Play(models.Model):
-    date = models.DateTimeField(blank=False, null=False)
-    duration = models.TimeField(blank=False, null=False)
-    formative = models.ForeignKey('Formative', models.DO_NOTHING)
-    course = models.ForeignKey('course.Course', models.DO_NOTHING)
-    #student = models.ManyToManyField('student.Student', through='student.Answer')
-    #question = models.ManyToManyField('teacher.Question', through='student.Answer')
-
-    class Meta:
-        managed = False
-        db_table = 'play'
-        ordering = ('date',)
+        ordering = ('order',)

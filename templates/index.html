@@ -1,4 +1,5 @@
 {% extends 'login/base.html' %}
+{%load staticfiles %}
 
 {% block extracss%}
 {% endblock %}
@@ -7,103 +8,79 @@
 {% endblock %}
 
 {% block title %}
-MAs Play
+  FAMA
 {% endblock %}
 
 
 {% block content %}
-  <div class="contenedor">
+  <div class="log-container">
     <div class="row">
-      <div style="background-color:#26a69a;width:100%;height:100px;margin-bottom:20px;">
-        <center>
-          <p id="iniciar">Iniciar Sesi&oacute;n</p>
-        </center>
+      <div class="log-title-container center-align">        
+        <div class="log-title">Iniciar Sesi&oacute;n</div>
       </div>
-      <center>
-        <div class="switch" style="margin-bottom:20px;">
-          <label>
-            Alumno
-            <input id="check" type="checkbox" onChange="switchForm()">
-            <span class="lever"></span>
-            Profesor
-          </label>
-        </div>      
-      </center>
 
-      <div class="error-message col s12 center-align" id="error_form"></div>
+      <div class="col s12 switch">
+        <ul class="tabs">
+          <li class="tab col s6"><a class="active" href="#student_log">Estudiante</a></li>            
+          <li class="tab col s6"><a href="#teacher_log">Profesor</a></li>
+        </ul>
+      </div>
+
+      {% if messages %}
+        <div class="messages col s12">
+        {% for message in messages %}
+          <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+          </div>
+        {% endfor %}
+        </div>
+      {% endif %}
       
+      <!--Student Login-->      
+      <form class="col s12" id="student_log" method="POST" action="{% url 'login:login' %}">
+        {% csrf_token %}
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="fa fa-user prefix" aria-hidden="true"></i>
+              <input class="validate" name="username" type="text" placeholder="123456789-K"  maxlength="15" pattern="[0-9]+-[kK0-9]" required>
+              <label for="username">RUT</label>
+          </div>
+        </div>        
+        <div class="row">
+          <button class="waves-effect waves-light btn col s12" type="submit">Iniciar</button>
+        </div>
+      </form>      
       <!--Student Login-->
-        <form class="col s12" id="login_alumno" method="POST"><!--action="login.php"-->
-          {% csrf_token %}
-          <div class="row">
-            <div class="input-field col s12">
-              <i class="fa fa-user prefix" aria-hidden="true"></i>
-                <input placeholder="123456789-k" id="rut" type="text" class="validate" maxlength="15" length="15" pattern="[0-9]+-[kK0-9]" required>
-                <label for="rut">RUT:</label>
-            </div>
-          </div>          
-          
-          <div class="row">
-            <button class="waves-effect waves-light btn col s12" type="submit">Iniciar</button>
-          </div>
-        </form>
-      <!--Student Login-->
 
-      <!--Teacher Login-->
-        <form class="col s12" id="login_profesor" style="display: none;" method="POST" action="{% url 'login:login' %}">
-          {% csrf_token %}
-          <div class="row">
-            <div class="input-field col s12">
-              <i class="fa fa-envelope prefix" aria-hidden="true"></i>
-                <input placeholder="" name="username" type="email" class="validate" maxlength="100" length="100" required>
-                <label for="username">Correo:</label>
-            </div>
-          </div>
+      <!--Teacher Login-->      
+      <form class="col s12" id="teacher_log" method="POST" action="{% url 'login:login' %}">
+        {% csrf_token %}        
+        <div class="input-field col s12">
+          <i class="fa fa-envelope prefix" aria-hidden="true"></i>
+          <input placeholder="" name="username" type="email" class="validate" maxlength="254" required>
+          <label for="username">Correo</label>
+        </div>
+        
+        <div class="input-field col s12">
+          <i class="fa fa-key prefix" aria-hidden="true"></i>
+          <input placeholder="" name="password" type="password" class="validate" required>
+          <label for="password">Contrase&ntilde;a</label>
+        </div>        
+        
+        <div class="row">
+          <button class="waves-effect waves-light btn col s12"  type="submit">Iniciar</button>
+        </div>
 
-          <div class="row">
-            <div class="input-field col s12">
-              <i class="fa fa-key prefix" aria-hidden="true"></i>
-                <input placeholder="" name="password" type="password" class="validate" required>
-                <label for="password">Contrase&ntilde;a:</label>
-            </div>
-          </div>
-          
-          <div class="row">
-            <button class="waves-effect waves-light btn col s12"  type="submit">Iniciar</button>
-          </div>
-
-          <div class="row center-align">        
-            <a style="color:#26a69a;" href="reestablecer.php">Olvide mi contrase&ntilde;a</a>
-            <br>
-            <a style="color:#26a69a;" href="{% url 'login:create_account' %}">Registrarme</a>
-          </div>
-        </form>
-        <!-- Teacher Login -->
+        <div class="row center-align">        
+          <a href="#">Olvide mi contrase&ntilde;a</a>
+          <br>
+          <a href="{% url 'login:create_account' %}">Registrarme</a>
+        </div>
+      </form>      
+      <!-- Teacher Login -->
     </div>
   </div>
 {% endblock %}
 
 {% block js %}
-<script>
-  function switchForm() {
-    if ($("input[type='checkbox']")[0].checked) {
-      logTeacher();
-    }
-    else {
-      logStudent();
-    }
-  }
-
-  function logTeacher() {
-    $("input[type='checkbox']")[0].checked = true;
-    $("#login_alumno").hide(1000); 
-    $("#login_profesor").show(1000);
-  }
-
-  function logStudent() {
-    $("input[type='checkbox']")[0].checked = false;
-    $("#login_profesor").hide(1000);
-    $("#login_alumno").show(1000);    
-  }
-</script>
 {% endblock %}

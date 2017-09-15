@@ -1,12 +1,18 @@
 # Add any directories, files, or patterns you don't want to be tracked by version control
 
-# Documento con la información básica de la base de datos
-Play/credentials.json
+# Credentials app Django (DataBase and Keys)
+play/credentials.json
 
-# Archivos cache de python
+# Python cache files
 **/__pycache__
 
 # Questions 
-preguntas/*.xml
-preguntas/*.zip
+preguntas/*
+#preguntas/*.xml
+#preguntas/*.zip
 
+# Logs files
+logs/*
+
+# SFTP config
+sftp-config.json

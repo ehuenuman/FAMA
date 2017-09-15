@@ -76,7 +76,7 @@ $(document).ready(function() {
     }
 
     $.ajax({
-      url: document.location.pathname+"/agregar-estudiantes",
+      url: document.location.pathname+"agregar-estudiantes",
       type: 'POST',
       headers: {'X-CSRFToken': Cookies.get('csrftoken')},
       dataType: 'json',
@@ -86,11 +86,12 @@ $(document).ready(function() {
       fill_student_list(data, initial_students)
     })
     .fail(function() {
+      $('div#add_student').modal('close');
       Materialize.toast('Un error a ocurrido. Intento nuevamente', 5000, 'rounded');
     });  
   });
 
-  //Submit csv student list
+  //Submit file student list
   $('div#add_student form#form_template').submit(function(event) {
     event.preventDefault();    
 
@@ -103,7 +104,7 @@ $(document).ready(function() {
     var initial_students = $('span#student_count').data('count');
     
     $.ajax({
-      url: document.location.pathname+"/agregar-estudiantes",
+      url: document.location.pathname+"agregar-estudiantes",
       type: 'POST',
       headers: {'X-CSRFToken': Cookies.get('csrftoken')},      
       data: formData,
@@ -114,6 +115,7 @@ $(document).ready(function() {
       fill_student_list(data, initial_students);
     })
     .fail(function() {
+      $('div#add_student').modal('close');
       Materialize.toast('Un error a ocurrido. Intento nuevamente', 5000, 'rounded');
     });    
     
@@ -123,20 +125,18 @@ $(document).ready(function() {
 
 function fill_student_list(data, initial_students) {
 
+  if (initial_students == 0) {
+    $('#list_students').empty().append("<span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>");
+    //initial_students++;
+  }
+
   $.each(data, function(index, val) {
-    if (initial_students == 0) {
-      $('#list_students').empty().append("<span>Estudiantes inscritos: <span data-count='{{ students.count }}'>{{ students.count }}</span></span>");
-      initial_students++;
-    }
-     var card = "<div class='card-item col s12 hoverable teal white-text valign-wrapper'>";
-        card += "<div class='col s10 left-align'>";
+     var card = "<div class='card-item col s12 hoverable valign-wrapper'>";
+        card += "<div class='col s12 left-align'>";
         card += "<span class='col s12'>"+val.rut+"</span>";
         card += "<span class='col s12'>"+val.name+" "+val.last_name+"</span>";
         card += "</div>"
-        card += "<a href='!#'' class='col s2'>";
-        card += "<div class='valign col s12'>";
-        card += "<i class='fa fa-trash-o fa-2x'></i>";
-        card += "</div></a></div>";
+        card += "</div>";
      $(card).insertAfter('#list_students span>span').fadeIn(800);
   });
 

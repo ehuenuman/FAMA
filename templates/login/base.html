@@ -5,47 +5,19 @@
   <!-- import css -->
   <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-  <style type="text/css">
-    .contenedor {
-      background-color:white;
-      width:400px;
-      height:auto;
-      border-radius:5px;
-      box-shadow: 0px 0px 5px #999;
-      margin: 0 auto;
-      margin-top:40px;width:350px;
-      box-shadow: 2px 0px 20px #999;
-    }
-    #iniciar {
-      font-size: 30px;
-      display: inline;
-      color: white;
-      font-weight: 300;
-      position: relative;
-      top: 25px;
-    }
-    .fa {
-      color: #807B7B;
-      font-size: 30px;
-    }
-    .error-message {
-      color: red;
-    }
-    .success-message {
-      color: green;
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">  
   {% block extracss %}
   {% endblock %}
   <!-- import js -->
-  <script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+  <script src="{% static 'js/library/jquery-3.1.1.min.js' %}"></script>
+  <script src="{% static 'js/library/materialize.min.js' %}"></script>
+  <script src="{% static 'js/login.js' %}"></script>
   {% block extrajs %}
   {% endblock %}
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta charset="utf-8"/>
-  <title>{% block title %} MAs Play {% endblock %}</title>
+  <title>{% block title %} FAMA {% endblock %}</title>
 </head>
 <body>
   
