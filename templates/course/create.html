@@ -1,18 +1,17 @@
 {% extends 'teacher/base.html' %}
 
 {% block extracss %}
-<style type="text/css">
-  form .row {
-    margin-bottom: 0px !important;
-  }
-</style>
 {% endblock %}
 
 {% block extrajs %}
 {% endblock %}
 
 {% block title %}
-{{ title }}
+  {% if form.name.value != None %}
+    FAMA - Editar Curso
+  {% else %}
+    FAMA - Nuevo Curso
+  {% endif %}
 {% endblock %}
 
 {% block page-title %}
@@ -26,21 +25,21 @@
 {% block content %}
 <div class="row">
   <div class="col s12">
-    <form id="for-new-course" method="POST" class="col s12 m8 l8 offset-m1 offset-l2 card-box">
+    <form id="for-new-course" method="POST" class="card-box col s12 m8 l8 offset-m2 offset-l2">
       {% csrf_token %}
-      <div class="row">
+      <div class="row last-row">
         <div class="input-field col s12">
           {{ form.name }}
           <label for="{{ form.name.id_for_label }}">Nombre del Curso</label>
           {{ form.name.errors }}
         </div>        
       </div>
-      <div class="row">
-        <div class="input-field col s12 l6">
+      <div class="row last-row">
+        <div class="input-field col s12 m6">
           {{ form.code }}
           <label for="{{ form.code.id_for_label }}">C&oacute;digo del Curso</label>
         </div>
-        <div class="input-field col s12 l6">
+        <div class="input-field col s12 m6">
           {{ form.semester }}
           <label for="{{ form.semester.id_for_label }}">Semestre</label>
         </div>        
@@ -48,7 +47,7 @@
       <div class="row">
         <div class="input-field col s12">
           {{ form.description }}
-          <label for="{{ form.description.id_for_label }}">Descripción del curso</label>
+          <label for="{{ form.description.id_for_label }}">Descripción del curso (Opcional)</label>
         </div>
       </div>
       <div class="row right-align">
@@ -67,9 +66,10 @@
 
 {% block js %}
 <script>
-  $('select').material_select();
   $(document).ready(function() {
-    $('#nav-mobile ul.collapsible li#new_course').addClass('active').parent().parent().show().parent().addClass('active')
+    $('#nav-mobile ul.collapsible li#new_course').addClass('active').parent().parent().show().parent().addClass('active')    
+    $('select').material_select();
+    $('textarea').characterCounter();
   });
 </script>
 {% endblock %}

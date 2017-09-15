@@ -1,0 +1,87 @@
+{% extends 'student/base.html' %}
+{% load staticfiles %}
+
+{% block extracss%}
+{% endblock %}
+
+{% block extrajs%}
+<script src="{% static 'js/question.reply_choice.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  FAMA
+{% endblock %}
+
+{% block title-page %}
+{% endblock %}
+
+{% block content %}
+<div class="row reply-container">
+  <div class="row title-container">
+    <div class="col s12 center-align">
+      <h5 class="title">{{ question.title|safe }}</h5>
+    </div>
+  </div>
+  <div class="col s12">
+    <div class="col s12 question-container dashed-border">
+      <div class="col s12 dashed-border question center-align">{{ question.question|safe }}</div>
+      {% if question.alternative_text %}
+        <div class="col s12 text">{{ question.alternative_text|safe }}</div>
+      {% endif %}
+      {% if question.image %}
+        <div class="center-align">
+          <img class="responsive-img materialboxed image" src="/fama/media/{{ question.code }}/{{ question.image }}">
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col s12">
+    <ul class="collection">    
+      <li class="collection-item center-align">Seleccione una alternativa</li>
+      {% for alternative in question.alternatives %}      
+      <li class="collection-item">        
+        {% if alternative.id == question.answer %}
+          <input name="alternatives" type="radio" id="{{ alternative.id }}" checked>
+        {% else %}
+          <input name="alternatives" type="radio" id="{{ alternative.id }}">
+        {% endif %}
+        <label for="{{ alternative.id }}">{{ alternative.text|safe }}</label>
+      </li>
+      {% endfor %}      
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <a class="col s12 waves-effect waves-light btn reply-btn">Responder</a>
+    </div>
+  </div>
+  <div class="row center-align reply-control">
+    <div class="col s4">
+      {% if question.prev %}
+      <a href="{% url 'play:reply' play.id_char question.prev %}">
+        <i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i>
+      </a>
+      {% endif %}
+    </div>
+    <div class="col s4">
+      <a href="{% url 'play:show' play.id_char %}">
+        <i class="fa fa-list fa-2x" aria-hidden="true"></i>
+      </a>
+    </div>
+    <div class="col s4">
+    {% if question.next %}
+      <a href="{% url 'play:reply' play.id_char question.next %}">
+        <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
+      </a>
+    {% endif %}
+    </div>
+  </div>
+
+</div>  
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}

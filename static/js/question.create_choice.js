@@ -144,7 +144,7 @@ $(document).ready(function() {
   }
 
   /* Fill modal preview */
-  $("#preview_question").click(function(){ 
+  $("button[data-action='preview_question']").click(function(){ 
     titulo = $(".titulo-choice").val();
     pregunta = $(".pregunta-choice").val();
     texto_alternativo = $(".texto_alternativo").val();
@@ -161,7 +161,7 @@ $(document).ready(function() {
 
     if (nombre_foto!='') {
       $("#content_preview").append('<span><b>Imagen:</span></br>');
-      $("#content_preview").append("<center>img src='"+result+"' width='250px'/></center>");
+      $("#content_preview").append("<center><img src='"+result+"' width='250px'/></center>");
     }
 
     if (pregunta!="") $("#content_preview").append('<span><b>Pregunta: </b>'+pregunta+'</span></br>');
@@ -220,7 +220,7 @@ function manage_question() {
     } else {
       var estado = "desactivado";
     }
-    var respuesta = $('#'+numero_id+'.respuesta').val();    
+    var respuesta = remplazarCaracteresEspeciales($('#'+numero_id+'.respuesta').val());
 
     respuestas[inicio] = respuesta;
     inicio++;
@@ -251,7 +251,8 @@ function manage_question() {
         "type": "choice",
         "extension": "zip",
         "image": result,
-        "name_image": nombre_foto
+        "name_image": nombre_foto,
+        "correct": correcta
       }
       send_question(data);
     }
@@ -265,7 +266,8 @@ function manage_question() {
         "title": titulo,
         "number": random,
         "type": "choice",
-        "extension": "xml"
+        "extension": "xml",
+        "correct": correcta
       }
       send_question(data);
     }

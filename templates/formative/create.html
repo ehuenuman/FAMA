@@ -4,9 +4,6 @@
 {% block extracss %}
 <link rel="stylesheet" href="{% static 'css/formative.create.css' %}">
 <style type="text/css">
-  form .row {
-    margin-bottom: 0px;
-  }
   .card-panel {
     padding: 10px !important;
   }
@@ -20,65 +17,69 @@
 {% endblock %}
 
 {% block extrajs %}
-<script type="text/javascript" src="{% static 'js/js.cookie.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/formative.create.js' %}"></script>
+<script src="{% static 'js/library/js.cookie.js' %}"></script>
+<script src="{% static 'js/library/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/library/jquery.ui.touch-punch.min.js' %}"></script>
+<script src="{% static 'js/formative.create.js' %}"></script>
 {% endblock %}
 
 {% block title %}
-{{ title }}
+  {% if form.name.value != None %}
+    FAMA - Nueva Formativa
+  {% else %}
+    FAMA - Editar Formativa
+  {% endif %}
 {% endblock %}
 
 {% block page-title %}
   {% if form.name.value != None %}
     Editar Formativa {{ form.name.value }}
   {% else %}
-    Crear Formativa
+    Nueva Formativa
   {% endif %}
 {% endblock %}
 
 {% block content %}
 <div class="row">
-  <div class="col s12 m6 l6">
+  <div class="col s12 m6">
     <ul class="collection">
       <li class="collection-item">
         <form id="form-new-formative" method="POST">
           {% csrf_token %}
-          <div class="row">
+          <div class="row last-row">
             <div class="input-field col s12">
               {{ form.name }}
               <label for="{{ form.name.id_for_label }}">Nombre de la formativa</label>
             </div>        
           </div>
-          <div class="row">
+          <div class="row last-row">
             <div class="input-field col s12">
               {{ form.description }}
-              <label for="{{ form.description.id_for_label }}">Descripción de la formativa</label>
+              <label for="{{ form.description.id_for_label }}">Descripción de la formativa (Opcional)</label>
             </div>
           </div>
-          <div class="row">
-            <label>Preguntas de la formativa</label>
+          <div class="row last-row">
+            <label class="col s12">Preguntas de la formativa</label>
             <div class="input-field col s12">
               {% if question_selected %}
               <ul id="formative-questions" class="collection connectedSortable">
                 {% for question in question_selected %}
-                <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.type }}</li>
+                <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.spanish_type }}</li>
                 {% endfor %}
               </ul>
               {% else %}
-              <ul id="formative-questions" class="collection connectedSortable valign-wrapper center-align">
-                <h5 style="padding: 7px;">Arrastre desde la derecha las preguntas que desea asignar en esta formativa</h5>
+              <ul class="collection connectedSortable valign-wrapper center-align" id="formative-questions">
+                <h5>Arrastre desde la derecha las preguntas que desea asignar en esta formativa</h5>
               </ul>
               {% endif %}
             </div>
           </div>
-          <div class="row">
+          <div class="row last-row">
             <span class="col s12 center-align">* Las preguntas se le mostraran al estudiante en el mismo orden</span>
             <div class="right-align">
               <button class="btn waves-effect waves-light" type="submit">
                 Guardar
-                <i class="fa fa-send right"></i>
+                <i class="fa fa-send right" aria-hidden="true"></i>
               </button>
             </div>
           </div>  
@@ -87,10 +88,10 @@
     </ul>
   </div>
   
-  <div class="col s12 m6 l6">
+  <div class="col s12 m6">
     <ul class="collection with-header">
       <li class="collection-header">
-        <div class="valign-wrapper" style="margin-bottom: 0px">
+        <div class="valign-wrapper">
           <div class="center-align col s12">
             <h5>Mis Preguntas</h5>
           </div>
@@ -104,9 +105,9 @@
         </div>
         <div>
           {% if questions %}
-            <ul id="list-question-for-formative" class="collection connectedSortable">
+            <ul class="collection connectedSortable" id="list-question-for-formative">
             {% for question in questions %}
-              <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.type }}</li>
+              <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.spanish_type }}</li>
             {% endfor %}
             </ul>
           {% else %}

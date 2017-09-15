@@ -4,13 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Teacher(models.Model):
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-    email = models.CharField(max_length=100, blank=True)
-    password = models.CharField(max_length=100, blank=True)
-    name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
-    creation_date = models.DateTimeField(blank=True)
-    last_login = models.DateTimeField(blank=True)
+    user = models.OneToOneField(User, primary_key=True)
     question = models.ManyToManyField('Question', through='TeacherHasQuestion')
 
     class Meta:
@@ -18,16 +12,16 @@ class Teacher(models.Model):
         db_table = 'teacher'
 
 
-class Question(models.Model):
-    #idpregunta = models.AutoField(db_column='idPregunta', primary_key=True)  # Field name made lowercase.
-    title = models.CharField(max_length=30, blank=True, null=True)
-    type = models.CharField(max_length=40, blank=True, null=True)
-    spanish_type = models.CharField(max_length=50, blank=True, null=True)
-    creation_date = models.DateTimeField(blank=True, null=True)  # Field name made lowercase.
-    share = models.IntegerField(blank=True, null=True)
-    code = models.CharField(max_length=9, blank=True, null=True)
-    url = models.CharField(max_length=40, blank=True, null=True)
-    extension = models.CharField(max_length=10, blank=True, null=True)
+class Question(models.Model):    
+    title = models.CharField(max_length=30, blank=True)
+    type = models.CharField(max_length=40)
+    spanish_type = models.CharField(max_length=50)
+    correct = models.CharField(max_length=100)
+    creation_date = models.DateTimeField() 
+    share = models.IntegerField()
+    code = models.CharField(max_length=9, blank=True)
+    url = models.CharField(max_length=40)
+    extension = models.CharField(max_length=10)
 
     #def __str__(self):
      #   return '{}'.format(self.title)
@@ -41,8 +35,8 @@ class Question(models.Model):
 class TeacherHasQuestion(models.Model):
     teacher = models.ForeignKey('Teacher', models.DO_NOTHING)  # Field name made lowercase.
     question = models.ForeignKey('Question', models.DO_NOTHING)  # Field name made lowercase.
-    incorporation_date = models.DateTimeField(blank=True, null=True)
-    deleted = models.IntegerField(blank=True, null=True)
+    incorporation_date = models.DateTimeField()
+    deleted = models.IntegerField()
 
     class Meta:
         managed = False

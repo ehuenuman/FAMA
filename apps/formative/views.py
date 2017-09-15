@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
-#from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import timezone
+from django.core import serializers
+from datetime import timedelta
 
 from .forms import FormativeForm
 from .models import Formative, FormativeHasQuestion
+from apps.play.models import Play
 from apps.student.models import Student
 from apps.teacher.models import Question
+from apps.course.models import Course
 
 @login_required
 def view_formatives(request):
@@ -45,7 +48,7 @@ def create_formative(request):
     else:
         questions = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
         form = FormativeForm()
-    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'MAs Play - Crear Formativa'})
+    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'Crear Formativa'})
 
 
 @login_required
@@ -77,3 +80,41 @@ def edit_formative(request, formative_id):
         data['redirect'] = '/formativa/'
         return JsonResponse(data)
     return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'question_selected': question_selected, 'title': 'MAs Play - Editar Formativa'})
+
+
+@login_required
+def start_formative(request):
+    if request.method == "POST":
+        formative = Formative.objects.get(id=request.POST['formative'])
+        course = Course.objects.get(id=request.POST['course'])
+        duration = request.POST['time']        
+        try:
+            play = Play.objects.create(
+                id_char="{0}{1}{2}".format(
+                    course.name.replace(" ", "")[:6].upper(),
+                    "r",
+                    formative.name.replace(" ", "")[:6].upper()),
+                creation_play=timezone.now(),
+                duration=timedelta(minutes=int(duration)),
+                start_play=timezone.now(),
+                limit_time=timedelta(hours=1),
+                close_play=timezone.now() + timedelta(hours=1),
+                is_active=1,
+                formative=formative,
+                course=course)
+
+            play.id_char = "{0}{1}".format(                    
+                play.id_char,
+                play.id)
+            play.save()            
+            data = {"redirect": "OK"}
+
+        except Exception as e:
+            print("Error: ", e)
+            data = {"message": "Error: {0}".format(e)}
+
+    return JsonResponse(data)
+
+
+
+

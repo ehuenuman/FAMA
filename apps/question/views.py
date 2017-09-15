@@ -1,8 +1,13 @@
+from __future__ import unicode_literals
+from django.utils.encoding import smart_text
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
+from play.settings import BASE_DIR
+import base64, os
+import xml.etree.ElementTree as ET
 from io import BytesIO
 from PIL import Image
 import os, zlib, base64, zipfile, shutil
@@ -26,6 +31,7 @@ def create_choice(request):
 def save_question(request, spanish_type):
     question_xml = request.POST.get("question", "")
     title = request.POST.get("title", "")
+    correct = request.POST.get("correct", "")
     random = request.POST.get("number", "")
     type_question = request.POST.get("type", "")
     extension = request.POST.get("extension", "")
@@ -36,6 +42,7 @@ def save_question(request, spanish_type):
             title=title,
             type=type_question,
             spanish_type=spanish_type,
+            correct="alternativa{0}".format(correct),
             creation_date=timezone.now(),
             share=0,
             extension=extension)
@@ -51,7 +58,7 @@ def save_question(request, spanish_type):
             incorporation_date=question.creation_date,
             deleted=0)
 
-        file = open(question.url, "w")
+        file = open(BASE_DIR+"/"+question.url, "w")
         file.write(question_xml)
         file.close()    
 
@@ -67,6 +74,7 @@ def save_zip(request, spanish_type):
     question_xml = request.POST.get("question", "")
     imsmanifest_xml = request.POST.get("imsmanifest", "")
     title = request.POST.get("title", "")
+    correct = request.POST.get("correct", "")
     random = request.POST.get("number", "")
     type_question = request.POST.get("type", "")
     extension = request.POST.get("extension", "")
@@ -78,6 +86,7 @@ def save_zip(request, spanish_type):
             title=title,
             type=type_question,
             spanish_type=spanish_type,
+            correct="alternativa{0}".format(correct),
             creation_date=timezone.now(),
             share=0,
             extension=extension)
@@ -95,10 +104,10 @@ def save_zip(request, spanish_type):
 
         os.makedirs("preguntas/{0}".format(code))
         os.makedirs("preguntas/{0}/images".format(code))
-        file = open("preguntas/{0}/archivo.xml".format(code), "w")
+        file = open(BASE_DIR+"/preguntas/{0}/archivo.xml".format(code), "w")
         file.write(question_xml)
         file.close()
-        file = open("preguntas/{0}/imsmanifest.xml".format(code), "w")
+        file = open(BASE_DIR+"/preguntas/{0}/imsmanifest.xml".format(code), "w")
         file.write(imsmanifest_xml)
         file.close()
                 
@@ -114,7 +123,7 @@ def save_zip(request, spanish_type):
  
         zip_file.close()
 
-        shutil.rmtree("preguntas/{0}/".format(code))
+        #shutil.rmtree("preguntas/{0}/".format(code))
 
         response["result"] = "success"
         return response
@@ -122,3 +131,72 @@ def save_zip(request, spanish_type):
         print("Error: {0}".format(e))
         response["result"] = "fail"
         return response
+
+
+def question_data(question):
+    # Obtener datos pregunta
+    data = {
+        "result": "success",
+        "url": question.url,
+        "type": question.type,
+        "extension": question.extension,
+        "code": question.code}
+    # Si es zip
+    if question.extension == "zip":
+        # Descomprimir
+        success = decompress_zip(
+            question.url, 
+            question.code, 
+            question.extension)
+        #print(success)
+        if success:            
+            # Obtener archivo.xml
+            # Obtener imsmanifest.xml
+            try:
+                fo = open(BASE_DIR+"/preguntas/"+question.code+"/archivo.xml", "r")
+                archivo = fo.read()
+                fo.close()
+                fo = open(BASE_DIR+"/preguntas/"+question.code+"/imsmanifest.xml", "r")
+                imsmanifest = fo.read()
+                fo.close()                
+            except Exception as e:
+                print("Error:", e)
+                data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+                return data
+            #print(archivo)
+            data["archivo"] = archivo
+            #print(imsmanifest)
+            data["imsmanifest"] = imsmanifest            
+            # Eliminar carpeta descomprimida
+            #delete_folder(question.code)
+        else:
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.zip"}
+            return data
+    # Si no es zip
+    else:        
+        # Obtener archivo.xml
+        try:
+            fo = open(BASE_DIR+"/"+question.url, "r")
+            archivo = fo.read()
+            fo.close()
+        except Exception as e:
+            print("Error:", e)
+            data = {"result": "error", "message": "Error al obtener la pregunta. Cod.fo"}
+            return data
+        data["archivo"] = archivo
+        data["imsmanifest"] = ""                
+    # Enviar información
+    return data
+
+
+def decompress_zip(url, code, extension):
+    print("DESCOMPRIMIENDO")    
+    try:
+        zf = zipfile.ZipFile(BASE_DIR+"/"+url, "r")
+        for i in zf.namelist():
+            zf.extract(i, path=BASE_DIR+"/preguntas/"+code+"/")
+        zf.close()
+        return True
+    except Exception as e:
+        print("Error decompress_zip:", e)
+        return False

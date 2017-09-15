@@ -15,7 +15,7 @@
 
   if (url_imagen!='') {
   	$("#content_preview").append('<span><b>Imagen:</span></br>');
-  	$("#content_preview").append("<center><img src='static/"+codigo+"/"+url_imagen+"' width='250px'/></center>");
+  	$("#content_preview").append("<center><img src='/fama/media/"+codigo+"/"+url_imagen+"' width='250px'/></center>");
   }
 
   if (prompt!="") $("#content_preview").append('<span><b>Pregunta: </b>'+prompt+'</span></br>');
@@ -26,11 +26,12 @@
   for (var i = 0; i < alternativas.length ; i++) {
     agregar += '<p id='+i+'>';
     agregar += "<input name='group1' type='radio' id="+i+"/>";
-    agregar += "<label for="+i+">"+alternativas[i]+"</label>";
+    agregar += "<label for="+i+">"+alternativas[i]+"</label>";    
     agregar += "</p>";
   };
   $('#content_preview').append(agregar);
   $('#preview_modal').modal('open');
+  resetear_variables();
 };
 
  function cargar_choice_pantalla(){

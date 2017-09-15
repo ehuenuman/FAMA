@@ -13,7 +13,7 @@ body {
 }
 
 a {
-  color: white;
+  color: #ffffff;
 }
 
 .side-nav {
@@ -29,17 +29,28 @@ a {
   padding: 10px 20px !important;
 }
 
-.card-box,
+/* Cards */
 .card-item {
   padding: 7px !important;
   margin-top: 5px !important;
   margin-bottom: 5px !important;
   border-radius: 0px !important;
+  background-color: #009688; /*Teal*/
+  color: #FFFFFF;
 }
 
 .card-box {
-  border: 1px solid #e0e0e0 !important;
-  background-color: white !important;
+  padding: 7px !important;
+  margin-top: 7px !important;
+  margin-bottom: 14px !important;
+  border-radius: 0px !important;
+  border: 1px solid #E0E0E0 !important;
+  background-color: #FFFFFF !important;
+  color: #000000;
+}
+
+.card-item.active {
+  background-color: #00695c;
 }
 
 /* Buttons */
@@ -104,4 +115,51 @@ a {
 /* Icons */
 i.prefix.fa {
   color: #807B7B;
+}
+
+
+.click, a {
+  cursor: pointer;
+}
+
+.dashed-border {
+  /*background-color: grey;*/
+  color: black;  
+  border: 1px dashed grey;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.row .col.dashed-border {
+  padding: 10px;
+}
+
+.row.last-row {
+    margin-bottom: 0px;
+}
+
+
+/* Reply Question */
+.reply-container {
+  background-color: #FFFFFF;
+}
+
+.title-container {
+  background-color: #009688;
+}
+
+.title-container .title {
+  color: #FFFFFF;
+}
+
+.question-container .question {
+  font-weight: bold;
+}
+.question-container .text {
+  margin: 5px 0px;
+  font-style: italic;
+}
+
+.reply-control i.fa {
+  color: #000000;
 }
