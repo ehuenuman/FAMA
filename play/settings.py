@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os, json
-from django.core.urlresolvers import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -154,3 +153,45 @@ STATICFILES_DIRS = (
 
 # Celery configurations options
 CELERY_BROKER_URL = 'amqp://localhost'
+
+# Logging Django
+# https://docs.djangoproject.com/en/1.10/topics/logging/
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django_debug.log'),
+        },
+        'file_info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django_info.log'),
+        },
+        'file_error': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django_error.log'),
+        },
+    },
+    'loggers': {
+        'debug': {
+            'handlers': ['file_debug'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'info': {
+            'handlers': ['file_info'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'error': {
+            'handlers': ['file_error'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
