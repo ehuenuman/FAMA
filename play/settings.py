@@ -106,7 +106,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     )
 
-LOGIN_URL = '/'
+LOGIN_URL = '/fama'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -156,42 +156,40 @@ CELERY_BROKER_URL = 'amqp://localhost'
 
 # Logging Django
 # https://docs.djangoproject.com/en/1.10/topics/logging/
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file_debug': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/django_debug.log'),
-        },
-        'file_info': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/django_info.log'),
-        },
-        'file_error': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/django_error.log'),
-        },
-    },
-    'loggers': {
-        'debug': {
-            'handlers': ['file_debug'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'info': {
-            'handlers': ['file_info'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'error': {
-            'handlers': ['file_error'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    },
-}
+from .logger import LOGGING
+
+#LOGGING = {
+#    'version': 1,
+#    'disable_existing_loggers': False,
+#    'formatters': {
+#        'verbose': {
+#            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#        },
+#    },
+#    'handlers': {
+#        'file_debug': {
+#            'level': 'DEBUG',
+#            'class': 'logging.FileHandler',
+#            'formatter': 'verbose',
+#            'filename': os.path.join(BASE_DIR, 'logs/django_debug.log')
+#        },
+#        'file_info': {
+#            'level': 'INFO',
+#            'class': 'logging.FileHandler',
+#            'filename': os.path.join(BASE_DIR, 'logs/django_info.log')
+#        },
+#        'file_error': {
+#           'level': 'ERROR',
+#            'class': 'logging.FileHandler',
+#            'filename': os.path.join(BASE_DIR, 'logs/django_error.log')
+#        },
+#    },
+#    'loggers': {
+#        'django': {
+#            'handlers': ['file_debug'],
+#            'level': 'DEBUG',
+#            'propagate': True,
+#        },
+#    },
+#}
 
