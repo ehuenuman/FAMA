@@ -102,8 +102,8 @@ def save_zip(request, spanish_type):
             incorporation_date=question.creation_date,
             deleted=0)
 
-        os.makedirs("preguntas/{0}".format(code))
-        os.makedirs("preguntas/{0}/images".format(code))
+        os.makedirs(BASE_DIR+"/preguntas/{0}".format(code))
+        os.makedirs(BASE_DIR+"/preguntas/{0}/images".format(code))
         file = open(BASE_DIR+"/preguntas/{0}/archivo.xml".format(code), "w")
         file.write(question_xml)
         file.close()
@@ -113,13 +113,13 @@ def save_zip(request, spanish_type):
                 
         #print((request.POST['image'].partition('base64,')[2]))
         image = Image.open(BytesIO(base64.b64decode(request.POST['image'].partition('base64,')[2])))
-        image.save("preguntas/{0}/images/{1}".format(code, name_image), image.format, quality = 100)
+        image.save(BASE_DIR+"/preguntas/{0}/images/{1}".format(code, name_image), image.format, quality = 100)
 
-        zip_file = zipfile.ZipFile(question.url, "w")
+        zip_file = zipfile.ZipFile(BASE_DIR+"/"+question.url, "w")
  
-        for folder, subfolders, files in os.walk("preguntas/{0}".format(code)):
+        for folder, subfolders, files in os.walk(BASE_DIR+"/preguntas/{0}".format(code)):
             for file in files:                
-                zip_file.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file), "preguntas/{0}".format(code)), compress_type = zipfile.ZIP_DEFLATED)
+                zip_file.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file), BASE_DIR+"/preguntas/{0}".format(code)), compress_type = zipfile.ZIP_DEFLATED)
  
         zip_file.close()
 
