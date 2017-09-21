@@ -1,7 +1,7 @@
 var listCoursesReady = false;
 var formativeID;
 var courseID;
-var formativeTime;
+var formativeTime = 5;
 
 $(document).ready(function(){
     
@@ -73,7 +73,7 @@ $(document).ready(function(){
       $(".modal-footer.row button.next").data("next", "step-3");
     } else {
       if (next == "step-3") {
-        $(".modal-footer.row button.next").data("next", "play").text("Comenzar formativa");
+        $(".modal-footer.row button.next").data("next", "play").text("Comenzar formativa").removeClass("disabled");        
       } else { //play
         $("#start_formative.modal").modal("close");
         startFormative($(event.currentTarget).data("url"))
@@ -86,6 +86,17 @@ $(document).ready(function(){
     $(".step-3 .row.last-row .card-item").removeClass("active");
     $(event.currentTarget).addClass("active");
     $(".modal-footer.row button.next").removeClass("disabled");
+    $("#manual_time").val(formativeTime);
+  });
+
+  $("#manual_time").change(function(event) {
+    formativeTime = $(this).val();
+    if (formativeTime == 5 || formativeTime == 10 || formativeTime == 15) {
+      $(".step-3 .row.last-row .card-item").removeClass("active");
+      $(".step-3 .row.last-row .card-item[data-time='"+formativeTime+"']").addClass("active");
+    } else {
+      $(".step-3 .row.last-row .card-item").removeClass("active");
+    }
   });
 });
 
@@ -97,7 +108,7 @@ function startFormative(url) {
     data: {
       "course": courseID,
       "formative": formativeID,
-      "time": formativeTime
+      "time": parseInt(formativeTime)
     },
   })
   .done(function(data) {    
