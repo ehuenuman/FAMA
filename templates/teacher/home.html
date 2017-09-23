@@ -43,10 +43,10 @@
               </div>
             </div>
             <div class="col s5 m4 right-align">
-              <div class="waves-effect waves-ligth btn btn-danger stop-formative" data-url="{% url 'play:stop' %}" data-play-id="{{play.id}}">
+              <div class="waves-effect waves-ligth btn btn-danger btn-action stop-formative" data-url="{% url 'play:stop' %}" data-play-id="{{play.id}}">
                 <i class="fa fa-stop fa-2x" aria-hidden="true"></i>
               </div>
-              <a class="btn waves-effect waves-light" href="{% url 'play:result' play.id_char %}">
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'play:result' play.id_char %}">
                 <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
               </a>
             </div>
