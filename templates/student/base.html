@@ -33,7 +33,7 @@
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
             <a id="page-title" class="brand-logo">{% block page-title %}{% endblock %}</a>
             {% if close_reply %}
-            <ul class="right countdown">              
+            <ul class="countdown">              
               <li id="timer" data-limit-time="{{ close_reply|date:'Y/m/d H:i:s'}}"></li>
             </ul>
             {% endif %}
