@@ -22,11 +22,8 @@ function remplazarCaracteresEspeciales(texto) {
   texto = texto.replace(/>/g,"&amp;gt;");
   texto = texto.replace(/¿/g,"&amp;iquest;");
   texto = texto.replace(/¡/g,"&amp;iexcl;");
-
-  texto = texto.replace(/\(/g,"&amp;#40;");
-  texto = texto.replace(/)/g,"&amp;#41;");
-  texto = texto.replace(/,/g,"&amp;#44;");
-  texto = texto.replace(/./g,"&amp;#46;");
+  
+  texto = texto.replace(/,/g,"&amp;#44;");  
   texto = texto.replace(/:/g,"&amp;#58;");
   texto = texto.replace(/=/g,"&amp;#61;");
 
