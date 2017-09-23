@@ -28,7 +28,7 @@ Mis Formativas
           <tr>
             <th data-field="name" style="min-width: 150px;">Nombre</th>
             <th data-field="description" style="min-width: 150px;">Descripci&oacute;n</th>
-            <th class="center-align" style="width: 80px;" data-field="edit">Modificar</th>
+            <th class="center-align" style="width: 80px;" data-field="edit">Acciones</th>
             <!--<th class="center-align" style="width: 100px; min-width: 100px;" data-field="delete">Eliminar</th> -->
           </tr>
         </thead>
@@ -38,7 +38,7 @@ Mis Formativas
             <td>{{ formative.name }}</td>
             <td>{{ formative.description }}</td>
             <td class="center-align">
-              <a class="waves-effect waves-light btn" href="{% url 'formative:edit' formative.id %}">
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'formative:edit' formative.id %}">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
               </a>
             </td>

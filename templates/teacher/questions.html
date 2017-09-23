@@ -31,11 +31,10 @@
       <table id="miTabla-mispreguntas" class="col s12 bordered card-box">
         <thead>
           <tr>            
-            <th class="left-align" style="min-width: 180px;">Tipo</th>
             <th class="left-align" style="min-width: 150px;">T&iacute;tulo</th>
-            <th class="center-align" style="min-width: 100px;">Fecha</th>            
-            <th class="center-align" style="width: 80px;">Descargar</th>
-            <th class="center-align" style="width: 80px;">Visualizar</th>            
+            <th class="left-align" style="width: 170px;">Tipo</th>
+            <th class="center-align" style="width: 160px;">Creada el</th>            
+            <th class="center-align" style="width: 150px;">Acciones</th>
           </tr>
         </thead>
       
@@ -43,19 +42,17 @@
           {% if questions %}
             {% for question in questions %}
             <tr id='{{question.id}}'>              
-              <td>{{question.spanish_type}}</td>
               <td>{{question.title}}</td>
-              <td class="center-align">{{question.incorporation_date|date:"Y-m-d"}}</td>
+              <td>{{question.spanish_type}}</td>
+              <td class="center-align">{{question.incorporation_date|date:"d M Y H:i"}}</td>
               <td class="center-align">
-                <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' data-action="download" type="button">
+                <button class="waves-effect waves-light btn btn-action" id='{{question.id}}' data-action="download">
                   <i class="fa fa-download" aria-hidden="true"></i>
                 </button>
-              </td>
-              <td class="center-align">
-                <button style="font-size:13px;" class="waves-effect waves-light btn" id='{{question.id}}' data-action="preview">
+                <button class="waves-effect waves-light btn btn-action" id='{{question.id}}' data-action="preview">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
-              </td>        
+              </td>                    
             </tr>
             {% endfor %}
           {% endif %}

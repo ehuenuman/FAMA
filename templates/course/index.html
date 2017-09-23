@@ -26,22 +26,23 @@ Mis Cursos
       <table class="bordered card-box">
         <thead>
           <tr>
-            <th data-field="code" style="min-width: 60px;">C&oacute;digo</th>
-            <th data-field="name" style="min-width: 150px;">Nombre</th>
-            <th data-field="description" style="min-width: 150px;">Descripción</th>
-            <th data-field="semester">Semestre/A&ntilde;o</th>
-            <th class="center-align" style="width: 80px" data-field="edit">Modificar</th>
+            <th data-field="code" style="width: 120px;">C&oacute;digo</th>
+            <th data-field="name" style="min-width: 200px;">Nombre</th>            
+            <th data-field="semester" style="width: 110px;">Semestre/A&ntilde;o</th>
+            <th class="center-align" style="width: 150px;" data-field="edit">Acciones</th>
           </tr>
         </thead>
         <tbody>
           {% for course in courses %}
-          <tr class="clickable-row hoverable" data-href="{% url 'course:show' course.id_char %}">
+          <tr>
             <td>{{ course.code }}</td>
-            <td>{{ course.name|truncatewords_html:5 }}</td>
-            <td>{{ course.description|truncatewords_html:10 }}</td>
+            <td>{{ course.name|truncatewords_html:5 }}</td>            
             <td class="center-align">{{ course.semester }}/{{ course.year }}</td>
             <td class="center-align">
-              <a href="{% url 'course:edit' course.id_char %}" class="waves-effect waves-light btn">
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'course:show' course.id_char %}">
+                <i class="fa fa-info"></i>
+              </a>
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'course:edit' course.id_char %}">
                 <i class="fa fa-pencil"></i>
               </a>
             </td>          
