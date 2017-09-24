@@ -62,7 +62,7 @@
         {% else %}
           <a class="collection-item col s12">
         {% endif %}
-            <div class="s12 m9">{{ question.title }}</div>
+            <div class="s12 m9">Pregunta {{ forloop.counter }} {{ question.title }}</div>
             <div class="s12 m3">{{ question.spanish_type }}</div>
           </a>
         
