@@ -112,7 +112,7 @@ Resultados
           <tr>
             <th style="width: 250px;">Estudiante</th>
             {% for question in questions %}
-              <th class="center-align" data-question="{{ question.id }}">{{ question.title|truncatechars_html:20 }}</th>
+              <th class="center-align" data-question="{{ question.id }}">P{{ forloop.counter }} {{ question.title|truncatechars_html:20 }}</th>
             {% endfor %}
             <th class="center-align" style="width: 100px;">Total</th>
           </tr>
