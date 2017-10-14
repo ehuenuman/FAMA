@@ -1,36 +1,54 @@
-var number=1;
-var respuestas = [];    //array que contiene las respuestas
-var puntuaciones = [];  //array que contiene las puntuaciones
-var numero_fila;        //numero de filas 
-var titulo;             //titulo de la pregunta
-var pregunta;           //pregunta ingresada
-var texto_alternativo;
-var correcta;           //respuesta correcta
-var ruta_pregunta;
+/* Globals variables */
+var extension        = "";
+var code             = "";
+var data_file        = "";
+var question_type    = "";
+var question_title   = "";
+var alternative_text = "";
+var image            = "";
+var question_text    = "";
+var alternatives;
+var correct_response = "";
+/* Globals variables */
 
-//queremos que esta variable sea global
-var fileExtension = "";
-var nombre_foto   = "";
-var random;
-var formato;
-var formData;
-var result; //para el preview
-var descargar     = false;
-var opcion        = "visualizar";
+function setVariables(data) {    
+    data_file = data;
+    question_type = data_file.assessmentItem.identifier;
+    if (question_type == "choice") {
+        setVariablesSimpleChoice();
+    }
+};
 
-var tipo_pregunta   = "";
-var xml_archivo     = "";
-var url_xml_archivo = "";
-var xml_manifest    = "";
-var url             = "";
-var url_imagen      = "";
-var extension       = "";
-var opcion          = "";    //1 visualizar - 2 editar
-var texto_antes     = "";
-var texto_despues   = "";
-var limite_inferior = "";
-var limite_superior = "";
-var salto           = "";
+function resetVariables() {
+    extension        = "";
+    code             = "";
+    data_file        = "";
+    question_type    = "";
+    question_title   = "";
+    alternative_text = "";
+    image            = "";
+    question_text    = "";
+    alternatives;
+    correct_response = "";
+}
+
+
+function setVariablesSimpleChoice() {    
+    extension        = data_file.extension;
+    code             = data_file.code;    
+    question_title   = data_file.assessmentItem.title;
+    alternative_text = data_file.itemBody.alternativeText;
+    if (extension == "zip") {
+        image = data_file.itemBody.img.src;
+    }
+    question_text    = data_file.itemBody.choiceInteraction.question;
+    alternatives     = data_file.itemBody.choiceInteraction.simpleChoice;
+    correct_response = data_file.responseDeclaration.correctResponse;    
+};
+
+/*#################################################################################################################
+Unused Functions
+
 
 function extrear_datos_imsmanifest(){
   //console.log("3) procesando IMSMANIFEST ");
@@ -53,40 +71,6 @@ function extrear_datos_imsmanifest(){
     });
   };
 };
-
-function extrear_datos_xml_choice(){
-
-  //console.log("2) Procesando ARCHIVO XML ");
-
-  $(xml_archivo).find('assessmentItem').each( function() {
-    texto_titulo        = $(this).attr('title');
-    texto_identificador = $(this).attr('identifier');
-    respuesta_correcta  = $(xml_archivo).find('assessmentItem responseDeclaration correctResponse value').text();
-    prompt              = $(xml_archivo).find('assessmentItem itemBody choiceInteraction prompt').text();
-    texto_alternativo   = $(xml_archivo).find('assessmentItem itemBody p').text();
-
-    /*
-    console.log("titulo: "              +texto_titulo);
-    console.log("tipo pregunta: "       +texto_identificador);
-    console.log("respuesta correcta: "  +respuesta_correcta);
-    console.log("pregunta/prompt: "     +prompt);
-    console.log("texto_alternativo: "   +texto_alternativo);
-    */
-
-    var n = 0;
-    alternativas = [];
-    $(xml_archivo).find('assessmentItem itemBody choiceInteraction simpleChoice').each(function(){
-      alternativas[n] = $(xml_archivo).find('assessmentItem itemBody choiceInteraction simpleChoice')[n].innerHTML;
-      //console.log("alternativa nº"+n+" : "+alternativas[n]);
-      n++;
-    });
-
-  });
-};
-
-/*#################################################################################################################
-Unused Functions
- ##################################################################################################################*/
 
 function extraer_datos_xml_inlinechoice(){
 
@@ -336,3 +320,5 @@ function resetear_variables(){
   limite_inferior = "";
   salto = "";
 };
+
+##################################################################################################################*/
