@@ -5,11 +5,11 @@ from django.utils import timezone
 
 from play.settings import BASE_DIR
 from apps.login.views import teacher_check
-from apps.question.views import question_data
 from apps.course.models import Course
 from apps.formative.models import Formative
 from apps.play.models import Play
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
+import apps.question.manageXML as manageXML
 
 import zipfile, shutil
 
@@ -51,7 +51,8 @@ def view_questions(request):
         if request.POST.get("action", "") == "preview":
             try:
                 question = Question.objects.get(id = id_question)
-                data = question_data(question)
+                data = manageXML.data_choice(question.code, question.extension)
+                data["extension"] = question.extension
                 return JsonResponse(data)
             except Exception as e:
                 print("Error:", e)
