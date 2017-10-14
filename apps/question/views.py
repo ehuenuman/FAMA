@@ -6,8 +6,6 @@ from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 
 from play.settings import BASE_DIR
-import base64, os
-import xml.etree.ElementTree as ET
 from io import BytesIO
 from PIL import Image
 import os, zlib, base64, zipfile, shutil
@@ -17,6 +15,7 @@ from apps.teacher.models import Teacher, Question, TeacherHasQuestion
 
 @login_required
 def create_choice(request):
+    """Create simple choice interaction."""
     if request.method == "GET":
         return render(request, 'question/create_choice.html')
     else:
@@ -29,6 +28,7 @@ def create_choice(request):
 
 
 def save_question(request, spanish_type):
+    """Save xml for interaction without image."""
     question_xml = request.POST.get("question", "")
     title = request.POST.get("title", "")
     correct = request.POST.get("correct", "")
@@ -71,6 +71,8 @@ def save_question(request, spanish_type):
 
 
 def save_zip(request, spanish_type):
+    """Create folder with imsmanifest and interaction.
+    Only work with folder, not create the zip file."""
     question_xml = request.POST.get("question", "")
     imsmanifest_xml = request.POST.get("imsmanifest", "")
     title = request.POST.get("title", "")
@@ -104,7 +106,7 @@ def save_zip(request, spanish_type):
 
         os.makedirs(BASE_DIR+"/preguntas/{0}".format(code))
         os.makedirs(BASE_DIR+"/preguntas/{0}/images".format(code))
-        file = open(BASE_DIR+"/preguntas/{0}/archivo.xml".format(code), "w")
+        file = open(BASE_DIR+"/preguntas/{0}/{0}.xml".format(code), "w")
         file.write(question_xml)
         file.close()
         file = open(BASE_DIR+"/preguntas/{0}/imsmanifest.xml".format(code), "w")
@@ -115,13 +117,13 @@ def save_zip(request, spanish_type):
         image = Image.open(BytesIO(base64.b64decode(request.POST['image'].partition('base64,')[2])))
         image.save(BASE_DIR+"/preguntas/{0}/images/{1}".format(code, name_image), image.format, quality = 100)
 
-        zip_file = zipfile.ZipFile(BASE_DIR+"/"+question.url, "w")
+        #zip_file = zipfile.ZipFile(BASE_DIR+"/"+question.url, "w")
  
-        for folder, subfolders, files in os.walk(BASE_DIR+"/preguntas/{0}".format(code)):
-            for file in files:                
-                zip_file.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file), BASE_DIR+"/preguntas/{0}".format(code)), compress_type = zipfile.ZIP_DEFLATED)
+        #for folder, subfolders, files in os.walk(BASE_DIR+"/preguntas/{0}".format(code)):
+        #    for file in files:                
+        #        zip_file.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file), BASE_DIR+"/preguntas/{0}".format(code)), compress_type = zipfile.ZIP_DEFLATED)
  
-        zip_file.close()
+        #zip_file.close()
 
         #shutil.rmtree("preguntas/{0}/".format(code))
 
@@ -153,7 +155,7 @@ def question_data(question):
             # Obtener archivo.xml
             # Obtener imsmanifest.xml
             try:
-                fo = open(BASE_DIR+"/preguntas/"+question.code+"/archivo.xml", "r")
+                fo = open(BASE_DIR+"/preguntas/"+question.code+"/"+question.code+".xml", "r")
                 archivo = fo.read()
                 fo.close()
                 fo = open(BASE_DIR+"/preguntas/"+question.code+"/imsmanifest.xml", "r")

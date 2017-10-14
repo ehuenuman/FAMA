@@ -1,38 +1,44 @@
- function cargar_datos_modal_choice() {
-
-  //console.log("4) cargando datos a la modal");
-
+ function loadModalChoiceData() {
   $("#modal-text-mis-preguntas").click();
   $("#content_preview").empty();
   $("#banner_preview h5.white-text").empty();
   $("#banner_preview h5.white-text").append('Selecci&oacute;n Simple');
 
-  if (texto_titulo!="") $("#content_preview").append('<span><b>Titulo: </b>'+texto_titulo+'</span></br>');
+  if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
   else $("#content_preview").append('<span><b>Titulo: </b>* No tiene t&iacute;tulo *</span></br>');
 
-  if (texto_alternativo!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+texto_alternativo+'</span></br>');
+  if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
   else $("#content_preview").append('<span><b>Texto alternativo: </b>* No tiene texto alternativo *</span></br>');
 
-  if (url_imagen!='') {
-  	$("#content_preview").append('<span><b>Imagen:</span></br>');
-  	$("#content_preview").append("<center><img src='/fama/media/"+codigo+"/"+url_imagen+"' width='250px'/></center>");
+  if (image!='') {
+    $("#content_preview").append('<span><b>Imagen:</span></br>');
+    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
   }
 
-  if (prompt!="") $("#content_preview").append('<span><b>Pregunta: </b>'+prompt+'</span></br>');
+  if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
   else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
 
   $("#content_preview").append('<span><b>Alternativas: </b></span></br>');
   var agregar = "";
-  for (var i = 0; i < alternativas.length ; i++) {
-    agregar += '<p id='+i+'>';
-    agregar += "<input name='group1' type='radio' id="+i+"/>";
-    agregar += "<label for="+i+">"+alternativas[i]+"</label>";    
+  for (var i = 0; i < alternatives.length ; i++) {
+    agregar += '<p>';
+    if (alternatives[i].identifier == correct_response) {
+        agregar += "<input name='group1' type='radio' id='"+alternatives[i].identifier+"' checked>";
+    } else {
+        agregar += "<input name='group1' type='radio' id='"+alternatives[i].identifier+"'/>";
+    }
+    agregar += "<label for='"+alternatives[i].identifier+"'>"+alternatives[i].alternative+"</label>";
     agregar += "</p>";
   };
   $('#content_preview').append(agregar);
   $('#preview_modal').modal('open');
-  resetear_variables();
+  resetVariables();  
 };
+
+
+
+/*#################################################################################################################
+Unused functions
 
  function cargar_choice_pantalla(){
         $("#parte").fadeIn();
@@ -345,3 +351,4 @@ function cargar_datos_modal_hotspot(){
     else $("#content_preview").append('<span><b>Pregunta: </b>No tiene pregunta *</span></br>');          
 
 };
+#################################################################################################################*/

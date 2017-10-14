@@ -1,37 +1,34 @@
-function select_method() {
-  if (tipo_pregunta == "choice" ) {  
-    procesar_choice_datos();
+function selectMethod() {  
+  if (question_type == "choice" ) {    
+    processingChoiceData();
   };
-  if (tipo_pregunta == "order" ) {
+  if (question_type == "order" ) {
     procesar_order_datos();
   };
-  if (tipo_pregunta == "inline choice" ) {
+  if (question_type == "inline choice" ) {
     procesar_inlinechoice_datos();
   };
-  if (tipo_pregunta == "text entry" ) {
+  if (question_type == "text entry" ) {
     procesar_textentry_datos();
   };
-  if (tipo_pregunta == "slider" ) {
+  if (question_type == "slider" ) {
     procesar_slider_datos();  
   };
-  if (tipo_pregunta == "associate" ) {
+  if (question_type == "associate" ) {
     procesar_associate_datos();  
   };
-  if (tipo_pregunta == "hotspot" ) {
+  if (question_type == "hotspot" ) {
     procesar_hotspot_datos();  
   };
 }
 
-function procesar_choice_datos(){
-  extrear_datos_xml_choice();
-  if (extension == "zip") {
-    extrear_datos_imsmanifest();   
-    cargar_datos_modal_choice();
-    //eliminar_carpeta_zip()
-  } else {
-    cargar_datos_modal_choice();
-  }
+function processingChoiceData() {  
+  loadModalChoiceData()
 };
+
+
+/*#################################################################################################################
+Unused Functions
 
 function procesar_order_datos() {
   extraer_datos_xml_order();              
@@ -68,3 +65,5 @@ function procesar_hotspot_datos(){
   extrear_datos_imsmanifest();
   cargar_datos_modal_hotspot();
 };
+
+#################################################################################################################*/
