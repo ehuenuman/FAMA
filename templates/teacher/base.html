@@ -42,7 +42,7 @@
       <li class="no-padding">                
         <ul class="collapsible collapsible-accordion">
           <li class="bold">
-            <a href="{% url 'login:login' %}" class="collapsible-header waves-effect waves-teal">
+            <a href="{% url 'login:login' %}" class="collapsible-header">
               <i class="fa fa-home fa-lg"></i>Inicio
             </a>
           </li>
@@ -64,7 +64,8 @@
               </ul>
             </div>
           </li>
-          <li class="bold"><a class="collapsible-header waves-effect waves-teal" href="{% url 'teacher:questions' %}">Mis Preguntas</a>
+          <li class="bold">
+            <a class="collapsible-header" href="{% url 'teacher:questions' %}">Mis Preguntas</a>
             <div class="collapsible-body">
               <ul>
                 <li id="list_questions"><a href="{% url 'teacher:questions' %}"><i class="fa fa-list-ul"></i>Almacenadas</a></li>
