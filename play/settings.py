@@ -30,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = credentials['allowed_hosts']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
+    'apps.wsocket',
     'apps.formative',
     'apps.teacher',
     'apps.question',
@@ -77,8 +78,23 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'play.wsgi.application'
+# Channel layer definitions
+# http://channels.readthedocs.org/en/latest/deploying.html#setting-up-a-channel-backend
 
+rabbitmq_host = os.environ.get('RABBITMQ_HOST', 'localhost')
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_rabbitmq.RabbitmqChannelLayer',
+        # Change according to your project layout:
+        'ROUTING': 'play.routing.channel_routing',
+        'CONFIG': {
+            'url': 'amqp://guest:guest@%s:5672/%%2F' % rabbitmq_host,
+        },
+    },
+}
+
+WSGI_APPLICATION = 'play.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -126,7 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -140,7 +155,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -152,44 +166,9 @@ STATICFILES_DIRS = (
     )
 
 # Celery configurations options
+
 CELERY_BROKER_URL = 'amqp://localhost'
 
-# Logging Django
-# https://docs.djangoproject.com/en/1.10/topics/logging/
-from .logger import LOGGING
-
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': False,
-#    'formatters': {
-#        'verbose': {
-#            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-#        },
-#    },
-#    'handlers': {
-#        'file_debug': {
-#            'level': 'DEBUG',
-#            'class': 'logging.FileHandler',
-#            'formatter': 'verbose',
-#            'filename': os.path.join(BASE_DIR, 'logs/django_debug.log')
-#        },
-#        'file_info': {
-#            'level': 'INFO',
-#            'class': 'logging.FileHandler',
-#            'filename': os.path.join(BASE_DIR, 'logs/django_info.log')
-#        },
-#        'file_error': {
-#           'level': 'ERROR',
-#            'class': 'logging.FileHandler',
-#            'filename': os.path.join(BASE_DIR, 'logs/django_error.log')
-#        },
-#    },
-#    'loggers': {
-#        'django': {
-#            'handlers': ['file_debug'],
-#            'level': 'DEBUG',
-#            'propagate': True,
-#        },
-#    },
-#}
-
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

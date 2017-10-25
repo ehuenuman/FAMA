@@ -5,6 +5,9 @@ from django.utils import timezone
 from django.core import serializers
 from django.db.models import Sum
 
+from django.db.models.signals import post_save
+from apps.wsocket.consumers import send_update
+
 from django.contrib.auth.models import User
 from apps.login.views import teacher_check
 from .models import Play
@@ -16,6 +19,8 @@ from apps.student.models import Student, Answer, Reply
 import apps.question.manageXML as manageXML
 
 # Create your views here.
+post_save.connect(send_update, Answer)
+
 @login_required
 def stop_play(request):
     if request.method == "POST":
@@ -71,8 +76,8 @@ def reply_play(request, play_id_char, question_id):
                     close_reply=timezone.now() + play.duration,
                     is_active=1)
                 close_reply = reply.close_reply
-                print(reply.student.user.first_name)
-                print(reply.play.formative.name)
+                #print(reply.student.user.first_name)
+                #print(reply.play.formative.name)
                 stop_reply.apply_async([reply.id], countdown=play.duration.seconds)
             except Exception as e:
                 print("Error: No se pudo crear reply. ", e)
@@ -80,6 +85,7 @@ def reply_play(request, play_id_char, question_id):
         if formative.has(question_id) and reply.is_active == 1:            
             question = Question.objects.get(id=question_id)            
             data = {}
+            data["code"] = question.code
             try:
                 answer = Answer.objects.filter(
                     student=request.user.student,
