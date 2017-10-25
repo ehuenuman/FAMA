@@ -1,6 +1,6 @@
 <div class="modal" id="start_formative">
   <div class="modal-header">
-    <h5 class="modal-title">Iniciar formativa</h5>
+    <h5 class="modal-title">Comenzar formativa</h5>
   </div>
   <div class="modal-content row last-row">
 
@@ -29,17 +29,28 @@
 
     <div class="row last-row dashed-border hide step-3">
       <div class="row last-row">
-        <span class="col s12">Tiempo l&iacute;mite para responder</span>
+        <span class="col s12 row">Tiempo l&iacute;mite para responder</span>
+        <span class="col s12">Tiempo recomendado:</span>
+        <div class="col s12 row">       
+          <div class="col s12 m4">
+            <div class="card-item col s12 hoverable click center-align active" data-time="5">
+              <span class="col s12">5 minutos</span>
+            </div>
+          </div>
+          <div class="col s12 m4">
+            <div class="card-item col s12 hoverable click center-align" data-time="10">
+              <span class="col s12">10 minutos</span>
+            </div>
+          </div>
+          <div class="col s12 m4">
+            <div class="card-item col s12 hoverable click center-align" data-time="15">
+              <span class="col s12">15 minutos</span>
+            </div>          
+          </div>
+        </div>
+        <span class="col s12">Manual:</span>
         <div class="col s12">
-          <div class="card-item col s12 m4 hoverable click center-align" data-time="5">
-            <span class="col s12">5 minutos</span>
-          </div>
-          <div class="card-item col s12 m4 hoverable click center-align" data-time="10">
-            <span class="col s12">10 minutos</span>
-          </div>
-          <div class="card-item col s12 m4 hoverable click center-align" data-time="15">
-            <span class="col s12">15 minutos</span>
-          </div>          
+          <input class="col s4" id="manual_time" type="number" min="1" value="5">
         </div>
       </div>    
     </div>

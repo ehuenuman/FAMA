@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block extrajs%}
-<script type="text/javascript" src="{% static 'js/library/js.cookie.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/library/jquery.countdown.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/functions.start_formative.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/teacher.home.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/play.play.js' %}"></script>
+<script src="{% static 'js/library/js.cookie.js' %}"></script>
+<script src="{% static 'js/library/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'js/library/channels.websocketbridge.js' %}"></script>
+<script src="{% static 'js/functions.start_formative.js' %}"></script>
+<script src="{% static 'js/teacher.home.js' %}"></script>
+<script src="{% static 'js/play.play.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -36,17 +37,17 @@
               <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
               </div>
               <div class="s12 l4 list-group-item">
-                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.name}}
+                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
               </div>
               <div class="s12 l4 list-group-item">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
               </div>
             </div>
             <div class="col s5 m4 right-align">
-              <div class="waves-effect waves-ligth btn btn-danger stop-formative" data-url="{% url 'play:stop' %}" data-play-id="{{play.id}}">
+              <div class="waves-effect waves-ligth btn btn-danger btn-action stop-formative" data-url="{% url 'play:stop' %}" data-play-id="{{play.id}}">
                 <i class="fa fa-stop fa-2x" aria-hidden="true"></i>
               </div>
-              <a class="btn waves-effect waves-light" href="{% url 'play:result' play.id_char %}">
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'play:result' play.id_char %}">
                 <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
               </a>
             </div>
@@ -79,11 +80,11 @@
               <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
               </div>
               <div class="s12 l4 list-group-item truncate">
-                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.name}}
+                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
               </div>
             </div>        
             <div class="col s3 right-align">
-              <a class="btn waves-effect waves-light" href="{% url 'play:result' play.id_char %}">
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'play:result' play.id_char %}">
                 <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
               </a>
             </div>
@@ -132,7 +133,7 @@
                 <span class="col s12">{{formative.description}}</span>
               </div>
             </a>
-            <a class="col s2 tooltipped start-formative" data-url="{% url 'course:all' %}" data-formative-id={{formative.id}} data-formative-name="{{formative.name}}" data-position="left" data-delay="30" data-tooltip="Realizar formativa" style="padding: 0px;">
+            <a class="col s2 tooltipped start-formative" data-url="{% url 'course:all' %}" data-formative-id={{formative.id}} data-formative-name="{{formative.name}}" data-position="left" data-delay="30" data-tooltip="Comenzar formativa" style="padding: 0px;">
               <div class="valign col s12">
                   <i id="icon-link" class="fa fa-play-circle fa-2x"></i>
               </div>

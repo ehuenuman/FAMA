@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os, json
-from django.core.urlresolvers import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = credentials['allowed_hosts']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
+    'apps.wsocket',
     'apps.formative',
     'apps.teacher',
     'apps.question',
@@ -78,8 +78,23 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'play.wsgi.application'
+# Channel layer definitions
+# http://channels.readthedocs.org/en/latest/deploying.html#setting-up-a-channel-backend
 
+rabbitmq_host = os.environ.get('RABBITMQ_HOST', 'localhost')
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_rabbitmq.RabbitmqChannelLayer',
+        # Change according to your project layout:
+        'ROUTING': 'play.routing.channel_routing',
+        'CONFIG': {
+            'url': 'amqp://guest:guest@%s:5672/%%2F' % rabbitmq_host,
+        },
+    },
+}
+
+WSGI_APPLICATION = 'play.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -107,7 +122,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     )
 
-LOGIN_URL = '/'
+LOGIN_URL = '/fama'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -127,7 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -141,7 +155,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -153,4 +166,9 @@ STATICFILES_DIRS = (
     )
 
 # Celery configurations options
+
 CELERY_BROKER_URL = 'amqp://localhost'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

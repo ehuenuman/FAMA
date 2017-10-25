@@ -66,6 +66,11 @@ a {
   background-color: #e74046;
 }
 
+.btn-action {
+  width: 65px; 
+  padding: 0;
+}
+
 /* Modal Preview */
 #banner_preview,
 #preview_modal .modal-content {

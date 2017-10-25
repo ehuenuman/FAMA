@@ -5,13 +5,13 @@ from django.utils import timezone
 
 from play.settings import BASE_DIR
 from apps.login.views import teacher_check
-from apps.question.views import question_data
 from apps.course.models import Course
 from apps.formative.models import Formative
 from apps.play.models import Play
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
+import apps.question.manageXML as manageXML
 
-import zipfile, shutil
+import zipfile, shutil, os
 
 
 @login_required
@@ -51,7 +51,8 @@ def view_questions(request):
         if request.POST.get("action", "") == "preview":
             try:
                 question = Question.objects.get(id = id_question)
-                data = question_data(question)
+                data = manageXML.data_choice(question.code, question.extension)
+                data["extension"] = question.extension
                 return JsonResponse(data)
             except Exception as e:
                 print("Error:", e)
@@ -79,23 +80,36 @@ def share_question(request, question_id):
 @user_passes_test(teacher_check)
 def download_question(request, question_id=None):
     #Se puede mejorar poniendo data-url en html
-    print("DESCARGAR PREGUNTA")
+    #print("DESCARGAR PREGUNTA")
     if request.method == "POST":
         question_id = request.POST.get("id_question", "")
         try:
             question = Question.objects.get(id = question_id)
             if question.extension == "zip":
-                print("DESCARGAR PREGUNTA ZIP")
-                #zf = zipfile.ZipFile(question.url, "r", zipfile.ZIP_DEFLATED)                
-                fo = open(BASE_DIR+"/"+question.url, "rb")
-                zf = fo.read()
-                print(str(zf)[1:])
-                fo.close()                
+                #print(BASE_DIR+"/"+question.url)
+                #print("DESCARGAR PREGUNTA ZIP")
+                
+                try:
+                    fo = open(BASE_DIR+"/"+question.url, "rb")
+                except Exception as e:
+                    zip_file = zipfile.ZipFile(BASE_DIR+"/"+question.url, "w")
+                    for folder, subfolders, files in os.walk(BASE_DIR+"/preguntas/{0}".format(question.code)):
+                        for file in files:                
+                            zip_file.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file), BASE_DIR+"/preguntas/{0}".format(question.code)), compress_type = zipfile.ZIP_DEFLATED)
+                    zip_file.close()  
+                    fo = open(BASE_DIR+"/"+question.url, "rb")                 
+                finally:
+                    zf = fo.read()
+                    #print(str(zf)[1:])
+                    fo.close()
+
+                #os.remove(BASE_DIR+"/"+question.url)
+
                 response = HttpResponse(str(zf)[1:], content_type="application/zip")
                 response['Content-Disposition'] = 'attachment; filename="'+question.code+'.zip"'
                 response['Content-Size'] = len(zf)
                 response['Name'] = question.code+".zip"
-                return response            
+                return response
             else:
                 print("DESCARGAR PREGUNTA XML")
                 fo = open(BASE_DIR+"/"+question.url, "r")

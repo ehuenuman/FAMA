@@ -4,20 +4,23 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.core import serializers
 from django.db.models import Sum
-from datetime import timedelta
-import xml.etree.ElementTree as ET
+
+from django.db.models.signals import post_save
+from apps.wsocket.consumers import send_update
 
 from django.contrib.auth.models import User
 from apps.login.views import teacher_check
-from apps.question.views import question_data
 from .models import Play
 from .task import stop_reply
 from apps.formative.models import Formative, FormativeHasQuestion
 from apps.course.models import Course
 from apps.teacher.models import Question
 from apps.student.models import Student, Answer, Reply
+import apps.question.manageXML as manageXML
 
 # Create your views here.
+post_save.connect(send_update, Answer)
+
 @login_required
 def stop_play(request):
     if request.method == "POST":
@@ -73,18 +76,16 @@ def reply_play(request, play_id_char, question_id):
                     close_reply=timezone.now() + play.duration,
                     is_active=1)
                 close_reply = reply.close_reply
-                print(reply.student.user.first_name)
-                print(reply.play.formative.name)
+                #print(reply.student.user.first_name)
+                #print(reply.play.formative.name)
                 stop_reply.apply_async([reply.id], countdown=play.duration.seconds)
             except Exception as e:
                 print("Error: No se pudo crear reply. ", e)
-        if formative.has(question_id) and reply.is_active == 1:
-            namespace = {"ns1": "http://www.imsglobal.org/xsd/imsqti_v2p1",
-                "ns2": "http://www.w3.org/2001/XMLSchema-instance",
-                "ns3": "http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd"}
-            question = Question.objects.get(id=question_id)
-            data_of_question = question_data(question)
+
+        if formative.has(question_id) and reply.is_active == 1:            
+            question = Question.objects.get(id=question_id)            
             data = {}
+            data["code"] = question.code
             try:
                 answer = Answer.objects.filter(
                     student=request.user.student,
@@ -93,25 +94,12 @@ def reply_play(request, play_id_char, question_id):
                 data["answer"] = answer[0].answer
             except Exception as e:
                 print("No existe respuesta: " ,e)
+
             if question.type == "choice":
-                #print(data["archivo"])
-                root = ET.fromstring(data_of_question["archivo"])
-                #print(root)
-                alternatives = []
-                data["id"] = question.id
-                data["code"] = question.code
-                data["title"] = root.get("title")
-                data["question"] = root.find("*//ns1:prompt", namespace).text
-                
-                if question.extension == "zip":
-                    data["alternative_text"] = root.findall("*//ns1:p", namespace)[0].text
-                    data["image"] = root.find("*//ns1:img", namespace).get("src")
+                data_file = manageXML.data_choice(question.code, question.extension)
 
-                for elem in root.iterfind("*//ns1:simpleChoice", namespace):
-                    alternatives.append({"text": elem.text, "id": elem.get("identifier")})
-                    #print(elem.get("identifier"), elem.text)
-
-                data["alternatives"] = alternatives
+                data["assessmentItem"] = data_file["assessmentItem"]
+                data["itemBody"] = data_file["itemBody"]
 
                 order_question = FormativeHasQuestion.objects.get(formative=formative, question=question)
                 total_questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
@@ -129,8 +117,7 @@ def reply_play(request, play_id_char, question_id):
                     request, 
                     "question/reply_choice.html", 
                     {
-                        "question": data,
-                        "alternatives": alternatives,
+                        "question": data,                        
                         "play": play,
                         "close_reply": close_reply
                     })

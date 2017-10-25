@@ -14,5 +14,8 @@ preguntas/*
 # Logs files
 logs/*
 
+# Server settings files
+play/settings-files/*
+
 # SFTP config
 sftp-config.json

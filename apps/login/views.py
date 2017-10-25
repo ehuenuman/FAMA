@@ -17,7 +17,7 @@ def login(request):
             return render(request, 'index.html')
     else:       
         username = request.POST['username']
-        password = request.POST.get('password', request.POST['username'])
+        password = request.POST.get('password', request.POST['username'].upper())
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:

@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block title %}
-  FAMA
+FAMA
 {% endblock %}
 
 {% block title-page %}
@@ -26,10 +26,10 @@
         {{formative.description}}
       </li>
       <li class="collection-item list-group col s12">
-        <div class="list-group-item col s4">
+        <div class="list-group-item col s5">
           {{ questions.count }} pregunta{{ questions.count|pluralize }}
         </div>
-        <div class="list-group-item col s4">
+        <div class="list-group-item col s3">
           <i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
         </div>
       </li>
@@ -62,7 +62,7 @@
         {% else %}
           <a class="collection-item col s12">
         {% endif %}
-            <div class="s12 m9">{{ question.title }}</div>
+            <div class="s12 m9">Pregunta {{ forloop.counter }} {{ question.title }}</div>
             <div class="s12 m3">{{ question.spanish_type }}</div>
           </a>
         

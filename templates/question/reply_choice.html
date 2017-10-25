@@ -15,22 +15,22 @@
 {% block title-page %}
 {% endblock %}
 
-{% block content %}
+{% block content %} 
 <div class="row reply-container">
   <div class="row title-container">
     <div class="col s12 center-align">
-      <h5 class="title">{{ question.title|safe }}</h5>
+      <h5 class="title">{{ question.assessmentItem.title|safe }}</h5>
     </div>
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.question|safe }}</div>
-      {% if question.alternative_text %}
-        <div class="col s12 text">{{ question.alternative_text|safe }}</div>
-      {% endif %}
-      {% if question.image %}
+      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}</div>
+      {% if question.itemBody.alternativeText %}
+        <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
+      {% endif %}      
+      {% if question.itemBody.img %}
         <div class="center-align">
-          <img class="responsive-img materialboxed image" src="/fama/media/{{ question.code }}/{{ question.image }}">
+          <img class="responsive-img materialboxed image" src="/fama/media/{{ question.code }}/{{ question.itemBody.img.src }}">
         </div>
       {% endif %}
     </div>
@@ -38,16 +38,16 @@
   <div class="col s12">
     <ul class="collection">    
       <li class="collection-item center-align">Seleccione una alternativa</li>
-      {% for alternative in question.alternatives %}      
+      {% for alternative in question.itemBody.choiceInteraction.simpleChoice %}      
       <li class="collection-item">        
-        {% if alternative.id == question.answer %}
-          <input name="alternatives" type="radio" id="{{ alternative.id }}" checked>
+        {% if alternative.identifier == question.answer %}
+          <input name="alternatives" type="radio" id="{{ alternative.identifier }}" checked>
         {% else %}
-          <input name="alternatives" type="radio" id="{{ alternative.id }}">
+          <input name="alternatives" type="radio" id="{{ alternative.identifier }}">
         {% endif %}
-        <label for="{{ alternative.id }}">{{ alternative.text|safe }}</label>
+        <label for="{{ alternative.identifier }}">{{ alternative.alternative|safe }}</label>
       </li>
-      {% endfor %}      
+      {% endfor %}
     </ul>
   </div>
   <div class="row">

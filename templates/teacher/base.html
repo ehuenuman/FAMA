@@ -36,13 +36,17 @@
     <ul id="nav-mobile" class="side-nav fixed">
       <div class="center-align">
         <div style="width: 100%; height: 100px; background-color: #ffffff;"></div>
-        <a href="{% url 'login:login' %}" style="display: inline-block;padding: 0 2px;">
-          <i style="position:relative;top:6px;color:#ee6e73;" class="fa fa-home fa-2x"></i>
-        </a>
-          Bienvenido {{ user.first_name }}
+        Bienvenido {{ user.first_name }}
       </div>
       <li><div class="divider"></div></li>
-      <li class="no-padding">
+      <li class="no-padding">                
+        <ul class="collapsible collapsible-accordion">
+          <li class="bold">
+            <a href="{% url 'login:login' %}" class="collapsible-header">
+              <i class="fa fa-home fa-lg"></i>Inicio
+            </a>
+          </li>
+        </ul>
         <ul class="collapsible collapsible-accordion">
           <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Cursos</a>
             <div class="collapsible-body">
@@ -60,7 +64,8 @@
               </ul>
             </div>
           </li>
-          <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Preguntas</a>
+          <li class="bold">
+            <a class="collapsible-header" href="{% url 'teacher:questions' %}">Mis Preguntas</a>
             <div class="collapsible-body">
               <ul>
                 <li id="list_questions"><a href="{% url 'teacher:questions' %}"><i class="fa fa-list-ul"></i>Almacenadas</a></li>
