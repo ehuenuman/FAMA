@@ -7,7 +7,7 @@ from apps.play.models import Play
 
 # Create your views here.
 @login_required
-def index(request):
+def index(request):    
     if student_check(request.user):
         student = request.user.student
         courses = Course.objects.filter(student=student)        
