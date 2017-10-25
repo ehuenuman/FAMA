@@ -78,6 +78,22 @@ TEMPLATES = [
     },
 ]
 
+# Channel layer definitions
+# http://channels.readthedocs.org/en/latest/deploying.html#setting-up-a-channel-backend
+
+rabbitmq_host = os.environ.get('RABBITMQ_HOST', 'localhost')
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_rabbitmq.RabbitmqChannelLayer',
+        # Change according to your project layout:
+        'ROUTING': 'play.routing.channel_routing',
+        'CONFIG': {
+            'url': 'amqp://guest:guest@%s:5672/%%2F' % rabbitmq_host,
+        },
+    },
+}
+
 WSGI_APPLICATION = 'play.wsgi.application'
 
 # Database
@@ -156,19 +172,3 @@ CELERY_BROKER_URL = 'amqp://localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-
-# Channel layer for RabbitMQ
-
-rabbitmq_host = os.environ.get('RABBITMQ_HOST', 'localhost')
-rabbitmq_url = 'amqp://guest:guest@%s:5672/%%2F' % rabbitmq_host
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'asgi_rabbitmq.RabbitmqChannelLayer',
-        # Change according to your project layout:
-        'ROUTING': 'play.routing.channel_routing',
-        'CONFIG': {
-            'url': rabbitmq_url,
-        },
-    },
-}
