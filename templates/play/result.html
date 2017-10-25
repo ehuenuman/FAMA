@@ -31,7 +31,6 @@
 {% endblock %}
 
 {% block extrajs%}
-<script src="{% static 'js/play.result.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -105,7 +104,7 @@ Resultados
 {% block js %}
 <script>
   var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-  var ws_url = ws_scheme + "://" + window.location.hostname + ":8001" + "/ws/play/" 
+  var ws_url = ws_scheme + "://" + window.location.hostname + ":8008" + "/ws/play/" 
     + window.location.pathname.split("/")[3] + "/" + "?session_key={{ request.session.session_key }}";
 
   //console.log("Conecting to... " + ws_url)
