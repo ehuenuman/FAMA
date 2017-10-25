@@ -27,7 +27,7 @@
       <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}</div>
       {% if question.itemBody.alternativeText %}
         <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
-      {% endif %}
+      {% endif %}      
       {% if question.itemBody.img %}
         <div class="center-align">
           <img class="responsive-img materialboxed image" src="/fama/media/{{ question.code }}/{{ question.itemBody.img.src }}">
