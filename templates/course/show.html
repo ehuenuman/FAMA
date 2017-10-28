@@ -26,12 +26,11 @@
 <div class="row">
   <div class="col s12 m12 l6">
     <ul class="collection with-header">
-      <li class="collection-header">
-        <div class="valign-wrapper" style="margin-bottom: 0px">
-          <div class="left-align col s6">
-            <h5>Historial</h5>
-          </div>
-          <div class="valign right-align col s6">                
+      <li class="collection-header valign-wrapper">        
+        <div class="left-align col s6">
+          <h5>Historial</h5>
+        </div>
+        <div class="valign right-align col s6">                
             <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
               <i class="fa fa-list fa-2x black-text"></i>
             </a>
@@ -39,81 +38,90 @@
               <i class="fa fa-plus-square fa-2x black-text" style="padding-left: 10px;"></i>
             </a> 
           </div>
-        </div>
-      </li>
-      <li class="collection-item center-align col s12">
-        <div>
-          {% if plays %}
-          {% for play in plays %}
-          <div class="card-item col s12 hoverable valign-wrapper">
-            <a href="{% url 'play:result' play.id_char %}" class="col s10" style="padding: 0px;">
-              <div class="col s12 left-align">
-                <span class="col s12">{{play.formative.name}}</span>
-                <span class="col s12">{{play.formative.description}}</span>
-              </div>
-            </a>
-            <a href="{% url 'play:result' play.id_char %}" class="col s2 tooltipped" data-position="left" data-delay="30" data-tooltip="Resultados" style="padding: 0px;">
-              <div class="valign col s12">
-                <i id="icon-link" class="fa fa-bar-chart fa-2x"></i>
-              </div>
+      </li>    
+      {% if plays %}
+      {% for play in plays %}
+      <li class="collection-item col s12">
+        <div class="s12">
+          <div class="col s9 list-group">
+            <div class="s12 l4 list-group-item truncate">
+            <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
+            </div>
+            <div class="s12 l4 list-group-item truncate">
+              &nbsp;{{play.formative.description}}
+            </div>
+          </div>        
+          <div class="col s3 right-align">
+            <a class="waves-effect waves-light btn btn-action" href="{% url 'play:result' play.id_char %}">
+              <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
             </a>
           </div>
-          {% endfor %}
-          {% else %}
-          <a href="#" class="card-item col s12 hoverable">
-            <span>Comenzar primera formativa del curso</span>
-          </a>
-          {% endif %}
-          <br><br>
         </div>
-      </li>            
+        <div class="col s4 m4 list-group-item">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
+        </div>
+        <div class="col s8 m4 list-group-item">
+          <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
+        </div>
+      </li>
+      {% endfor %}
+      {% else %}
+      <a class="collection-item center-align col s12">
+        <b>Comenzar primera formativa del curso</b>
+      </a>
+      {% endif %}
     </ul>
   </div>
 
   <div class="col s12 m12 l6">
     <ul class="collection with-header">
-      <li class="collection-header">
-        <div class="valign-wrapper" style="margin-bottom: 0px">
-          <div class="left-align col s6">
-            <h5>Estudiantes</h5>
-          </div>
-          <div class="valign right-align col s6">
-            <a href="#add_student" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar estudiantes">
-              <i class="fa fa-plus-square fa-2x black-text"></i>                
-            </a>
-          </div>
+      <li class="collection-header valign-wrapper">        
+        <div class="left-align col s8">
+          <h5>Estudiantes</h5>
+        </div>
+        <div class="valign right-align col s6">
+          
+          <a href="#add_student" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar estudiantes">
+            <i class="fa fa-plus-square fa-2x black-text"></i>
+          </a>
         </div>
       </li>
       <li class="collection-item center-align">
-        <div id="list_students" style="max-height: 400px; overflow-y: auto;">
-          <span>Estudiantes inscritos: 
-            <span id="student_count" data-count='{{ students.count }}'>{{ students.count }}</span>
-          </span>
-          {% if students %}          
-          {% for student in students %}
-          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-            <div class="col s12 left-align">
-              <span class="col s12">{{student.rut}}</span>
-              <span class="col s12">{{student.user.first_name|title}} {{student.user.last_name|title}}</span>
+        <span>Estudiantes inscritos: 
+          <span id="student_count" data-count='{{ students.count }}'>{{ students.count }}</span>
+        </span>
+      </li>
+      <div id="list_students" style="max-height: 400px; overflow-y: auto;">
+        {% if students %}          
+        {% for student in students %}
+        <li class="collection-item col s12">          
+          <div class="s12">
+            <div class="col s8 list-group">
+              <div class="s12 l4 list-group-item truncate">
+                {{student.rut}}
+              </div>
+              <div class="s12 l4 list-group-item truncate">
+                {{student.user.first_name|title}} {{student.user.last_name|title}}
+              </div>
             </div>
-            <!--<a href="!#" class="col s2">
-              <div class="valign col s12">
-                  <i class="fa fa-trash-o fa-2x"></i>
-              </div>
-            </a>-->
+            <div class="s4 right-align hide">
+              <a class="waves-effect waves-light btn btn-danger btn-action" data-url="" data-student-id={{student.user.id}} data-course-id="{{course.id}}">
+                <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
           </div>
-          {% endfor %}
-          {% else %}
-          <div clas="col s12">
-            <a href="#add_student">
-              <div class="card-item hoverable">
-                <span>Agregue alumnos al curso</span><br>
-              </div>
-            </a>
-          </div>
-          {% endif %}
+        </li>
+        {% endfor %}
+        {% else %}
+        <div clas="col s12">
+          <a href="#add_student">
+            <div class="card-item hoverable">
+              <span>Agregue alumnos al curso</span><br>
+            </div>
+          </a>
         </div>
-      </li>      
+        {% endif %}        
+      </div>
     </ul>
   </div>
 </div>

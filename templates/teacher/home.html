@@ -58,6 +58,7 @@
   </div>
 </div>
 {% endif %}
+
 {% if closed_plays %}
 <div class="row last-row">
   <div class="col s12">
@@ -106,96 +107,97 @@
 <div class="row">
   <div class="col s12 m6 l6">
     <ul class="collection with-header">
-      <li class="collection-header">
-        <div class="valign-wrapper" style="margin-bottom: 0px">
-          <div class="left-align col s8">
-            <h5>Mis Formativas</h5>
-          </div>
-          <div class="valign right-align col s4">
-            <a href="{% url 'formative:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
+      <li class="collection-header valign-wrapper">        
+        <div class="left-align col s8">
+          <h5>Mis Formativas</h5>
+        </div>
+        <div class="valign right-align col s4">
+          <a href="{% url 'formative:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
               <i class="fa fa-list fa-2x" style="color: #000000"></i>
             </a>
             <a href="{% url 'formative:create' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nueva">
               <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>
-            </a> 
+            </a>
+        </div>
+      </li>
+      {% if formatives %}
+      <li class="collection-item center-align col s12">
+        <b>&Uacute;ltimas formativas creadas</b>
+      </li>
+      {% for formative in formatives %}
+      <li class="collection-item col s12">
+        <div class="s12">
+          <div class="col s9 list-group">
+            <div class="s12 l4 list-group-item truncate">
+              <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{formative.name}}
+            </div>
+            <div class="s12 l4 list-group-item truncate">
+              &nbsp;{{formative.description}}
+            </div>
+          </div>
+          <div class="col s3 right-align">
+            <a class="waves-effect waves-light btn btn-action start-formative" data-url="{% url 'course:all' %}" data-formative-id={{formative.id}} data-formative-name="{{formative.name}}">
+              <i class="fa fa-play fa-2x" aria-hidden="true"></i>
+            </a>
           </div>
         </div>
       </li>
-      <li class="collection-item center-align">
-        <b>&Uacute;ltimas formativas creadas</b>
-        <div>
-          {% if formatives %}
-          {% for formative in formatives %}
-          <div class="card-item col s12 hoverable valign-wrapper">
-            <a class="col s10" style="padding: 0px;">
-              <div class="col s12 left-align">
-                <span class="col s12">{{formative.name}}</span>
-                <span class="col s12">{{formative.description}}</span>
-              </div>
-            </a>
-            <a class="col s2 tooltipped start-formative" data-url="{% url 'course:all' %}" data-formative-id={{formative.id}} data-formative-name="{{formative.name}}" data-position="left" data-delay="30" data-tooltip="Comenzar formativa" style="padding: 0px;">
-              <div class="valign col s12">
-                  <i id="icon-link" class="fa fa-play-circle fa-2x"></i>
-              </div>
-            </a>
-          </div>
-          {% endfor %}
-          <b>Actualmente posee {{total_formatives}} formativas</b>
-          {% else %}
-          <a href="{% url 'formative:create' %}">
-            <div class="card-item hoverable teal white-text center-align">
-              <span>Cree su primera formativa</span>
-            </div>
-          </a>
-          {% endif %}
-        </div>
-      </li>      
+      {% endfor %}
+      <li class="collection-item center-align col s12">
+        <b>Actualmente posee {{total_formatives}} formativas</b>
+      </li>
+      {% else %}
+      <a class="collection-item center-align col s12" href="{% url 'formative:create' %}">
+        <b>Crear primera formativa</b>
+      </a>
+      {% endif %}
     </ul>
   </div>
 
   <div class="col s12 m6 l6">
     <ul class="collection with-header">
-      <li class="collection-header">
-        <div class="valign-wrapper" style="margin-bottom: 0px">
-          <div class="left-align col s8">
-            <h5>Mis Cursos</h5>
-          </div>
-          <div class="valign right-align col s4">                
-            <a href="{% url 'course:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todos">
-              <i class="fa fa-list fa-2x black-text"></i>
-            </a>
-            <a href="{% url 'course:create' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nuevo">
-              <i class="fa fa-plus-square fa-2x black-text" style="padding-left: 10px;"></i>
-            </a>
-          </div>
+      <li class="collection-header valign-wrapper">
+        <div class="left-align col s8">
+          <h5>Mis Cursos</h5>
         </div>
-      </li>
-      <li class="collection-item center-align">
-        <b>&Uacute;ltimos cursos creados</b>
-        <div>
-          {% if courses %}
-          {% for course in courses %}
-          <div class="card-item col s12 hoverable teal white-text valign-wrapper">
-              <a href="{% url 'course:show' course.id_char %}" class="col s12" style="padding: 0px;">
-                <div class="col s12 left-align">
-                  <span class="col s12">{{course.code}}</span>
-                  <span class="col s12">{{course.name}}</span>
-                </div>
-              </a>
-            </div>
-          {% endfor %}
-          <b>Actualmente posee {{total_course}} cursos</b>
-          {% else %}
-          <a href="{% url 'course:create' %}" style="padding: 0px;">
-            <div class="card-item hoverable teal white-text center-align">
-              <span>Cree su primer curso</span>
-            </div>
+        <div class="valign right-align col s4">
+          <a href="{% url 'course:index' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todos">
+            <i class="fa fa-list fa-2x black-text"></i>
           </a>
-          {% endif %}
+          <a href="{% url 'course:create' %}" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nuevo">
+            <i class="fa fa-plus-square fa-2x black-text" style="padding-left: 10px;"></i>
+          </a>
         </div>
       </li>      
+      {% if courses %}
+      <li class="collection-item center-align col s12">
+        <b>&Uacute;ltimos cursos creados</b>
+      </li>
+      {% for course in courses %}
+      <a class="collection-item col s12" href="{% url 'course:show' course.id_char %}">
+        <div class="s12">
+          <div class="col s12 list-group">
+            <div class="s12 l4 list-group-item truncate">
+              <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{course.code}}
+            </div>
+            <div class="s12 l4 list-group-item truncate">
+              &nbsp;{{course.name}}
+            </div>
+          </div> 
+        </div>
+      </a>
+      {% endfor %}
+      <li class="collection-item center-align col s12">
+        <b>Actualmente posee {{total_course}} cursos</b>
+      </li>
+      {% else %}
+      <a class="collection-item center-align col s12" href="{% url 'course:create' %}">
+        <b>Crear primer curso</b>
+      </a>
+      {% endif %}
     </ul>
   </div>
+
 </div>
 
 {% include "functions/modal_start_formative.html" %}
@@ -206,7 +208,4 @@
 {% endblock %}
 
 {% block js %}
-<script>
-  $("a.btn").parents('td').css("padding-bottom", "0").css("padding-top", "0");
-</script>
 {% endblock %}
