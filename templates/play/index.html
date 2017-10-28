@@ -1,0 +1,69 @@
+{% extends 'teacher/base.html' %}
+
+{% block extracss %}
+{% endblock %}
+
+{% block extrajs %}
+{% endblock %}
+
+{% block title %}
+FAMA - Formativas Finalizadas
+{% endblock %}
+
+{% block page-title %}
+Formativas Finalizadas
+{% endblock %}
+
+{% block content %}
+<div class="row last-row">
+  <div class="col s12">
+    <ul class="collection">      
+      {% for play in plays %}
+        <li class="collection-item col s12">
+          <div class="s12">
+            <div class="col s9 list-group">
+              <div class="s12 l4 list-group-item truncate">
+              <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
+              </div>
+              <div class="s12 l4 list-group-item truncate">
+                <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
+              </div>
+            </div>        
+            <div class="col s3 right-align">
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'play:result' play.id_char %}">
+                <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col s4 m4 list-group-item">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
+          </div>
+          <div class="col s8 m4 list-group-item">
+            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
+          </div>
+        </li>
+      {% endfor %}
+      
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+<script>
+  $('.modal').modal();
+  $(document).ready(function() {
+    $("a.btn").parents('td').css("padding-bottom", "0").css("padding-top", "0");
+    //$('#nav-mobile ul.collapsible li#list_formatives').addClass('active').parent().parent().show().parent().addClass('active')
+
+    {% if messages %}
+    {% for message in messages %}
+      Materialize.toast('{{message}}', 5000, 'rounded');
+    {% endfor %}
+    {% endif %}
+  });
+</script>
+{% endblock %}
