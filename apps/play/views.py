@@ -22,6 +22,14 @@ import apps.question.manageXML as manageXML
 post_save.connect(send_update, Answer)
 
 @login_required
+@user_passes_test(teacher_check)
+def view_plays(request):
+    if request.method == "GET":
+        plays = Play.objects.filter(formative__teacher=request.user.teacher, is_active=0)        
+
+    return render(request, "play/index.html", {"plays": plays})
+
+@login_required
 def stop_play(request):
     if request.method == "POST":
         play = Play.objects.get(id=request.POST["playId"])
