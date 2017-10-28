@@ -25,8 +25,14 @@ a {
   border-radius: 0px !important;
 }
 
+.collection
 .collection-item {
   padding: 10px 20px !important;
+}
+
+.collection
+a.collection-item {
+  color: rgba(0,0,0,0.87);
 }
 
 /* Cards */
@@ -50,10 +56,15 @@ a {
 }
 
 .card-item.active {
-  background-color: #00695c;
+  background-color: #00695C;
 }
 
 /* Buttons */
+.btn-action {
+  width: 65px; 
+  padding: 0;
+}
+
 .btn-danger {
   background-color: #ee6e73;
 }
@@ -66,10 +77,6 @@ a {
   background-color: #e74046;
 }
 
-.btn-action {
-  width: 65px; 
-  padding: 0;
-}
 
 /* Modal Preview */
 #banner_preview,
