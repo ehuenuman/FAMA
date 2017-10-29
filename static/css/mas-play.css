@@ -27,12 +27,16 @@ a {
 
 .collection
 .collection-item {
-  padding: 10px 20px !important;
+  padding: 10px 10px !important;
 }
 
 .collection
 a.collection-item {
   color: rgba(0,0,0,0.87);
+}
+
+.collection .col {
+  padding: 0;
 }
 
 /* Cards */
@@ -129,11 +133,6 @@ i.prefix.fa {
   color: #807B7B;
 }
 
-
-.click, a {
-  cursor: pointer;
-}
-
 .dashed-border {
   /*background-color: grey;*/
   color: black;  
@@ -150,6 +149,10 @@ i.prefix.fa {
     margin-bottom: 0px;
 }
 
+/* Behaviour */
+.click, a {
+  cursor: pointer;
+}
 
 /* Reply Question */
 .reply-container {
