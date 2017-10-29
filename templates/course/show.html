@@ -79,8 +79,7 @@
         <div class="left-align col s8">
           <h5>Estudiantes</h5>
         </div>
-        <div class="valign right-align col s6">
-          
+        <div class="valign right-align col s6">          
           <a href="#add_student" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar estudiantes">
             <i class="fa fa-plus-square fa-2x black-text"></i>
           </a>
@@ -113,13 +112,9 @@
         </li>
         {% endfor %}
         {% else %}
-        <div clas="col s12">
-          <a href="#add_student">
-            <div class="card-item hoverable">
-              <span>Agregue alumnos al curso</span><br>
-            </div>
-          </a>
-        </div>
+        <a class="collection-item center-align col s12" href="#add_student">
+          <b>Comenzar primera formativa del curso</b>
+        </a>
         {% endif %}        
       </div>
     </ul>
