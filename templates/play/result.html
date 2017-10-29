@@ -168,11 +168,7 @@ Resultados
           var question_total = parseInt($("td[data-question='"+data.question+"']").last().html());
           if (isNaN(question_total)) {
             $("td[data-question='"+data.question+"']").last().html(0);
-          } else {
-            if (question_total > 0) {
-              $("td[data-question='"+data.question+"']").last().html(question_total-1);
-            }        
-          }
+          } 
         } else {
           cell
             .empty()
