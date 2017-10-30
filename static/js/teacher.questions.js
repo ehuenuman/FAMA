@@ -65,7 +65,7 @@ function previewQuestion(id_question) {
     if (data.result == "error") {
         Materialize.toast(data.message, 3000,'rounded');
     } else {
-        //Materialize.toast('Pregunta valida', 3000,'rounded');        
+        //Materialize.toast('Pregunta valida', 3000,'rounded'); 
         setVariables(data);
         selectMethod();
     }
