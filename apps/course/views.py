@@ -4,8 +4,7 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from datetime import date
-import xlrd
-import csv, os
+import csv, os, xlrd
 
 from play.settings import BASE_DIR
 from django.contrib.auth.models import User, Group
@@ -44,9 +43,9 @@ def create_course(request):
             course.year = date.today().year
             course.creation_date = timezone.now()
             course.id_char = "{0}{1}{2}".format(
-                course.name.replace(" ", "")[:6].upper(),
+                remove_accent(course.name.replace(" ", "")[:4].upper()),
                 course.year,
-                course.semester)           
+                course.semester)
             course.save()
             course.id_char = "{0}{1}{2}".format(
                 course.id_char,
@@ -213,3 +212,8 @@ def get_courses(request):
             data[course.id] = {"code": course.code, "name": course.name}
 
         return JsonResponse(data)
+
+
+import unicodedata
+def remove_accent(string):
+   return ''.join((string for string in unicodedata.normalize('NFD', string) if unicodedata.category(string) != 'Mn'))

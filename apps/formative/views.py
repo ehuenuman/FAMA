@@ -90,10 +90,7 @@ def start_formative(request):
         duration = request.POST['time']        
         try:
             play = Play.objects.create(
-                id_char="{0}{1}{2}".format(
-                    course.name.replace(" ", "")[:6].upper(),
-                    "r",
-                    formative.name.replace(" ", "")[:6].upper()),
+                id_char="P{0}C{1}F{2}".format(play.id, course.id, formative.id),
                 creation_play=timezone.now(),
                 duration=timedelta(minutes=int(duration)),
                 start_play=timezone.now(),

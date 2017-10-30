@@ -31,7 +31,6 @@
 {% endblock %}
 
 {% block extrajs%}
-<script src="{% static 'js/play.result.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -50,6 +49,7 @@ Resultados
       <table class="card-box" style="font-size: 13px;">
         <thead>          
           <tr>
+            <th class="hide-on-med-and-down" style="width: 90px;">RUT</th>
             <th style="width: 250px;">Estudiante</th>
             {% for question in questions %}
               <th class="center-align" data-question="{{ question.id }}">P{{ forloop.counter }} {{ question.title|truncatechars_html:20 }}</th>
@@ -57,9 +57,10 @@ Resultados
             <th class="center-align" style="width: 100px;">Total</th>
           </tr>
         </thead>
-        <tbody>        
+        <tbody>          
           {% for student in students %}
             <tr>
+              <td class="hide-on-med-and-down">{{ student.username }}</td>
               <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>
               {% for question in questions %}
                 <td data-student="{{ student.id }}" data-question="{{ question.id }}"
@@ -80,6 +81,7 @@ Resultados
             </tr>
           {% endfor %}
           <tr>
+            <td class="hide-on-med-and-down"></td>
             <td><b>Total</b></td>
             {% for question in questions %}
               <td class="center-align" data-question="{{ question.id }}">
@@ -105,7 +107,7 @@ Resultados
 {% block js %}
 <script>
   var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-  var ws_url = ws_scheme + "://" + window.location.hostname + ":8001" + "/ws/play/" 
+  var ws_url = ws_scheme + "://" + window.location.hostname + ":2412" + "/ws/play/" 
     + window.location.pathname.split("/")[3] + "/" + "?session_key={{ request.session.session_key }}";
 
   //console.log("Conecting to... " + ws_url)
@@ -166,11 +168,7 @@ Resultados
           var question_total = parseInt($("td[data-question='"+data.question+"']").last().html());
           if (isNaN(question_total)) {
             $("td[data-question='"+data.question+"']").last().html(0);
-          } else {
-            if (question_total > 0) {
-              $("td[data-question='"+data.question+"']").last().html(question_total-1);
-            }        
-          }
+          } 
         } else {
           cell
             .empty()
