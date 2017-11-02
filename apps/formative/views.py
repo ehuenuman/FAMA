@@ -11,6 +11,7 @@ from apps.play.models import Play
 from apps.student.models import Student
 from apps.teacher.models import Question
 from apps.course.models import Course
+import apps.question.manageXML as manageXML
 
 @login_required
 def view_formatives(request):
@@ -46,7 +47,12 @@ def create_formative(request):
         data['redirect'] = '/formativa/'
         return JsonResponse(data)
     else:
-        questions = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
+        data = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
+        questions = []
+        for question in data:
+            #print(question)
+            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+            questions.append({"question": q_question, "data": question})
         form = FormativeForm()
     return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'Crear Formativa'})
 
@@ -55,8 +61,17 @@ def create_formative(request):
 def edit_formative(request, formative_id):
     formative = Formative.objects.get(id=formative_id)
     if request.method == 'GET':
-        question_selected = formative.question.all().order_by('formativehasquestion__order')
-        questions = request.user.teacher.question.exclude(id__in=question_selected).order_by('teacherhasquestion__incorporation_date').reverse()
+        data_selected = formative.question.all().order_by('formativehasquestion__order')
+        data = request.user.teacher.question.exclude(id__in=data_selected).order_by('teacherhasquestion__incorporation_date').reverse()
+        questions = []
+        for question in data:
+            #print(question)
+            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+            questions.append({"question": q_question, "data": question})
+        question_selected = []
+        for question in data_selected:
+            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+            question_selected.append({"question": q_question, "data": question})
         form = FormativeForm(instance=formative)
     else:
         formative.name = request.POST.getlist('name')[0]
