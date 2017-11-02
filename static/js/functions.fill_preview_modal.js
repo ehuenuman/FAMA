@@ -5,10 +5,10 @@
   $("#banner_preview h5.white-text").append('Selecci&oacute;n Simple');
 
   if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
-  else $("#content_preview").append('<span><b>Titulo: </b>* No tiene t&iacute;tulo *</span></br>');
+  else $("#content_preview").append('<span><b>Titulo: </b>* Pregunta sin t&iacute;tulo *</span></br>');
 
   if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
-  else $("#content_preview").append('<span><b>Texto alternativo: </b>* No tiene texto alternativo *</span></br>');
+  else $("#content_preview").append('<span><b>Texto alternativo: </b>* Pregunta sin texto alternativo *</span></br>');
 
   if (image!='') {
     $("#content_preview").append('<span><b>Imagen:</span></br>');
@@ -32,7 +32,7 @@
   };
   $('#content_preview').append(agregar);
   $('#preview_modal').modal('open');
-  resetVariables();  
+  resetVariables();
 };
 
 

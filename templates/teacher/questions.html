@@ -31,25 +31,25 @@
       <table id="miTabla-mispreguntas" class="col s12 bordered card-box">
         <thead>
           <tr>            
-            <th class="left-align" style="min-width: 150px;">T&iacute;tulo</th>
+            <th class="left-align" style="min-width: 150px;">Pregunta</th>
             <th class="left-align" style="width: 170px;">Tipo</th>
             <th class="center-align" style="width: 160px;">Creada el</th>            
             <th class="center-align" style="width: 150px;">Acciones</th>
           </tr>
         </thead>
       
-        <tbody class="galler">
-          {% if questions %}
+        <tbody class="galler">          
+          {% if questions %}            
             {% for question in questions %}
-            <tr id='{{question.id}}'>              
-              <td>{{question.title}}</td>
-              <td>{{question.spanish_type}}</td>
-              <td class="center-align">{{question.incorporation_date|date:"d M Y H:i"}}</td>
+            <tr id='{{question.data.id}}'>              
+              <td>{{question.question|safe}}</td>
+              <td>{{question.data.spanish_type}}</td>
+              <td class="center-align">{{question.data.incorporation_date|date:"d M Y H:i"}}</td>
               <td class="center-align">
-                <button class="waves-effect waves-light btn btn-action" id='{{question.id}}' data-action="download">
+                <button class="waves-effect waves-light btn btn-action" id='{{question.data.id}}' data-action="download">
                   <i class="fa fa-download" aria-hidden="true"></i>
                 </button>
-                <button class="waves-effect waves-light btn btn-action" id='{{question.id}}' data-action="preview">
+                <button class="waves-effect waves-light btn btn-action" id='{{question.data.id}}' data-action="preview">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
               </td>                    

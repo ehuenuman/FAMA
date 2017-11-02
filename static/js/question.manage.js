@@ -37,7 +37,9 @@ function setVariablesSimpleChoice() {
     extension        = data_file.extension;
     code             = data_file.code;    
     question_title   = data_file.assessmentItem.title;
-    alternative_text = data_file.itemBody.alternativeText;
+    if (data_file.itemBody.alternativeText) {
+        alternative_text = data_file.itemBody.alternativeText;
+    }
     if (extension == "zip") {
         image = data_file.itemBody.img.src;
     }
