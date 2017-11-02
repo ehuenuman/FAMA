@@ -64,7 +64,7 @@
               {% if question_selected %}
               <ul id="formative-questions" class="collection connectedSortable">
                 {% for question in question_selected %}
-                <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.spanish_type }}</li>
+                <li class="collection-item" data-id="{{ question.id }}">{{ question.question|safe }} - {{ question.data.spanish_type }}</li>
                 {% endfor %}
               </ul>
               {% else %}
@@ -107,7 +107,7 @@
           {% if questions %}
             <ul class="collection connectedSortable" id="list-question-for-formative">
             {% for question in questions %}
-              <li class="collection-item" data-id="{{ question.id }}">{{ question.title }} - {{ question.spanish_type }}</li>
+              <li class="collection-item" data-id="{{ question.id }}">{{ question.question|safe }} - {{ question.data.spanish_type }}</li>
             {% endfor %}
             </ul>
           {% else %}
