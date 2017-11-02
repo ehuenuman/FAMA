@@ -1,5 +1,5 @@
 {% extends 'teacher/base.html' %}
-{%load staticfiles %}
+{% load staticfiles %}
 
 {% block extracss%}
 {% endblock %}
@@ -44,7 +44,9 @@
             <tr id='{{question.data.id}}'>              
               <td>{{question.question|safe}}</td>
               <td>{{question.data.spanish_type}}</td>
-              <td class="center-align">{{question.data.incorporation_date|date:"d M Y H:i"}}</td>
+              <td class="center-align">              
+              <!--{{question.data.incorporation_date|date:"d M Y"}}--> {{question.data.incorporation_date|date:"D d/M/Y"}}
+              </td>
               <td class="center-align">
                 <button class="waves-effect waves-light btn btn-action" id='{{question.data.id}}' data-action="download">
                   <i class="fa fa-download" aria-hidden="true"></i>

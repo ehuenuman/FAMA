@@ -55,7 +55,7 @@ def save_question(request, spanish_type):
         thq = TeacherHasQuestion.objects.create(
             teacher=request.user.teacher, 
             question=question,
-            incorporation_date=question.creation_date,
+            incorporation_date=timezone.now(),
             deleted=0)
 
         file = open(BASE_DIR+"/"+question.url, "w")
