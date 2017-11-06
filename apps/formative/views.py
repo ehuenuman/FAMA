@@ -105,7 +105,7 @@ def start_formative(request):
         duration = request.POST['time']        
         try:
             play = Play.objects.create(
-                id_char="P{0}C{1}F{2}".format(play.id, course.id, formative.id),
+                id_char="C{0}F{1}".format(course.id, formative.id),
                 creation_play=timezone.now(),
                 duration=timedelta(minutes=int(duration)),
                 start_play=timezone.now(),
@@ -115,9 +115,9 @@ def start_formative(request):
                 formative=formative,
                 course=course)
 
-            play.id_char = "{0}{1}".format(                    
-                play.id_char,
-                play.id)
+            play.id_char = "P{0}{1}".format(                    
+                play.id,
+                play.id_char)
             play.save()            
             data = {"redirect": "OK"}
 
