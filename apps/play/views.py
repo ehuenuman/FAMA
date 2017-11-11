@@ -6,7 +6,7 @@ from django.core import serializers
 from django.db.models import Sum
 
 from django.db.models.signals import post_save
-from apps.wsocket.consumers import send_update
+from apps.wsocket.consumers import send_answer, send_reply 
 
 from django.contrib.auth.models import User
 from apps.login.views import teacher_check
@@ -19,7 +19,8 @@ from apps.student.models import Student, Answer, Reply
 import apps.question.manageXML as manageXML
 
 # Create your views here.
-post_save.connect(send_update, Answer)
+post_save.connect(send_answer, Answer)
+post_save.connect(send_reply, Reply)
 
 @login_required
 @user_passes_test(teacher_check)
@@ -171,9 +172,10 @@ def play_result(request, play_id_char):
     play = Play.objects.get(id_char=play_id_char)
     formative = Formative.objects.get(id=play.formative.id)
     questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
-    total_for_question = Answer.objects.filter(play=play.id).values("question").annotate(Sum("correct"))
     course = Course.objects.get(id=play.course.id)
     students = User.objects.filter(student__course=course.id).select_related("User").values("id", "username", "first_name", "last_name").order_by("last_name")
+    started_play = Reply.objects.filter(play=play.id).count()
+    total_for_question = Play.total_for_question(play.id)
     temp = []
     for student in students:
         answer = Answer.objects.filter(student=student["id"], play=play.id).values("question", "correct")
@@ -201,5 +203,6 @@ def play_result(request, play_id_char):
             "questions": questions,
             "course": course,
             "students": temp,
-            "total_for_question": total_for_question
+            "total_for_question": total_for_question,
+            "started_play": started_play
         })
