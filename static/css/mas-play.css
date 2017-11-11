@@ -56,7 +56,7 @@ a.collection-item {
 
 .card-box {
   padding: 7px !important;
-  margin-top: 7px !important;
+  margin-top: 7px;
   margin-bottom: 14px !important;
   border-radius: 0px !important;
   border: 1px solid #E0E0E0 !important;
