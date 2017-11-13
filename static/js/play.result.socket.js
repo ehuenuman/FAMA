@@ -85,13 +85,20 @@ socket.onmessage = function(e) {
           }
         }
       }
-    }
+    }    
+    answer_formative_chart.load({
+      json: data.total_for_question,
+      keys: {
+        x: "question",
+        value: ["corrects", "incorrects"],
+      },
+    });
   } else {
     played_formative_chart.load({
         columns: [['Estudiantes', data.played_students]]
     });
   }
-}
+};
 
 // Call onopen directly if socket is already open
 if (socket.readyState == WebSocket.OPEN) socket.onopen();
