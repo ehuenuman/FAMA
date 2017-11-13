@@ -1,27 +1,39 @@
 {% extends 'teacher/base.html' %}
 {% load staticfiles %}
 
-{% block extracss%}
+{% block extracss%}  
   <link rel="stylesheet" href="{% static 'css/library/c3.min.css' %}">
   <style>
     .reply {
       border-radius: 0px;
+      padding: 0px;
+
     }
 
     .reply.correct {
       background-color: #4caf50;
+      border-color: #388e3c;
+      color: #ffffff;
+      padding: 10px 8px;
+      border-radius: 80px;
     }
 
     .reply.incorrect {
-      background-color: #f44336;
+      background-color: #f44336;      
+      border-color: #d32f2f;
+      color: #ffffff;
+      padding: 10px 10px;
+      border-radius: 80px;
     }
   </style>
 {% endblock %}
 
 {% block extrajs%}
-  <script type="text/javascript" src="{% static 'js/play.result.charts.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/library/d3.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/library/c3.min.js' %}"></script>
+  <script src="{% static 'js/library/js.cookie.js' %}"></script>
+  <script src="{% static 'js/library/d3.min.js' %}"></script>
+  <script src="{% static 'js/library/c3.min.js' %}"></script>
+  <script src="{% static 'js/play.play.js' %}"></script>
+  <script src="{% static 'js/play.result.charts.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -35,6 +47,19 @@ Resultados
 
 {% block content %}
 <div class="row last-row">
+  {% if play.is_active == 1 %}
+  <div class="col s12 messages">
+    <div class="col s12 alert valign-wrapper">
+      <div class="col s9">La formativa a&uacute;n se encuentra disponible para ser respondida.</div>
+      <div class="col s3">
+        <div class="waves-effect waves-ligth btn btn-danger btn-action stop-formative" data-url="{% url 'play:stop' %}" data-play-id="{{play.id}}">
+          <i class="fa fa-stop fa-2x" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
   <div class="col s12 m4 l4">
     <div class="s12">
       <ul class="collection">
@@ -64,7 +89,7 @@ Resultados
     <div class="s12">
       <ul class="collection with-header">
         <li class="collection-header col s12 center-align"><b>Iniciaron la formativa</b></li>
-        <li class="collection-item col s12 center-align" id="students_play_chart">
+        <li class="collection-item chart col s12 center-align" id="students_play_chart">
           
         </li>
       </ul>
@@ -73,7 +98,7 @@ Resultados
   <div class="col s12 m8 l8">
     <ul class="collection with-header">
       <li class="collection-header col s12 center-align"><b>Respuestas</b></li>
-      <li class="collection-item col s12 center-align" id="students_answer_chart"></li>
+      <li class="collection-item chart col s12 center-align" id="students_answer_chart"></li>
     </ul>
   </div>
 </div>
@@ -110,25 +135,25 @@ Resultados
             <th class="center-align" style="width: 100px;">Total</th>
           </tr>
         </thead>
-        <tbody>          
+        <tbody>
           {% for student in students %}
             <tr>
               <td class="hide-on-med-and-down">{{ student.username }}</td>
-              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>
+              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>              
               {% for question in questions %}
-                <td data-student="{{ student.id }}" data-question="{{ question.id }}"
-                  {% for answer in student.answers %}        
+                <td class="center-align reply" data-student="{{ student.id }}" data-question="{{ question.id }}">
+                  {% for answer in student.answers %}
                     {% if answer.question == question.id %}
                       {% if answer.correct == 1 %}
-                         class="center-align reply correct">
-                          <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                        <i class="fa fa-check fa-lg reply correct" aria-hidden="true"></i>
                       {% else %}
-                        class="center-align reply incorrect">
-                          <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                        <i class="fa fa-times fa-lg reply incorrect" aria-hidden="true"></i>
                       {% endif %}
                     {% endif %}
-                  {% endfor %} 
-                  </td>
+                  {% empty %}
+                    <i class="fa fa-minus fa-lg" aria-hidden="true"></i>
+                  {% endfor %}
+                </td>
               {% endfor %}
               <td class="center-align">{{ student.corrects }}</td>
             </tr>
@@ -169,6 +194,12 @@ Resultados
 <script>
   $(document).ready(function(){
     $('ul.tabs').tabs();
+
+    $.each($("td.reply"), function(index, val) {
+      if ($(val).children().length == 0) {
+        $(val).html('<i class="fa fa-minus fa-lg" aria-hidden="true"></i>');
+      }
+    });    
   });
 
   //Conect socket
