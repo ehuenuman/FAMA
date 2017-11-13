@@ -39,18 +39,20 @@ function played_formative_chart(total_student, played_student) {
     played_formative_chart.load({
         columns: [['Estudiantes', played_student]]
     });
-  }, 500);   
+  }, 500);  
 };
 
 function answer_formative_chart(total_for_question) {
+  temp = [];
   for (var i = 0; i < total_for_question.length; i++) {
     total_for_question[i].question = "P"+(i+1);
+    temp.push({question: "P"+(i+1), corrects: 0, incorrects: 0});
   }  
-
+  
   answer_formative_chart = c3.generate({
     bindto: "#students_answer_chart",
     data: {
-      json: total_for_question,
+      json: temp,
       type: "bar",
       groups: [
         ["corrects", "incorrects"]
@@ -83,7 +85,18 @@ function answer_formative_chart(total_for_question) {
       height: 240
     },
     padding: {      
-      right: 50
+      right: 15,
+      top: 5
     }
   });
+
+  setTimeout(function () {
+    answer_formative_chart.load({
+      json: total_for_question,
+      keys: {
+        x: "question",
+        value: ["corrects", "incorrects"],
+      }    
+    });
+  }, 500);
 };
