@@ -36,36 +36,44 @@ Resultados
 {% block content %}
 <div class="row last-row">
   <div class="col s12 m4 l4">
-    <ul class="collection">
-      <li class="collection-item col s12">
-        <div class="list-group">
-          <div class="list-group-item truncate">
-            <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
+    <div class="s12">
+      <ul class="collection">
+        <li class="collection-item col s12">
+          <div class="list-group">
+            <div class="list-group-item truncate">
+              <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
+            </div>
+            <div class="list-group-item truncate">
+              <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
+            </div>
+            <div class="list-group-item truncate">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{play.duration_to_time}}
+            </div>
+            <div class="list-group-item truncate">
+              <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;
+              {% if play.is_active == 1 %}
+                Activa
+              {% else %}
+                {{play.close_play|date:"D d/M/Y"}}
+              {% endif %}
+            </div>
           </div>
-          <div class="list-group-item truncate">
-            <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
-          </div>
-          <div class="list-group-item truncate">
-            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{play.duration_to_time}}
-          </div>
-          <div class="list-group-item truncate">
-            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{play.close_play|date:"D d/M/Y"}}
-          </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="s12">
+      <ul class="collection with-header">
+        <li class="collection-header col s12 center-align"><b>Iniciaron la formativa</b></li>
+        <li class="collection-item col s12 center-align" id="students_play_chart">
+          
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="col s12 m4 l4">
+  <div class="col s12 m8 l8">
     <ul class="collection with-header">
-      <li class="collection-header col s12 center-align"><b>Iniciaron la formativa</b></li>
-      <li class="collection-item col s12 center-align" id="students_play_chart">
-        
-      </li>
-    </ul>
-  </div>
-  <div class="col s12 m4 l4">
-    <ul class="collection">
-      <li class="collection-item col s12"></li>
+      <li class="collection-header col s12 center-align"><b>Respuestas</b></li>
+      <li class="collection-item col s12 center-align" id="students_answer_chart"></li>
     </ul>
   </div>
 </div>
@@ -147,7 +155,7 @@ Resultados
         </tbody>
       </table>
     </div>    
-  </div>
+  </div>  
 
   <div class="col s12" id="plots_result">
   </div>
@@ -172,6 +180,7 @@ Resultados
 
   //Set up charts
   played_formative_chart({{course.student.count}}, {{started_play}});
+  answer_formative_chart({{total_for_question|safe}});
 </script>
 <script type="text/javascript" src="{% static 'js/play.result.socket.js' %}"></script>
 {% endblock %}
