@@ -1,6 +1,7 @@
 from django.db.models.signals import post_save
 from apps.login.views import teacher_check
 from apps.student.models import Reply
+from apps.play.models import Play
 
 from channels import Group
 from channels.sessions import channel_session
@@ -30,13 +31,19 @@ def ws_connect(message, room_name):
     Group("chat-%s" % room_name).add(message.reply_channel)
 
 def send_answer(sender, instance, **kwargs):
-    room_name = instance.play.id_char    
+    room_name = instance.play.id_char 
+    
+    total_for_question = Play.total_for_question(instance.play.id)
+    for index in range(0, len(total_for_question)):
+        total_for_question[index]["question"] = "P{0}".format(index+1)
+
     Group("chat-%s" % room_name).send({
         "text": json.dumps({ 
             "action": "answer",
             "correct": instance.correct,
             "student": instance.student.user_id,
             "question": instance.question.id,
+            "total_for_question": total_for_question,
         }),
     })
 
