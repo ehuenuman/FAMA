@@ -33,7 +33,7 @@ def ws_connect(message, room_name):
 def send_answer(sender, instance, **kwargs):
     room_name = instance.play.id_char 
     
-    total_for_question = Play.total_for_question(instance.play.id, instance.play.formative)
+    total_for_question = Play.total_for_question(instance.play.id, instance.play.formative.id)
     for index in range(0, len(total_for_question)):
         total_for_question[index]["question"] = "P{0}".format(index+1)
 
