@@ -115,7 +115,7 @@ Resultados
       <li class="tab col s6 disabled">
         <a href="#plots_result">
           <i class="fa fa-pie-chart fa-lg" aria-hidden="true"></i>
-          <span class="hide-on-small-only">&nbsp;Est&iacute;sticas</span>          
+          <span class="hide-on-small-only">&nbsp;Est&iacute;sticas</span>
         </a>
       </li>
     </ul>
@@ -127,7 +127,7 @@ Resultados
       <table class="card-box" style="font-size: 13px; margin-top: 0px;">
         <thead>          
           <tr>
-            <th class="hide-on-med-and-down" style="width: 90px;">RUT</th>
+            <th class="hide-on-med-and-down" style="min-width: 90px;">RUT</th>
             <th style="width: 250px;">Estudiante</th>
             {% for question in questions %}
               <th class="center-align" data-question="{{ question.id }}">P{{ forloop.counter }} {{ question.title|truncatechars_html:20 }}</th>
@@ -139,7 +139,7 @@ Resultados
           {% for student in students %}
             <tr>
               <td class="hide-on-med-and-down">{{ student.username }}</td>
-              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>              
+              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|truncatewords_html:2|title }} {{ student.last_name|truncatewords_html:1|title }}</td>
               {% for question in questions %}
                 <td class="center-align reply" data-student="{{ student.id }}" data-question="{{ question.id }}">
                   {% for answer in student.answers %}
