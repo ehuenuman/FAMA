@@ -16,7 +16,7 @@ function played_formative_chart(total_student, played_student) {
           return value;
         }            
       },
-      max: total_student,      
+      max: total_student,
       width: 25
     },
     color: {
@@ -84,7 +84,7 @@ function answer_formative_chart(total_for_question) {
     size: {
       height: 240
     },
-    padding: {      
+    padding: {
       right: 15,
       top: 5
     }
