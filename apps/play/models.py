@@ -22,10 +22,10 @@ class Play(models.Model):
         return "{0} min.".format(int(self.duration.seconds/60))
 
     @staticmethod  
-    def total_for_question(id_play):
+    def total_for_question(play_id, formative_id):
         """Search for any question on play the total of corrects and incorrect"""        
         cur = connection.cursor()
-        cur.callproc("total_for_question", [id_play,])
+        cur.callproc("total_for_question", [play_id, formative_id])
         results = cur.fetchall()        
         cur.close()
         

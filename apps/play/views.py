@@ -175,7 +175,7 @@ def play_result(request, play_id_char):
     course = Course.objects.get(id=play.course.id)
     students = User.objects.filter(student__course=course.id).select_related("User").values("id", "username", "first_name", "last_name").order_by("last_name")
     started_play = Reply.objects.filter(play=play.id).count()
-    total_for_question = Play.total_for_question(play.id)
+    total_for_question = Play.total_for_question(play.id, formative.id)
     temp = []
     for student in students:
         answer = Answer.objects.filter(student=student["id"], play=play.id).values("question", "correct")
