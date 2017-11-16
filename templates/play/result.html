@@ -60,7 +60,8 @@ Resultados
   </div>
   {% endif %}
 
-  <div class="col s12 m4 l4">
+  <div class="col s12 m4">
+
     <div class="s12">
       <ul class="collection">
         <li class="collection-item col s12">
@@ -86,21 +87,33 @@ Resultados
         </li>
       </ul>
     </div>
+    
     <div class="s12">
-      <ul class="collection with-header">
-        <li class="collection-header col s12 center-align"><b>Iniciaron la formativa</b></li>
-        <li class="collection-item chart col s12 center-align" id="students_play_chart">
-          
-        </li>
+      <ul class="collection with-header white">
+        <li class="collection-header col s12">
+          <div class="s12 m6 center-align"><b>Estado del curso</b></div>
+          <div class="s12 m6 center-align" style="font-size: 11px;">Total estudiantes: {{course.student.count}}</div>
+        </li> 
+        <div class="col s12 l6">
+          <span class="col s12 center-align" style="font-size: 11px;">Iniciaron formativa</span>
+          <li class="collection-item chart col s12 center-align" id="students_start_chart"></li>
+        </div>
+        <div class="col s12 l6">
+          <span class="col s12 center-align" style="font-size: 11px;">Terminaron formativa</span>
+          <li class="collection-item chart col s12 center-align" id="students_end_chart"></li>
+        </div>
       </ul>
-    </div>
+    </div>  
+
   </div>
-  <div class="col s12 m8 l8">
+
+  <div class="col s12 m8">
     <ul class="collection with-header">
       <li class="collection-header col s12 center-align"><b>Respuestas</b></li>
       <li class="collection-item chart col s12 center-align" id="students_answer_chart"></li>
     </ul>
   </div>
+
 </div>
 
 <div class="row">
@@ -210,8 +223,9 @@ Resultados
   var socket = new WebSocket(ws_url);
 
   //Set up charts
-  played_formative_chart({{course.student.count}}, {{started_play}});
-  answer_formative_chart({{total_for_question|safe}});
+  setup_played_formative_chart({{course.student.count}}, {{started_play}});
+  setup_finished_formative_chart({{course.student.count}}, {{finished_play.total}}, {{finished_play.students}});
+  setup_answer_formative_chart({{total_for_question|safe}});
 </script>
 <script type="text/javascript" src="{% static 'js/play.result.socket.js' %}"></script>
 {% endblock %}
