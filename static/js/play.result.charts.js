@@ -1,12 +1,15 @@
 var played_formative_chart;
 var answer_formative_chart;
+var end_formative_chart;
 
-function played_formative_chart(total_student, played_student) {
+var finished_student = [];
+
+function setup_played_formative_chart(total_student, played_student) {
   played_formative_chart = c3.generate({
-    bindto: "#students_play_chart",
+    bindto: "#students_start_chart",
     data: {
       columns: [
-        ['Estudiantes', 0]
+        ['Iniciaron', 0]
       ],
       type: 'gauge'
     },
@@ -14,10 +17,19 @@ function played_formative_chart(total_student, played_student) {
       label: {
         format: function(value, ratio) {
           return value;
-        }            
+        },
+        show: false // to turn off the min/max labels.
       },
       max: total_student,
       width: 25
+    },
+    tooltip: {
+      format: {
+        //title: function (d) { return 'Data ' + d; },
+        value: function (value, ratio, id) {          
+          return (value+" est.");
+        }        
+      }
     },
     color: {
       pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
@@ -27,22 +39,74 @@ function played_formative_chart(total_student, played_student) {
       }
     },
     size: {
-      height: 120,
-      width: 150
+      height: 80,
+      width: 140
     },
     padding: {
-      bottom: 20
+      bottom: 5
     }
-  });
+  });  
 
   setTimeout(function () {
     played_formative_chart.load({
-        columns: [['Estudiantes', played_student]]
+        columns: [['Iniciaron', played_student]]
     });
   }, 500);  
 };
 
-function answer_formative_chart(total_for_question) {
+
+function setup_finished_formative_chart(total_student, end_student, id_students) {
+  finished_student = id_students;
+  end_formative_chart = c3.generate({
+    bindto: "#students_end_chart",
+    data: {
+      columns: [
+        ['Terminaron', 0]
+      ],
+      type: 'gauge'
+    },
+    gauge: {
+      label: {
+        format: function(value, ratio) {
+          return value;
+        },
+        show: false // to turn off the min/max labels.
+      },
+      max: total_student,
+      width: 25
+    },
+    tooltip: {
+      format: {
+        //title: function (d) { return 'Data ' + d; },
+        value: function (value, ratio, id) {          
+          return (value+" est.");
+        }        
+      }
+    },
+    color: {
+      pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
+      threshold: {
+        unit: 'value',    
+        values: [total_student*1/4, total_student*2/4, total_student*3/4, total_student]
+      }
+    },
+    size: {
+      height: 80,
+      width: 140
+    },
+    padding: {
+      bottom: 5
+    }
+  });  
+
+  setTimeout(function () {
+    end_formative_chart.load({
+        columns: [['Terminaron', end_student]]
+    });
+  }, 500);  
+};
+
+function setup_answer_formative_chart(total_for_question) {
   temp = [];
   for (var i = 0; i < total_for_question.length; i++) {
     total_for_question[i].question = "P"+(i+1);
