@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from apps.login.views import teacher_check
-from apps.student.models import Reply
+from apps.student.models import Reply, Answer
 from apps.play.models import Play
 
 from channels import Group
@@ -34,6 +34,14 @@ def send_answer(sender, instance, **kwargs):
     room_name = instance.play.id_char 
     
     total_for_question = Play.total_for_question(instance.play.id, instance.play.formative.id)
+    
+    total_question = len(total_for_question)
+    total_answers = len(Answer.objects.filter(student=instance.student, play=instance.play.id))
+    if total_question == total_answers:
+        add_finish = True
+    else:
+        add_finish = False
+
     for index in range(0, len(total_for_question)):
         total_for_question[index]["question"] = "P{0}".format(index+1)
 
@@ -44,6 +52,7 @@ def send_answer(sender, instance, **kwargs):
             "student": instance.student.user_id,
             "question": instance.question.id,
             "total_for_question": total_for_question,
+            "add_finish": add_finish
         }),
     })
 
