@@ -174,18 +174,22 @@ def play_result(request, play_id_char):
     questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
     course = Course.objects.get(id=play.course.id)
     students = User.objects.filter(student__course=course.id).select_related("User").values("id", "username", "first_name", "last_name").order_by("last_name")
-    started_play = Reply.objects.filter(play=play.id).count()
     total_for_question = Play.total_for_question(play.id, formative.id)
+    started_play = Reply.objects.filter(play=play.id).count()
+    finished_play = {"total": 0, "students": []}
     temp = []
     for student in students:
         answer = Answer.objects.filter(student=student["id"], play=play.id).values("question", "correct")
         corrects = 0
+        if len(answer) == len(questions):
+            finished_play["total"] += 1
+            finished_play["students"].append(student["id"])
         for reply in answer:
             corrects += reply["correct"]
         student["answers"] = answer
         student["corrects"] = corrects
         corrects = 0
-        temp.append(student)
+        temp.append(student)    
 
     #print(students)
     #print(answer)
@@ -204,5 +208,6 @@ def play_result(request, play_id_char):
             "course": course,
             "students": temp,
             "total_for_question": total_for_question,
-            "started_play": started_play
+            "started_play": started_play,
+            "finished_play": finished_play
         })
