@@ -87,9 +87,18 @@ socket.onmessage = function(e) {
         value: ["corrects", "incorrects"],
       }
     });
+
+    if (data.add_finish) {      
+      if (finished_student.indexOf(data.student) == -1) {
+        finished_student.push(data.student)
+        end_formative_chart.load({
+            columns: [['Terminaron', end_formative_chart.data.values("Terminaron")[0] + 1]]
+        });
+      }
+    }
   } else {
     played_formative_chart.load({
-        columns: [['Estudiantes', data.played_students]]
+        columns: [['Iniciaron', data.played_students]]
     });
   }
 };
