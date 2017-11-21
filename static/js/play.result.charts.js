@@ -24,12 +24,7 @@ function setup_played_formative_chart(total_student, played_student) {
       width: 25
     },
     tooltip: {
-      format: {
-        //title: function (d) { return 'Data ' + d; },
-        value: function (value, ratio, id) {          
-          return (value+" est.");
-        }        
-      }
+      show: false,
     },
     color: {
       pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
@@ -76,12 +71,7 @@ function setup_finished_formative_chart(total_student, end_student, id_students)
       width: 25
     },
     tooltip: {
-      format: {
-        //title: function (d) { return 'Data ' + d; },
-        value: function (value, ratio, id) {          
-          return (value+" est.");
-        }        
-      }
+      show: false,
     },
     color: {
       pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
