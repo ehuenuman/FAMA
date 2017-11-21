@@ -138,9 +138,9 @@ Resultados
   <div class="col s12" id="table_result">
     <div style="overflow-x: auto;">
       <table class="card-box" style="font-size: 13px; margin-top: 0px;">
-        <thead>          
+        <thead>
           <tr>
-            <th class="hide-on-med-and-down" style="min-width: 90px;">RUT</th>
+            <th class="hide-on-med-and-down" style="min-width: 90px; width: 90px;">RUT</th>
             <th style="width: 250px;">Estudiante</th>
             {% for question in questions %}
               <th class="center-align" data-question="{{ question.id }}">P{{ forloop.counter }} {{ question.title|truncatechars_html:20 }}</th>
@@ -152,7 +152,7 @@ Resultados
           {% for student in students %}
             <tr>
               <td class="hide-on-med-and-down">{{ student.username }}</td>
-              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|truncatewords_html:2|title }} {{ student.last_name|truncatewords_html:1|title }}</td>
+              <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>
               {% for question in questions %}
                 <td class="center-align reply" data-student="{{ student.id }}" data-question="{{ question.id }}">
                   {% for answer in student.answers %}
@@ -173,16 +173,13 @@ Resultados
           {% endfor %}
           <tr>
             <td class="hide-on-med-and-down"></td>
-            <td><b>Total</b></td>
+            <td class="right-align"><b>Correctas</b></td>
             {% for question in questions %}
               <td class="center-align" data-question="{{ question.id }}">
               {% for total in total_for_question %}
                 {% if total.question == question.id %}
-                  <div class="col s12 corrects">
-                    <i class="fa fa-check" aria-hidden="true"></i>&nbsp;<span>{{ total.corrects }}</span>
-                  </div>
-                  <div class="col s12 incorrects">
-                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;<span>{{ total.incorrects }}</span>
+                  <div class="col s12 center-align corrects">
+                    {{ total.corrects }}
                   </div>                  
                 {% endif %}
               {% endfor %}
@@ -190,7 +187,49 @@ Resultados
             {% endfor %}
             <td></td>
           </tr>
+          <tr>
+            <td class="hide-on-med-and-down"></td>
+            <td class="right-align"><b>Incorrectas</b></td>
+            {% for question in questions %}
+              <td class="center-align" data-question="{{ question.id }}">
+              {% for total in total_for_question %}
+                {% if total.question == question.id %}
+                  <div class="col s12 center-align incorrects">
+                    {{ total.incorrects }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+              </td>
+            {% endfor %}
+            <td></td>
+          </tr>
+          <tr>
+            <td class="hide-on-med-and-down"></td>
+            <td class="right-align"><b>Respondidas</b></td>
+            {% for question in questions %}
+              <td class="center-align" data-question="{{ question.id }}">
+              {% for total in total_for_question %}
+                {% if total.question == question.id %}
+                  <div class="col s12 center-align total">
+                    {{ total.incorrects|add:total.corrects }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+              </td>
+            {% endfor %}
+            <td></td>
+          </tr>
         </tbody>
+        <thead>
+          <tr>
+            <th class="hide-on-med-and-down" style="min-width: 90px; width: 90px;"></th>
+            <th style="width: 250px;"></th>
+            {% for question in questions %}
+              <th class="center-align" data-question="{{ question.id }}">P{{ forloop.counter }} {{ question.title|truncatechars_html:20 }}</th>
+            {% endfor %}
+            <th class="center-align" style="width: 100px;"></th>
+          </tr>
+        </thead>
       </table>
     </div>    
   </div>  
