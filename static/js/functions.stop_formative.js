@@ -6,7 +6,8 @@ $(document).ready(function() {
     playId = $(event.currentTarget).data("play-id");
     url = $(event.currentTarget).data("url");
     $(".modal.stop-formative").modal("open", {
-      dismissible: false
+      dismissible: false,      
+      endingTop: '20%'
     });
   });
 
