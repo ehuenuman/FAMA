@@ -49,7 +49,7 @@ FAMA
         </div>        
         <div class="col s5 valign">  
           {% if status == 1 %}
-            {% if close_reply %}
+            {% if reply.close_reply %}
               <a class="waves-effect waves-light btn s12 right" href="{% url 'play:reply' play.id_char first_q.id %}">Continuar</a>
             {% else %}
               <a class="waves-effect waves-light btn s12 right" href="{% url 'play:reply' play.id_char first_q.id %}">Comenzar</a>
