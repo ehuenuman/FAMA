@@ -32,7 +32,7 @@
   <script src="{% static 'js/library/js.cookie.js' %}"></script>
   <script src="{% static 'js/library/d3.min.js' %}"></script>
   <script src="{% static 'js/library/c3.min.js' %}"></script>
-  <script src="{% static 'js/play.play.js' %}"></script>
+  <script src="{% static 'js/functions.stop_formative.js' %}"></script>
   <script src="{% static 'js/play.result.charts.js' %}"></script>
 {% endblock %}
 
@@ -237,6 +237,8 @@ Resultados
   <div class="col s12" id="plots_result">
   </div>
 </div>
+
+{% include "functions/modal_stop_formative.html" %}
 {% endblock %}
 
 {% block footer %}
