@@ -52,11 +52,9 @@ def show_play(request, play_id_char):
 
         try:
             reply = Reply.objects.get(student=request.user.student, play=play)
-            status = reply.is_active
-            close_reply = reply.close_reply
+            status = reply.is_active            
         except Exception as e:
-            status = 1
-            close_reply = ""
+            status = 1            
 
         return render(request, "play/show.html", {
             "play": play,            
@@ -64,7 +62,7 @@ def show_play(request, play_id_char):
             "questions": questions,
             "first_q": first_question,
             "status": status,
-            "close_reply": close_reply
+            "reply": reply
             })
 
 
@@ -83,8 +81,7 @@ def reply_play(request, play_id_char, question_id):
                     play=play,
                     start_reply=timezone.now(),
                     close_reply=timezone.now() + play.duration,
-                    is_active=1)
-                close_reply = reply.close_reply
+                    is_active=1)                
                 #print(reply.student.user.first_name)
                 #print(reply.play.formative.name)
                 stop_reply.apply_async([reply.id], countdown=play.duration.seconds)
@@ -128,7 +125,7 @@ def reply_play(request, play_id_char, question_id):
                     {
                         "question": data,                        
                         "play": play,
-                        "close_reply": close_reply
+                        "reply": reply
                     })
         else:
             return redirect("play:show", play_id_char=play_id_char)
