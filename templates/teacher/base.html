@@ -36,7 +36,7 @@
     <ul id="nav-mobile" class="side-nav fixed">
       <div class="center-align">
         <div style="width: 100%; height: 100px; background-color: #ffffff;"></div>
-        Bienvenido {{ user.first_name }}
+        Hola {{ user.first_name }}
       </div>
       <li><div class="divider"></div></li>
       <li class="no-padding">                
@@ -59,8 +59,8 @@
           <li class="bold"><a class="collapsible-header waves-effect waves-teal">Mis Formativas</a>
             <div class="collapsible-body">
               <ul>
-                <li id="list_formatives"><a href="{% url 'formative:index' %}"><i class="fa fa-list-ul"></i>Creadas</a></li>
-                <li id="list_plays"><a href="{% url 'play:index' %}"><i class="fa fa-calendar-times-o"></i>Realizadas</a></li>
+                <li id="list_formatives"><a href="{% url 'formative:index' %}"><i class="fa fa-list-ul"></i>Todas</a></li>
+                <li id="list_plays"><a href="{% url 'play:index' %}"><i class="fa fa-calendar-times-o"></i>Terminadas</a></li>
                 <li id="new_formative"><a href="{% url 'formative:create' %}"><i class="fa fa-plus"></i>Nueva Formativa</a></li>
               </ul>
             </div>
