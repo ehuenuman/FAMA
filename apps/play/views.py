@@ -52,17 +52,18 @@ def show_play(request, play_id_char):
 
         try:
             reply = Reply.objects.get(student=request.user.student, play=play)
-            status = reply.is_active            
+            status = reply.is_active
         except Exception as e:
-            status = 1            
+            reply = {}
+            status = 1
 
         return render(request, "play/show.html", {
             "play": play,            
             "formative": formative,
             "questions": questions,
             "first_q": first_question,
-            "status": status,
-            "reply": reply
+            "reply": reply,
+            "status": status
             })
 
 
