@@ -146,6 +146,24 @@ a.collection-item {
   padding: 10px 0px;
 }
 
+.modal.modal-alert {
+  width: 30%;
+}
+
+@media only screen and (max-width : 992px) {
+  .modal.modal-alert {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width : 600px) {
+  .modal.modal-alert {
+    width: 80%;
+  }
+}
+
+/* Buttons */
+
 .btn-box {
   color: #000;  
   border: 1px solid #e0e0e0;
