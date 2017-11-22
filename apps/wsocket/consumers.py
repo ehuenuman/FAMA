@@ -33,10 +33,10 @@ def ws_connect(message, room_name):
 def send_answer(sender, instance, **kwargs):
     room_name = instance.play.id_char 
     
-    total_for_question = Play.total_for_question(instance.play.id, instance.play.formative.id)
+    total_for_question = Play.total_for_question(instance.play.id, instance.play.formative.id)    
     
     total_question = len(total_for_question)
-    total_answers = len(Answer.objects.filter(student=instance.student, play=instance.play.id))
+    total_answers = len(Answer.objects.filter(student=instance.student, play=instance.play.id))    
     if total_question == total_answers:
         add_finish = True
     else:
