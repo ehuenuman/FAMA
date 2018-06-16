@@ -6,7 +6,7 @@ from django.utils import timezone
 from play.settings import BASE_DIR
 from apps.login.views import teacher_check
 from apps.course.models import Course
-from apps.formative.models import Formative
+from apps.formative.models import Formative,FormativeHasQuestion
 from apps.play.models import Play
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
 import apps.question.manageXML as manageXML
@@ -174,6 +174,28 @@ def add_question(request):
                 data = question_data(question)
         return JsonResponse(data)
 
+@login_required
+@user_passes_test(teacher_check)
+def delete_question(request):
+    data = {}
+    if request.method == "GET":
+        return render(request, "teacher/questions.html")
+    else:
+        id_question = request.POST.get("id_question", "")
+        if request.POST.get("action", "") == "delete":
+            f_has_q = FormativeHasQuestion.objects.filter(question_id=id_question).exists()
+            if f_has_q == False:
+                try:
+                    TeacherHasQuestion.objects.filter(question_id=id_question).delete()
+                    Question.objects.filter(id = id_question).delete()
+                    data["status"] = "success"
+                    return JsonResponse(data)
+                except Exception as e:
+                    data = {"result": "error", "message": str(e)}
+                    return JsonResponse(data)
+            else:
+                data = {"result": "error", "message": "No se pueden eliminar preguntas asociadas a una formativa"}
+                return JsonResponse(data)
 
 @login_required
 @user_passes_test(teacher_check)

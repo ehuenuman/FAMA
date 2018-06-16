@@ -19,6 +19,28 @@ var descargar       = false;
 
 $(document).ready(function() {
 
+  titulo = $(".titulo-choice").val();
+  titulo = accentDecode(titulo);
+  $(".titulo-choice").value = titulo;
+
+  pregunta = $(".pregunta-choice").val();
+  pregunta = accentDecode(pregunta);
+  $(".pregunta-choice")[0].value = pregunta;
+        
+  texto_alternativo = $(".texto_alternativo").val();
+  texto_alternativo = accentDecode(texto_alternativo);
+  $(".texto_alternativo").value = texto_alternativo;
+
+  
+  if($("#imagen-desplegada img")[0] != undefined){
+    imgSrc = $("#imagen-desplegada img")[0].src;
+    var cadena = imgSrc,
+    patron = "pregunta/editar/",
+    nuevoValor    = "media/",
+    url = cadena.replace(patron, nuevoValor);
+    $("#imagen-desplegada img")[0].src = url;
+  }
+  
   random = Math.floor((Math.random() * 100000) + 1);
   //console.log(random);
 
@@ -171,6 +193,7 @@ $(document).ready(function() {
     $('tbody tr').each(function () {          
       var numero_id = $(this)[0].id;      
       var respuesta = $('#'+numero_id+".respuesta").val();
+      //console.log(respuesta);
       respuestas[inicio] = respuesta;
       if (respuestas[inicio] == "") respuestas[inicio] = "Alternativa vacía";
       inicio++;
@@ -221,7 +244,7 @@ function manage_question() {
       var estado = "desactivado";
     }
     var respuesta = remplazarCaracteresEspeciales($('#'+numero_id+'.respuesta').val());
-
+    //console.log(respuesta);
     respuestas[inicio] = respuesta;
     inicio++;
   }); 

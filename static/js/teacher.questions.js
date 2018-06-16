@@ -11,6 +11,30 @@ $(document).ready(function() {
     downloadQuestion(id_question)
   });
 
+  /* Edit question */
+  
+  $("button[data-action='edit']").click(function() {
+    id_question = $(this)[0].id;
+    var cadena = window.location.href,
+    patron = "mis-preguntas/",
+    nuevoValor    = "pregunta/editar/"+String(id_question),
+    url = cadena.replace(patron, nuevoValor);
+    location.href = url;
+    //editQuestion(id_question)
+  });
+
+  /* Delete question */
+  $("button[data-action='delete']").click(function() {
+    var opcion = confirm("¿Desea eliminar la pregunta?");
+    if (opcion == true) {
+      id_question = $(this)[0].id;
+      deleteQuestion(id_question)
+    } 
+    else {
+      Materialize.toast('Cancelo la accion de eliminar la pregunta', 3000, 'rounded');  
+    }
+  });
+
   /* Share/don't share question */
   $("input[type='checkbox']").change(function(){ 
     id_checkbox = $(this)[0].id;
@@ -66,6 +90,7 @@ function previewQuestion(id_question) {
         Materialize.toast(data.message, 3000,'rounded');
     } else {
         //Materialize.toast('Pregunta valida', 3000,'rounded'); 
+        //console.log(data);
         setVariables(data);
         selectMethod();
     }
@@ -96,3 +121,58 @@ function shareQuestion(id_checkbox) {
     Materialize.toast('Un error a ocurrido. Intente nuevamente', 5000, 'rounded');
   });
 };
+
+function deleteQuestion(id_question) {  
+  $.ajax({
+    type: "POST",
+    url: document.location.pathname + "delete",
+    headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+    data: {
+      action: "delete",
+      id_question: id_question
+    },
+    dataType: 'json',
+  })
+  .done(function(data){
+    if (data.result == "error") {
+        Materialize.toast(data.message, 3000,'rounded');
+    } else {
+        Materialize.toast('Borrado exitoso', 3000,'rounded');
+        document.location.reload(); 
+    }
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+    Materialize.toast('Un error a ocurrido. Intente nuevamente', 3000, 'rounded');
+    console.log(errorThrown);
+  });
+};
+/*
+function editQuestion(id_question) {  
+  var cadena = window.location.href,
+    patron = "mis-preguntas/",
+    nuevoValor    = "pregunta/edit/"+String(id_question),
+    url = cadena.replace(patron, nuevoValor);
+    console.log(url);
+  $.ajax({
+    type: "POST",
+    url: url,
+    headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+    data: {
+      action: "edit",
+      id_question: id_question
+    },
+    dataType: 'json',
+  })
+  .done(function(data){
+    if (data.result == "error") {
+        Materialize.toast(data.message, 3000,'rounded');
+    } else {
+        Materialize.toast('Editar exitoso', 3000,'rounded');
+        console.log(data.result); 
+    }
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+    Materialize.toast('Un error a ocurrido. Intente nuevamente', 3000, 'rounded');
+    console.log(jqXHR);
+  });
+};*/

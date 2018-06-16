@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^mis-preguntas/share/(?P<question_id>\d+)$', share_question),
     url(r'^mis-preguntas/download$', download_question),
     url(r'^mis-preguntas/download/(?P<question_id>\d+)$', download_question),
-    url(r'^mis-preguntas/delete/(?P<question_id>\d+)$', download_question,),
+    url(r'^mis-preguntas/delete$', delete_question),
+    url(r'^mis-preguntas/delete/(?P<question_id>\d+)$', delete_question),
     url(r'^delete-folder$', delete_folder),    
 ]
