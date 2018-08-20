@@ -9,6 +9,8 @@ var image            = "";
 var question_text    = "";
 var alternatives;
 var correct_response = "";
+var text_previo      = "";
+var text_posterior   = "";
 /* Globals variables */
 
 function setVariables(data) {    
@@ -16,6 +18,15 @@ function setVariables(data) {
     question_type = data_file.assessmentItem.identifier;
     if (question_type == "choice") {
         setVariablesSimpleChoice();
+    }
+    if (question_type == "order") {
+        setVariablesOrderChoice();
+    }
+    if (question_type == "inlineChoice") {
+        setVariablesInlineChoice();
+    }
+    if (question_type == "textEntry") {
+        setVariablesTextEntry();
     }
 };
 
@@ -30,6 +41,8 @@ function resetVariables() {
     question_text    = "";
     alternatives;
     correct_response = "";
+    text_previo      = "";
+    text_posterior   = "";
 }
 
 
@@ -45,6 +58,52 @@ function setVariablesSimpleChoice() {
     }
     question_text    = data_file.itemBody.choiceInteraction.question;
     alternatives     = data_file.itemBody.choiceInteraction.simpleChoice;
+    correct_response = data_file.responseDeclaration.correctResponse;    
+};
+
+function setVariablesOrderChoice() {    
+    extension        = data_file.extension;
+    code             = data_file.code;    
+    question_title   = data_file.assessmentItem.title;
+    if (data_file.itemBody.alternativeText) {
+        alternative_text = data_file.itemBody.alternativeText;
+    }
+    if (extension == "zip") {
+        image = data_file.itemBody.img.src;
+    }
+    question_text    = data_file.itemBody.orderInteraction.question;
+    alternatives     = data_file.itemBody.orderInteraction.simpleChoice;
+    correct_response = data_file.responseDeclaration.correctResponse;    
+};
+
+function setVariablesInlineChoice() {    
+    extension        = data_file.extension;
+    code             = data_file.code;    
+    question_title   = data_file.assessmentItem.title;
+    if (data_file.itemBody.alternativeText) {
+        alternative_text = data_file.itemBody.alternativeText;
+    }
+    if (extension == "zip") {
+        image = data_file.itemBody.img.src;
+    }
+    question_text    = data_file.itemBody.question;
+    text_previo      = data_file.itemBody.previo;
+    text_posterior   = data_file.itemBody.posterior;
+    alternatives     = data_file.itemBody.inlineChoiceInteraction.inlineChoice;
+    correct_response = data_file.responseDeclaration.correctResponse;    
+};
+
+function setVariablesTextEntry() {    
+    extension        = data_file.extension;
+    code             = data_file.code;    
+    question_title   = data_file.assessmentItem.title;
+    
+    if (extension == "zip") {
+        image = data_file.itemBody.img.src;
+    }
+    question_text    = data_file.itemBody.question;
+    text_previo      = data_file.itemBody.previo;
+    text_posterior   = data_file.itemBody.posterior;
     correct_response = data_file.responseDeclaration.correctResponse;    
 };
 

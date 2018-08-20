@@ -45,17 +45,37 @@ def view_questions(request):
         data = user.question.filter(teacherhasquestion__deleted=0).order_by('-teacherhasquestion__incorporation_date').extra(select={'incorporation_date': 'teacher_has_question.incorporation_date'})
         questions = []
         for question in data:
-            #print(question)
-            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
-            questions.append({"question": q_question, "data": question})
+            print(question.type)
+            if question.type == "choice":
+                q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "order":
+                q_question = manageXML.data_order(question.code, question.extension)["itemBody"]["orderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "inline":
+                q_question = manageXML.data_inline(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "entry":
+                q_question = manageXML.data_entry(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
         return render(request, 'teacher/questions.html', {'questions': questions})
     else:
         id_question = request.POST.get("id_question", "")
         if request.POST.get("action", "") == "preview":
             try:
                 question = Question.objects.get(id = id_question)
-                data = manageXML.data_choice(question.code, question.extension)
-                data["extension"] = question.extension
+                if question.type == "choice":
+                    data = manageXML.data_choice(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "order":
+                    data = manageXML.data_order(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "inline":
+                    data = manageXML.data_inline(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "entry":
+                    data = manageXML.data_entry(question.code, question.extension)
+                    data["extension"] = question.extension
                 return JsonResponse(data)
             except Exception as e:
                 print("Error:", e)

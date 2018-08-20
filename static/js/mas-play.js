@@ -51,6 +51,7 @@ function remplazarCaracteresEspeciales(texto) {
 var accentDecode = function (tx)
 {
   var rp = String(tx);
+  //console.log(rp);
   //
   rp = rp.replace(/&aacute;/g, 'á');
   rp = rp.replace(/&eacute;/g, 'é');
@@ -79,5 +80,6 @@ var accentDecode = function (tx)
   rp = rp.replace(/&#58;/g, ':');
   rp = rp.replace(/&#61;/g, '=');
   //
+  //console.log(rp);
   return rp;
 };

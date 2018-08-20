@@ -31,8 +31,17 @@ $(document).ready(function() {
   texto_alternativo = accentDecode(texto_alternativo);
   $(".texto_alternativo")[0].value = texto_alternativo;
 
+  texto_previo = $(".texto_previo").val();
+  texto_previo = accentDecode(texto_previo);
+  $(".texto_previo")[0].value = texto_previo;
+
+  texto_posterior = $(".texto_posterior").val();
+  texto_posterior = accentDecode(texto_posterior);
+  $(".texto_posterior")[0].value = texto_posterior;
+
   number = $('#answers_table>tbody>tr').length
   
+
   if($("#imagen-desplegada img")[0] != undefined){
     imgSrc = $("#imagen-desplegada img")[0].src;
     var cadena = imgSrc,
@@ -171,10 +180,12 @@ $(document).ready(function() {
     titulo = $(".titulo-choice").val();
     pregunta = $(".pregunta-choice").val();
     texto_alternativo = $(".texto_alternativo").val();
+    texto_previo = $(".texto_previo").val();
+    texto_posterior = $(".texto_posterior").val();
 
     $("#content_preview").empty();
     $("#banner_preview h5.white-text").empty();
-    $("#banner_preview h5.white-text").append('Selecci&oacute;n Simple');
+    $("#banner_preview h5.white-text").append('Selecci&oacute;n entre l&iacute;neas');
 
     if (titulo!="") $("#content_preview").append('<span><b>Titulo: </b>'+titulo+'</span></br>');
     else $("#content_preview").append('<span><b>Titulo: </b>* No tiene t&iacute;tulo *</span></br>');
@@ -201,15 +212,22 @@ $(document).ready(function() {
     }); 
 
     $("#content_preview").append('<span><b>Alternativas: </b></span></br>');
-    cantidad_alternativas = $('#answers_table >tbody >tr').length;
     var agregar = "";
-    for (var i = 1; i <= cantidad_alternativas; i++) {
-      agregar += '<p>';
-      agregar += "<input name='group1' type='radio' id='alternative"+i+"'/>";
-      agregar += "<label for='alternative"+i+"'>"+respuestas[i]+"</label>";
-      agregar += "</p>";
+    cantidad_alternativas = $('#answers_table >tbody >tr').length;
+
+    agregar += '<select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">';
+    for (var i = 1; i <= cantidad_alternativas ; i++) {
+      agregar += '<option value='+respuestas[i]+'>'+respuestas[i]+'</option>'; 
     };
-    $('#content_preview').append(agregar);
+    agregar += '</select>';
+
+    $("#content_preview").append(
+      '<div style="width:100%;height:auto;">' +
+      '<div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">'+texto_previo+'</div>' +
+      agregar+
+      '<div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">'+texto_posterior+'</div>'+
+      '</div>');
+
     $('#preview_modal').modal('open');    
   });
 
@@ -233,6 +251,12 @@ function manage_question() {
   texto_alternativo = $(".texto_alternativo").val();
   texto_alternativo = remplazarCaracteresEspeciales(texto_alternativo);
 
+  texto_previo = $(".texto_previo").val();
+  texto_previo = remplazarCaracteresEspeciales(texto_previo);
+
+  texto_posterior = $(".texto_posterior").val();
+  texto_posterior = remplazarCaracteresEspeciales(texto_posterior);
+
   numero_fila = $('#answers_table>tbody>tr').length;  //cantidad de filas respuestas
   var inicio = 1;
 
@@ -252,9 +276,9 @@ function manage_question() {
     inicio++;
   }); 
   
-  var xml_question = crear_pregunta_xml();
+  var xml_question = crear_preguntaInline_xml();
   if (nombre_foto != "") {
-    var xml_imsmanifest = crear_imsmanifest();
+    var xml_imsmanifest = crear_imsmanifestInline();
     if (descargar) {
       //console.log("DESCARGAR ZIP");
       var zip = new JSZip();
@@ -274,7 +298,7 @@ function manage_question() {
         "imsmanifest": xml_imsmanifest,
         "title": titulo2,
         "number": random,
-        "type": "choice",
+        "type": "inline",
         "extension": "zip",
         "image": result,
         "name_image": nombre_foto,
@@ -291,7 +315,7 @@ function manage_question() {
         "question": xml_question,
         "title": titulo2,
         "number": random,
-        "type": "choice",
+        "type": "inline",
         "extension": "xml",
         "correct": correcta
       }
@@ -311,6 +335,7 @@ function send_question(data) {
     if (data.result == "success") {
       Materialize.toast('Pregunta guardada con exito', 3000, 'rounded');
     } else {
+
       Materialize.toast('Error al gurdar la pregunta', 3000, 'rounded');
     }
   })
@@ -319,19 +344,18 @@ function send_question(data) {
   });
 }
 
-function crear_pregunta_xml() {
-  //console.log("2) entrando a crear_pregunta_xml");
+function crear_preguntaInline_xml() {
   var cH = new XMLWriter('UTF-8','1.0');
-  cH.formatting = 'indented';   //add indentation and newlines
-  cH.indentChar = ' ';          //indent with spaces
-  cH.indentation = 3;           //add 2 spaces per levelXMLWriter
+  cH.formatting = 'indented';//add indentation and newlines
+  cH.indentChar = ' ';//indent with spaces
+  cH.indentation = 3;//add 2 spaces per levelXMLWriter
 
   cH.writeStartDocument( );
   cH.writeStartElement('assessmentItem');
   cH.writeAttributeString('xmlns', 'http://www.imsglobal.org/xsd/imsqti_v2p1');
   cH.writeAttributeString('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance');
   cH.writeAttributeString('xsi:schemaLocation','http://www.imsglobal.org/xsd/imsqti_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd ');
-  cH.writeAttributeString('identifier','choice');
+  cH.writeAttributeString('identifier','inlineChoice');
   cH.writeAttributeString('title',titulo);
   cH.writeAttributeString('adaptive','false');
   cH.writeAttributeString('timeDependent','false');
@@ -353,7 +377,7 @@ function crear_pregunta_xml() {
   cH.writeAttributeString('identifier','SCORE');
   cH.writeAttributeString('cardinality','single');
   cH.writeAttributeString('baseType','float');
-                          
+                            
   cH.writeStartElement('defaultValue');
   cH.writeStartElement('value');
   cH.writeString('0');
@@ -362,11 +386,11 @@ function crear_pregunta_xml() {
   cH.writeEndElement('outcomeDeclaration');
 
   cH.writeStartElement('itemBody');
-  if (texto_alternativo != "") {
-    cH.writeStartElement('p');
-    cH.writeString(texto_alternativo);
-    cH.writeEndElement('p'); 
-  };
+
+  cH.writeStartElement('p');
+  cH.writeString(pregunta);
+  cH.writeEndElement('p');
+                            
   if (nombre_foto != "") {
     cH.writeStartElement('p');
     cH.writeStartElement('img');
@@ -377,22 +401,29 @@ function crear_pregunta_xml() {
     cH.writeEndElement('img');
     cH.writeEndElement('p');                          
   };
-    cH.writeStartElement('choiceInteraction');
-    cH.writeAttributeString('responseIdentifier','RESPONSE');
-    cH.writeAttributeString('shuffle','false');
-    cH.writeAttributeString('maxChoices',1);
-    cH.writeStartElement('prompt');
-    cH.writeString(pregunta);
-    cH.writeEndElement('prompt');
 
-  for (var i = 1; i <= numero_fila; i++) {
-    cH.writeStartElement('simpleChoice');
+  cH.writeStartElement('blockquote');
+  cH.writeStartElement('p');
+  cH.writeStartElement('p');
+  cH.writeString(texto_previo);
+  cH.writeEndElement('p');
+  cH.writeStartElement('inlineChoiceInteraction');
+  cH.writeAttributeString('responseIdentifier','RESPONSE');
+  cH.writeAttributeString('shuffle','false');
+  for (var i = 1; i <= numero_fila; i++) 
+  {
+    cH.writeStartElement('inlineChoice');
     cH.writeAttributeString('identifier','alternativa'+i);
     cH.writeString(respuestas[i]);
-    cH.writeEndElement('simpleChoice');
+    cH.writeEndElement('inlineChoice');
   };
+  cH.writeEndElement('inlineChoiceInteraction');
+  cH.writeStartElement('p');
+  cH.writeString(texto_posterior);
+  cH.writeEndElement('p');
+  cH.writeEndElement('p');
 
-  cH.writeEndElement('choiceInteraction');
+  cH.writeEndElement('blockquote');
   cH.writeEndElement('itemBody');
 
   cH.writeStartElement('responseProcessing');
@@ -407,7 +438,7 @@ function crear_pregunta_xml() {
   /*++++++imprime el xml en consola++++++*/  
 };
 
-function crear_imsmanifest(){
+function crear_imsmanifestInline(){
   //console.log("3) entrando a crear_imsmanifest");
   var cH = new XMLWriter('UTF-8','1.0');
   cH.formatting = 'indented';//add indentation and newlines
@@ -416,30 +447,30 @@ function crear_imsmanifest(){
 
   cH.writeStartDocument( );
   cH.writeStartElement('manifest');
-      cH.writeAttributeString('xmlns', 'http://www.imsglobal.org/xsd/imscp_v1p1');
-      cH.writeAttributeString('xmlns:imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2');   
-      cH.writeAttributeString('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');   
-      cH.writeAttributeString('xmlns:imsqti', 'http://www.imsglobal.org/xsd/imsqti_metadata_v2p1');   
-      cH.writeAttributeString('identifier', 'choice');   
-      cH.writeAttributeString('xsi:schemaLocation', 'http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2 imsmd_v1p2p4.xsd http://www.imsglobal.org/xsd/imsqti_metadata_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_metadata_v2p1.xsd');   
-      
-      cH.writeStartElement('organizations');
-      cH.writeEndElement('organizations');
+  cH.writeAttributeString('xmlns', 'http://www.imsglobal.org/xsd/imscp_v1p1');
+  cH.writeAttributeString('xmlns:imsmd', 'http://www.imsglobal.org/xsd/imsmd_v1p2');   
+  cH.writeAttributeString('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');   
+  cH.writeAttributeString('xmlns:imsqti', 'http://www.imsglobal.org/xsd/imsqti_metadata_v2p1');   
+  cH.writeAttributeString('identifier', 'choice');   
+  cH.writeAttributeString('xsi:schemaLocation', 'http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsmd_v1p2 imsmd_v1p2p4.xsd http://www.imsglobal.org/xsd/imsqti_metadata_v2p1  http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_metadata_v2p1.xsd');   
+            
+  cH.writeStartElement('organizations');
+  cH.writeEndElement('organizations');
 
-      cH.writeStartElement('resources');
-          cH.writeStartElement('resource');
-              cH.writeAttributeString('type', 'imsqti_item_xmlv2p1');
-              cH.writeAttributeString('href', "archivo.xml"); 
+  cH.writeStartElement('resources');
+  cH.writeStartElement('resource');
+  cH.writeAttributeString('type', 'imsqti_item_xmlv2p1');
+  cH.writeAttributeString('href', "archivo.xml"); 
 
-              cH.writeStartElement('file');
-                  cH.writeAttributeString('href', "archivo.xml"); 
-              cH.writeEndElement('file'); 
+  cH.writeStartElement('file');
+  cH.writeAttributeString('href', "archivo.xml"); 
+  cH.writeEndElement('file'); 
 
-              cH.writeStartElement('file');
-                  cH.writeAttributeString('href', 'images/'+nombre_foto); 
-              cH.writeEndElement('file'); 
-          cH.writeEndElement('resource');
-      cH.writeEndElement('resources');
+  cH.writeStartElement('file');
+  cH.writeAttributeString('href', 'images/'+nombre_foto); 
+  cH.writeEndElement('file'); 
+  cH.writeEndElement('resource');
+  cH.writeEndElement('resources');
   cH.writeEndElement('manifest');//fin assessment item
   var xml = cH.flush();
 

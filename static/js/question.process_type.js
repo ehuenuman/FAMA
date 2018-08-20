@@ -3,13 +3,13 @@ function selectMethod() {
     processingChoiceData();
   };
   if (question_type == "order" ) {
-    procesar_order_datos();
+    processingOrderData();
   };
-  if (question_type == "inline choice" ) {
-    procesar_inlinechoice_datos();
+  if (question_type == "inlineChoice" ) {
+    processingInlineData();
   };
-  if (question_type == "text entry" ) {
-    procesar_textentry_datos();
+  if (question_type == "textEntry" ) {
+    processingEntryData();
   };
   if (question_type == "slider" ) {
     procesar_slider_datos();  
@@ -24,6 +24,18 @@ function selectMethod() {
 
 function processingChoiceData() {  
   loadModalChoiceData()
+};
+
+function processingOrderData() {  
+  loadModalOrderData()
+};
+
+function processingInlineData() {  
+  loadModalInlineData()
+};
+
+function processingEntryData() {  
+  loadModalEntryData()
 };
 
 

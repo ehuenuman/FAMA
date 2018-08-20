@@ -74,7 +74,7 @@ function downloadQuestion(id_question) {
   //window.open(document.location.pathname+"/download/"+id_question, "_blank");
 };
 
-function previewQuestion(id_question) {  
+function previewQuestion(id_question) {
   $.ajax({
     type: "POST",
     url: document.location.pathname,

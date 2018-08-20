@@ -1,0 +1,221 @@
+{% extends 'teacher/base.html' %}
+{%load staticfiles %}
+
+{% block extracss%}
+<style type="text/css">
+  .dashed-border{
+    /*background-color: grey;*/
+    color: black;  
+    border: 1px dashed grey;
+    border-radius: 8px;
+    padding-left: 10px;
+    padding-right: 10px;    
+  }
+
+  .last-row {
+    margin-bottom: 0px;
+  }
+
+  td {
+    padding: 0px 5px;
+  }
+  
+  #answers_table {
+    margin-bottom: 5px;
+  }
+  #answers_table input {
+    margin-bottom: 0px;
+    height: 22px;
+  }
+
+  #answers_table label {
+    margin: 0px 5px 0px 0px;
+    padding: 0px;
+  }
+
+  #eliminar_foto {
+    display: block;
+    right:-80%;    
+  }
+</style>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/library/jquery.simplePagination.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/library/js.cookie.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/library/XMLWriter-1.0.0.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/library/Blob.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/library/FileSaver.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/library/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/question.create_inlinechoice.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  FAMA - Selecci&oacute;n entre l&iacute;neas
+{% endblock %}
+
+{% block page-title %}
+Crear Selecci&oacute;n entre l&iacute;neas
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col s12">
+    <form  enctype="multipart/form-data" class="col s12 m10 l8 offset-m1 offset-l2 card-box">
+      
+      <div class="row">
+        <div class="col s12 center-align">
+          <div class="col s4">
+            <button id="save_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Guardar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button id="download_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-download" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Descargar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Visualizar</span>
+            </button>  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" data-length="30" maxlength="30" id="title" type="text">
+          <label for="title">Título de la pregunta (Opcional)</label>
+        </div>
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" data-length="100" maxlength="100" id="alternative_text"  type="text">
+          <label for="alternative_text">Texto complementario (Opcional)</label>
+        </div>
+      </div>
+
+      <div class="row dashed-border">         
+        <div class="file-field input-field">
+          <div class="btn">
+            <i class="fa fa-picture-o" aria-hidden="true"></i>
+            <span class="hide-on-med-and-down">Agregar imagen</span>
+            <input id="imagen" type="file" name="archivo" accept="image/*"/>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path" id="input_foto" name="sitebg" type="text" placeholder="Imagen Opcional">
+          </div>
+        </div>        
+        <div id="imagen-desplegada" class="center-align"></div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" data-length="100" maxlength="100" id="question" type="text" required>
+          <label for="question">Pregunta</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input class="texto_previo validate" placeholder="Ejemplo: GTM" data-length="100" maxlength="100" id="textoprevio" type="text" required>
+          <label for="textoprevio">Texto previo de las alternativas</label>
+        </div>
+      </div>
+
+      <div id="mensaje"></div>
+
+      <div class="row dashed-border">
+        <table id="answers_table">
+          <thead>
+            <tr>
+              <th>Correcta</th>
+              <th>Respuesta</th>
+              <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Acci&oacute;n</th>
+              <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="1" >
+              <td>              
+                <input id="test1" name="group1" type="radio" class="check" checked="checked"/>
+                <label for="test1"></label>
+              </td>
+              <td>
+                <input class="respuesta" id="1" type="text" placeholder="Ejemplo: -3" data-content="alternative" required>
+              </td>
+              <td class="center-align">
+                <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
+                <i id="1" class="down fa fa-caret-down fa-3x" aria-hidden="true"></i>
+              </td>            
+              <td>
+                <button id="1" type="button" class="waves-effect waves-light btn btn-danger" data-action="delete-row">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <div class="col s12" style="padding-bottom: 10px;">
+          <button class="waves-effect waves-light btn col s12" id="add_alternative" type="button">agregar nueva alternativa</button>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input class="texto_posterior validate" placeholder="Ejemplo: hora estandar de Chile" data-length="100" maxlength="100" id="textoposterior" type="text" required>
+          <label for="textoposterior">Texto posterior de las alternativas</label>
+        </div>
+      </div>  
+
+      <div class="row last-row">
+        <div class="col s12 center-align">
+          <div class="col s4">
+            <button id="save_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Guardar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button id="download_question" type="submit" class="waves-effect waves-light btn col s12">
+              <i class="fa fa-download" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Descargar</span>
+            </button>
+          </div>
+          <div class="col s4">
+            <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <span class="hide-on-small-only">Visualizar</span>
+            </button>  
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% include "functions/modal_preview_question.html" %}
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block js %}
+<script>
+  $(document).ready(function() {
+    $("button").parents('td').css("padding-bottom", "0").css("padding-top", "0");
+    $('#nav-mobile ul.collapsible li#inline').addClass('active').parent().parent().show().parent().addClass('active');  
+  });
+</script>
+{% endblock %}
