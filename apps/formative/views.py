@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.core import serializers
 from datetime import timedelta
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import FormativeForm
 from .models import Formative, FormativeHasQuestion
@@ -88,10 +89,18 @@ def start_formative(request):
         formative = Formative.objects.get(id=request.POST['formative'])
         course = Course.objects.get(id=request.POST['course'])
         duration = request.POST['time']        
-        
+
+        play_obj = Play.objects.all()
+        #print(len(play_obj))
+        if(len(play_obj) > 0 ):
+            max_id = Play.objects.latest('id').id
+        else:
+            max_id = 0
+        max_id = max_id + 1
+
         try:
             play = Play.objects.create(
-                id_char="P{0}C{1}F{2}".format(play.id, course.id, formative.id),
+                id_char="P{0}C{1}F{2}".format(max_id, course.id, formative.id),
                 creation_play=timezone.now(),
                 duration=timedelta(minutes=int(duration)),
                 start_play=timezone.now(),
