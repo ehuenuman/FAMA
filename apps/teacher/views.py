@@ -58,6 +58,12 @@ def view_questions(request):
             if question.type == "entry":
                 q_question = manageXML.data_entry(question.code, question.extension)["itemBody"]["question"]
                 questions.append({"question": q_question, "data": question})
+            if question.type == "slider":
+                q_question = manageXML.data_slider(question.code, question.extension)["itemBody"]["sliderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "associate":
+                q_question = manageXML.data_associate(question.code, question.extension)["itemBody"]["associateInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
         return render(request, 'teacher/questions.html', {'questions': questions})
     else:
         id_question = request.POST.get("id_question", "")
@@ -75,6 +81,12 @@ def view_questions(request):
                     data["extension"] = question.extension
                 if question.type == "entry":
                     data = manageXML.data_entry(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "slider":
+                    data = manageXML.data_slider(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "associate":
+                    data = manageXML.data_associate(question.code, question.extension)
                     data["extension"] = question.extension
                 return JsonResponse(data)
             except Exception as e:

@@ -143,6 +143,102 @@
     $('#preview_modal').modal('open');
     resetVariables();
 };
+
+ function loadModalSliderData() {
+  $("#modal-text-mis-preguntas").click();
+  $("#content_preview").empty();
+  $("#banner_preview h5.white-text").empty();
+  $("#banner_preview h5.white-text").append('Deslizador');
+
+  if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
+  else $("#content_preview").append('<span><b>Titulo: </b>* Pregunta sin t&iacute;tulo *</span></br>');
+
+  if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Texto alternativo: </b>* Pregunta sin texto alternativo *</span></br>');
+
+  if (image!='') {
+    $("#content_preview").append('<span><b>Imagen:</span></br>');
+    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+  }
+
+  if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
+
+  $("#content_preview").append(
+      '<div style="width:100%;height:auto;">' +
+      '<div style="width:10%;height:auto;background-color:none;float:left;text-align:center;margin-top: 20px;">'+limite_inferior+'</div>' +
+                    
+      '<div style="width:80%;float:left;" class="slider-content">' +
+        '<p class="range-field">' +
+        '<input type="range" id="slider-input_preview"  step="1" min='+limite_inferior+' max='+limite_superior+' />' +
+        '</p>' +
+      '</div>' +
+
+      '<div style="width:10%;height:auto;background-color:none;float:left;text-align:center;margin-top: 20px;">'+limite_superior+'</div>'+
+      '</div>'
+    );
+
+    $('#slider-input_preview').on("change mousemove", function() {
+      valor_correcto = $(this).val();
+      $("#valor_correcto_slider").text(valor_correcto);
+    });
+
+    $("#content_preview").append('<div style="width:100%;height:auto;display: inline-block;text-align:center;"><span id="valor_correcto_slider">50</span></div>');
+
+  $('#preview_modal').modal('open');
+  resetVariables();
+};
+
+ function loadModalAssociateData() {
+  $("#modal-text-mis-preguntas").click();
+  $("#content_preview").empty();
+  $("#banner_preview h5.white-text").empty();
+  $("#banner_preview h5.white-text").append('T&eacute;rminos Pareados');
+
+  if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
+  else $("#content_preview").append('<span><b>Titulo: </b>* Pregunta sin t&iacute;tulo *</span></br>');
+
+  if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Texto alternativo: </b>* Pregunta sin texto alternativo *</span></br>');
+
+  if (image!='') {
+    $("#content_preview").append('<span><b>Imagen:</span></br>');
+    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+  }
+
+  if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
+
+  var opciones = "";
+  for (var i = 0; i < alternatives.length; i++) {
+    opciones +='<option value='+alternatives[i].alternative+'>'+alternatives[i].alternative+'</option>';
+  };
+
+  var agregar = "";
+  numero_fila_pares = alternatives.length / 2;
+  //console.log(numero_fila_pares);
+  agregar += '<table>';
+  agregar += '<thead style="border-bottom: 0px solid #d0d0d0;">';
+  agregar += '<tr><th style="padding: 2px;"></th><th style="padding: 2px;" ></th></tr>';
+  agregar += '</thead>';
+  for (var i = 0; i < numero_fila_pares; i++) {
+    agregar += '<tr style="    border: 1px dashed grey;padding: 5px;margin-top: 5px;"> ';
+    agregar +=      '<td style="width:50%;padding: 2px 2px;">'
+    agregar +=            '<select class="alternativa1"  style="display:inline;height: auto;">'+opciones+'</select>'
+    agregar +=      '</td>'
+
+    agregar +=      '<td style="width:50%;padding: 2px 2px;">'
+    agregar +=            '<select class="alternativa2"  style="display:inline;height: auto;">'+opciones+'</select>'
+    agregar +=      '</td>'
+    agregar += '</tr>';
+  };
+
+  $('#content_preview').append(agregar);
+  $('#preview_modal').modal('open');
+  resetVariables();
+};
+
+
 /*#################################################################################################################
 Unused functions
 

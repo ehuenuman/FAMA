@@ -11,6 +11,10 @@ var alternatives;
 var correct_response = "";
 var text_previo      = "";
 var text_posterior   = "";
+var limite_inferior  = "";
+var limite_superior  = "";
+var step             = "";
+
 /* Globals variables */
 
 function setVariables(data) {    
@@ -27,6 +31,12 @@ function setVariables(data) {
     }
     if (question_type == "textEntry") {
         setVariablesTextEntry();
+    }
+    if (question_type == "slider") {
+        setVariablesSlider();
+    }
+    if (question_type == "associate") {
+        setVariablesAssociate();
     }
 };
 
@@ -105,6 +115,38 @@ function setVariablesTextEntry() {
     text_previo      = data_file.itemBody.previo;
     text_posterior   = data_file.itemBody.posterior;
     correct_response = data_file.responseDeclaration.correctResponse;    
+};
+
+function setVariablesSlider() {    
+    extension        = data_file.extension;
+    code             = data_file.code;    
+    question_title   = data_file.assessmentItem.title;
+    if (data_file.itemBody.alternativeText) {
+        alternative_text = data_file.itemBody.alternativeText;
+    }
+    if (extension == "zip") {
+        image = data_file.itemBody.img.src;
+    }
+    question_text    = data_file.itemBody.sliderInteraction.question;
+    correct_response = data_file.responseDeclaration.correctResponse;
+    limite_inferior  = data_file.itemBody.sliderInteraction.lowerBound;
+    limite_superior  = data_file.itemBody.sliderInteraction.upperBound;
+    step             = data_file.itemBody.sliderInteraction.step;     
+};
+
+function setVariablesAssociate() {    
+    extension        = data_file.extension;
+    code             = data_file.code;    
+    question_title   = data_file.assessmentItem.title;
+    if (data_file.itemBody.alternativeText) {
+        alternative_text = data_file.itemBody.alternativeText;
+    }
+    if (extension == "zip") {
+        image = data_file.itemBody.img.src;
+    }
+    question_text    = data_file.itemBody.associateInteraction.question;
+    correct_response = data_file.responseDeclaration.correctResponse;
+    alternatives     = data_file.itemBody.associateInteraction.associateChoice;     
 };
 
 /*#################################################################################################################

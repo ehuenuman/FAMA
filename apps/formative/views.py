@@ -88,6 +88,7 @@ def start_formative(request):
         formative = Formative.objects.get(id=request.POST['formative'])
         course = Course.objects.get(id=request.POST['course'])
         duration = request.POST['time']        
+        
         try:
             play = Play.objects.create(
                 id_char="P{0}C{1}F{2}".format(play.id, course.id, formative.id),

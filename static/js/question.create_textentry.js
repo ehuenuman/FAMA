@@ -46,8 +46,8 @@ $(document).ready(function() {
   if($("#imagen-desplegada img")[0] != undefined){
     imgSrc = $("#imagen-desplegada img")[0].src;
     var cadena = imgSrc,
-    patron = "pregunta/editar/",
-    nuevoValor    = "media/",
+    patron = "fama/pregunta/editar/",
+    nuevoValor    = "preguntas/",
     url = cadena.replace(patron, nuevoValor);
     $("#imagen-desplegada img")[0].src = url;
   }

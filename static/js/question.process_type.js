@@ -12,10 +12,10 @@ function selectMethod() {
     processingEntryData();
   };
   if (question_type == "slider" ) {
-    procesar_slider_datos();  
+    processingSliderData();  
   };
   if (question_type == "associate" ) {
-    procesar_associate_datos();  
+    processingAssociateData()  
   };
   if (question_type == "hotspot" ) {
     procesar_hotspot_datos();  
@@ -36,6 +36,14 @@ function processingInlineData() {
 
 function processingEntryData() {  
   loadModalEntryData()
+};
+
+function processingSliderData() {  
+  loadModalSliderData()
+};
+
+function processingAssociateData() {  
+  loadModalAssociateData()
 };
 
 

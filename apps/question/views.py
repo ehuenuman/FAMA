@@ -66,6 +66,32 @@ def create_textentry(request):
         return JsonResponse(response)
 
 @login_required
+def create_slider(request):
+    """Create simple inline choice interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_slider.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Deslizador")
+        else:
+            response = save_question(request, "Deslizador")
+
+        return JsonResponse(response)
+
+@login_required
+def create_associate(request):
+    """Create simple inline choice interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_associate.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Términos pareados")
+        else:
+            response = save_question(request, "Términos pareados")
+
+        return JsonResponse(response)
+
+@login_required
 def edit_choice(request, question_id):
     """Edit simple choice interaction."""
     #questions = []
@@ -87,6 +113,14 @@ def edit_choice(request, question_id):
             q_question = manageXML.data_entry(question.code, question.extension)
             #questions.append({"question": q_question, "data": question})
             return render(request, 'question/edit_textentry.html',{'questions': q_question})
+        if (question.type == "slider"):
+            q_question = manageXML.data_slider(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_slider.html',{'questions': q_question})
+        if (question.type == "associate"):
+            q_question = manageXML.data_associate(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_associate.html',{'questions': q_question})
     else:
         if request.POST.get("extension", "") == "zip":
             question = Question.objects.get(id = question_id)
@@ -98,6 +132,10 @@ def edit_choice(request, question_id):
                 response = editSave_zip(request, "Selección entre líneas",question_id)
             if (question.type == "entry"):
                 response = editSave_zip(request, "Texto entre líneas",question_id)
+            if (question.type == "slider"):
+                response = editSave_zip(request, "Deslizador",question_id)
+            if (question.type == "associate"):
+                response = editSave_zip(request, "Términos pareados",question_id)
         else:
             question = Question.objects.get(id = question_id)
             if (question.type == "choice"):
@@ -108,6 +146,10 @@ def edit_choice(request, question_id):
                 response = editSave_question(request, "Selección entre líneas",question_id)
             if (question.type == "entry"):
                 response = editSave_question(request, "Texto entre líneas",question_id)
+            if (question.type == "slider"):
+                response = editSave_question(request, "Deslizador",question_id)
+            if (question.type == "associate"):
+                response = editSave_question(request, "Términos pareados",question_id)
         return JsonResponse(response)
         
 
