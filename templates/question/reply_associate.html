@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block extrajs%}
-<script src="{% static 'js/question.reply_choice.js' %}"></script>
+<script src="{% static 'js/question.reply_associate.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -24,7 +24,7 @@
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}</div>
+      <div class="col s12 dashed-border question center-align">{{ question.itemBody.associateInteraction.question|safe }}</div>
       {% if question.itemBody.alternativeText %}
         <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
       {% endif %}      
@@ -37,18 +37,35 @@
   </div>
   <div class="col s12">
     <ul class="collection">    
-      <li class="collection-item center-align">Seleccione una alternativa</li>
-      {% for alternative in question.itemBody.choiceInteraction.simpleChoice %}      
-      <li class="collection-item click">        
-        {% if alternative.identifier == question.answer %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}" checked>
-        {% else %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}">
-        {% endif %}
-        <label for="{{ alternative.identifier }}">{{ alternative.alternative|safe }}</label>
-      </li>
-      {% endfor %}
+      <li class="collection-item center-align">Selecione las opciones para asociar</li>
     </ul>
+    <table id="answers_table">
+      <tbody>
+            {% for correcta in question.responseDeclaration.correctResponse %}
+            <tr id="{{ forloop.counter }}" class="center-align" style="padding-bottom: 10px;">
+              
+              <td>
+                <select class="" id="{{ forloop.counter }}" style="display:inline;height: auto;">
+                    {% for alternativa in question.itemBody.associateInteraction.associateChoice %}
+                    
+                    <option value="{{ forloop.counter }}">{{alternativa.alternative}}</option>
+                    
+                    {% endfor %}      
+                </select>
+              </td>
+              <td>
+                <select class="" id="{{ forloop.counter }}" style="display:inline;height: auto;">
+                    {% for alternativa in question.itemBody.associateInteraction.associateChoice %}
+                    
+                    <option value="{{ forloop.counter }}">{{alternativa.alternative}}</option>
+                    
+                    {% endfor %}    
+                </select>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+    </table>
   </div>
   <div class="row">
     <div class="col s12">

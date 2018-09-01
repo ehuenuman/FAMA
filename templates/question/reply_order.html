@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block extrajs%}
-<script src="{% static 'js/question.reply_choice.js' %}"></script>
+<script src="{% static 'js/question.reply_order.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -24,7 +24,7 @@
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}</div>
+      <div class="col s12 dashed-border question center-align">{{ question.itemBody.orderInteraction.question|safe }}</div>
       {% if question.itemBody.alternativeText %}
         <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
       {% endif %}      
@@ -37,17 +37,22 @@
   </div>
   <div class="col s12">
     <ul class="collection">    
-      <li class="collection-item center-align">Seleccione una alternativa</li>
-      {% for alternative in question.itemBody.choiceInteraction.simpleChoice %}      
-      <li class="collection-item click">        
-        {% if alternative.identifier == question.answer %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}" checked>
-        {% else %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}">
-        {% endif %}
-        <label for="{{ alternative.identifier }}">{{ alternative.alternative|safe }}</label>
-      </li>
-      {% endfor %}
+      <li class="collection-item center-align">Presione las flechas para ordenar</li>
+      <table>
+        <tbody id="tablacopia">
+          {% for alternativa in question.itemBody.orderInteraction.simpleChoice %}
+            <tr id="{{ forloop.counter }}">
+              <td>
+                <input  type="text" id="{{ forloop.counter }}" class="respuesta" value="{{alternativa.alternative}}" disabled>
+              </td>
+              <td class="center-align">
+                <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
+                <i id="1" class="down fa fa-caret-down fa-3x" aria-hidden="true"></i>
+              </td>
+            </tr>
+          {% endfor %}
+      </tbody>
+      </table>
     </ul>
   </div>
   <div class="row">

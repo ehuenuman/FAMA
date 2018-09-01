@@ -133,7 +133,8 @@ $(document).ready(function(){
         texto_alternativo = $(".texto_alternativo").val();
 
         $("#content_preview").empty();
-        $("#content_preview").append('<h5>Vista previa de ordenamiento</h5>');
+        $("#banner_preview h5.white-text").empty();
+        $("#banner_preview h5.white-text").append('Selecci&oacute;n Ordenamiento');
 
         if (titulo!="") $("#content_preview").append('<span><b>Título: </b>'+titulo+'</span></br>');
         //else $("#content_preview").append('<span>Aqui deberia ir el titulo de la pregunta</span></br>');

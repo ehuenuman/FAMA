@@ -65,7 +65,14 @@ def data_order(code, extension="xml"):
     #Atributos responseDeclaration
     file_data["responseDeclaration"] = root.find(".//ns1:responseDeclaration", namespace).attrib
     #Alternativa correcta
-    file_data["responseDeclaration"]["correctResponse"] = root.find(".//ns1:responseDeclaration/ns1:correctResponse/ns1:value", namespace).text
+    correctas = []
+    correctas_xml = root.findall(".//ns1:responseDeclaration/ns1:correctResponse/ns1:value", namespace)
+    #print(correctas_xml)
+    for i in correctas_xml:
+        correctas.append(i.text)
+    #print(correctas)
+
+    file_data["responseDeclaration"]["correctResponse"] = correctas
     #Atributos itemBody
     file_data["itemBody"] = root.find(".//ns1:itemBody", namespace).attrib
     try:

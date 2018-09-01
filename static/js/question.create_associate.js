@@ -46,41 +46,6 @@ $(document).ready(function() {
     $("#imagen-desplegada img")[0].src = url;
   }
   
-  /*
-  numero_fila = $('#answers_table >tbody >tr').length;  //cantidad de filas respuestas
-  numero_fila_relacion = $('#miTabla2 >tbody >tr').length;
-
-  var opciones = "";
-  var alt1 = "";
-  for (var i = 1; i <= numero_fila_relacion; i++) {
-    alt1 = $('#miTabla2 >tbody >tr > td >select')[i].value;
-    opciones +='<option value='+alt1+'>'+alt1+'</option>';
-    console.log(opciones);
-  };
-
-  $('#miTabla2 > tbody').empty();
-
-  var n = 1;
-  var osx = n+"n";
-  var agregar = "";
-  agregar += '<tr id='+osx+' class="center-align" style="padding-bottom: 10px;"> ';
-  agregar +=      '<td>'
-  agregar +=            '<select class="alternativa1" id='+osx+' style="display:inline;height: auto;">'+opciones+'</select>'
-  +       '</td>'
-  +       '<td>'
-  +             '<select class="alternativa2" id='+osx+' style="display:inline;height: auto;">'+opciones+'</select>'
-  +       '</td>'
-  +       '<td style="padding-bottom: 10px;"><button class=" eliminar waves-effect waves-light btn btn-danger" id='+osx+' type="button" data-action="delete-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>';
-  agregar += '</tr>';
-  $('#miTabla2 > tbody').append(agregar);
-  
-  $("#"+osx+".eliminar").click(function(){ 
-    var id = $(this).attr('id');
-    console.log("esta es la id de la fila: "+id);
-    $("#"+id).remove();
-  });
-  */
-  
   random = Math.floor((Math.random() * 100000) + 1);
   //console.log(random);
 

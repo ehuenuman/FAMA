@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block extrajs%}
-<script src="{% static 'js/question.reply_choice.js' %}"></script>
+<script src="{% static 'js/question.reply_inline.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -24,7 +24,7 @@
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}</div>
+      <div class="col s12 dashed-border question center-align">{{ question.itemBody.question|safe }}</div>
       {% if question.itemBody.alternativeText %}
         <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
       {% endif %}      
@@ -38,16 +38,13 @@
   <div class="col s12">
     <ul class="collection">    
       <li class="collection-item center-align">Seleccione una alternativa</li>
-      {% for alternative in question.itemBody.choiceInteraction.simpleChoice %}      
-      <li class="collection-item click">        
-        {% if alternative.identifier == question.answer %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}" checked>
-        {% else %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}">
-        {% endif %}
-        <label for="{{ alternative.identifier }}">{{ alternative.alternative|safe }}</label>
-      </li>
+      <div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">{{question.itemBody.previo}}</div>
+      <select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">
+      {% for alternative in question.itemBody.inlineChoiceInteraction.inlineChoice %}              
+        <option value="{{ forloop.counter }}">{{ alternative.alternative|safe }}</option>
       {% endfor %}
+      </select>
+      <div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">{{question.itemBody.posterior}}</div>
     </ul>
   </div>
   <div class="row">
