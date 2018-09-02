@@ -12,7 +12,7 @@
 
   if (image!='') {
     $("#content_preview").append('<span><b>Imagen:</span></br>');
-    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+    $("#content_preview").append("<center><img src='/preguntas/"+code+"/"+image+"' width='250px'/></center>");
   }
 
   if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');

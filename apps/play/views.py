@@ -150,6 +150,7 @@ def reply_play(request, play_id_char, question_id):
                 data["data"] = "OK"
             except Exception as e:
                 print("Error al guardar la respuesta: ", e)
+                #data["data"]= "Error: {0}".format(e)
                 data["data"]= "Error al guardar la respuesta"
         else:
             try:
@@ -161,6 +162,7 @@ def reply_play(request, play_id_char, question_id):
             except Exception as e:
                 print("Error al guardar la respuesta: ", e)
                 data["data"]= "Error al guardar la respuesta"
+                #data["data"]= "Error: {0}".format(e)
 
         return JsonResponse(data)
 

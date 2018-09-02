@@ -35,8 +35,8 @@ $(document).ready(function() {
   if($("#imagen-desplegada img")[0] != undefined){
     imgSrc = $("#imagen-desplegada img")[0].src;
     var cadena = imgSrc,
-    patron = "pregunta/editar/",
-    nuevoValor    = "media/",
+    patron = "fama/pregunta/editar/",
+    nuevoValor    = "preguntas/",
     url = cadena.replace(patron, nuevoValor);
     $("#imagen-desplegada img")[0].src = url;
   }
@@ -152,6 +152,7 @@ $(document).ready(function() {
     $("#imagen-desplegada").append("<a id='eliminar_foto' class='btn-floating waves-effect waves-light btn-large btn-danger'><i class='fa fa-trash-o fa-2x' aria-hidden='true'></i></a>");
     $("#eliminar_foto").click(function(){
       var input_foto = $("#input_foto");
+      console.log(input_foto);
       input_foto.replaceWith(input_foto.val('').clone(true));;
       nombre_foto = "";
       //console.log("dentro sucess,nombre_foto: "+nombre_foto);
@@ -164,6 +165,17 @@ $(document).ready(function() {
     $("#imagen").prop( "disabled", true );    
     $("#imagen").css({cursor: "not-allowed" }); 
   }
+
+  $("#eliminar_foto").click(function(){
+      var input_foto = $("#input_foto");
+      input_foto.replaceWith(input_foto.val('').clone(true));;
+      nombre_foto = "";
+      //console.log("dentro sucess,nombre_foto: "+nombre_foto);
+      $("#imagen-desplegada").empty();//remueve div de la iamgen desplegada
+      $("#imagen").prop( "disabled", false );      
+      $("#imagen").css({cursor: "pointer" }); 
+      $('#imagen').val(''); //resetea el nombre que queda en el input para subir la misma si se quiere
+  });
 
   /* Fill modal preview */
   $("button[data-action='preview_question']").click(function(){ 
@@ -182,6 +194,7 @@ $(document).ready(function() {
     else $("#content_preview").append('<span><b>Texto alternativo: </b>* No tiene texto alternativo *</span></br>');
 
     if (nombre_foto!='') {
+    	console.log("/preguntas/"+result);
       $("#content_preview").append('<span><b>Imagen:</span></br>');
       $("#content_preview").append("<center><img src='"+result+"' width='250px'/></center>");
     }
@@ -308,6 +321,9 @@ function send_question(data) {
     if (data.result == "success") {
       Materialize.toast('Pregunta guardada con exito', 3000, 'rounded');
     } else {
+    	console.log(data);
+    	console.log(textStatus);
+    	console.log(jqXHR);
       Materialize.toast('Error al gurdar la pregunta', 3000, 'rounded');
     }
   })

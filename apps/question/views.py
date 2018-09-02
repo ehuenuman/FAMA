@@ -80,7 +80,7 @@ def editSave_question(request, spanish_type, question_id):
         return response
     except Exception as e:
         print("Error: {0}".format(e))
-        response["result"] = "fail"
+        response["result"] = "Error: {0}".format(e)
         return response
 
 def save_question(request, spanish_type):
@@ -122,7 +122,7 @@ def save_question(request, spanish_type):
         return response
     except Exception as e:
         print("Error: {0}".format(e))
-        response["result"] = "fail"
+        response["result"] = "Error: {0}".format(e)
         return response
 
 
@@ -187,7 +187,7 @@ def save_zip(request, spanish_type):
         return response
     except Exception as e:
         print("Error: {0}".format(e))
-        response["result"] = "fail"
+        response["result"] = "Error: {0}".format(e)
         return response
 
 
@@ -222,6 +222,8 @@ def editSave_zip(request, spanish_type,question_id):
             url=question_url,
             extension=extension)
 
+        shutil.rmtree(BASE_DIR+"/preguntas/"+code+"/")
+
         os.makedirs(BASE_DIR+"/preguntas/{0}".format(code))
         os.makedirs(BASE_DIR+"/preguntas/{0}/images".format(code))
         file = open(BASE_DIR+"/preguntas/{0}/{0}.xml".format(code), "w")
@@ -239,7 +241,7 @@ def editSave_zip(request, spanish_type,question_id):
         return response
     except Exception as e:
         print("Error: {0}".format(e))
-        response["result"] = "fail"
+        response["result"] = "Error: {0}".format(e)
         return response
 
 def question_data(question):
