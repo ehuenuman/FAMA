@@ -282,7 +282,6 @@ def reply_play(request, play_id_char, question_id):
             else:
                 correct = 0
             try:
-<<<<<<< HEAD
                 Answer.objects.create(answer=student_answer, correct=correct, date=timezone.now(), student=student, play=play, question=question)
                 data["data"] = "OK"
             except Exception as e:
@@ -300,27 +299,6 @@ def reply_play(request, play_id_char, question_id):
                 print("Error al guardar la respuesta: ", e)
                 data["data"]= "Error al guardar la respuesta"
                 #data["data"]= "Error: {0}".format(e)
-=======
-                answer = Answer.objects.get(student=student, play=play, question=question)
-            except:
-                answer = None
-            if answer is None:
-                try:
-                    Answer.objects.create(answer=student_answer, correct=correct, date=timezone.now(), student=student, play=play, question=question)
-                    data["data"] = "OK"
-                except Exception as e:
-                    print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
-            else:
-                try:
-                    answer.answer = student_answer
-                    answer.correct = correct
-                    answer.date = timezone.now()
-                    answer.save()
-                    data["data"] = "OK"
-                except Exception as e:
-                    print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
 
         if question.type == "associate":
             dataCorrect = {}
@@ -521,9 +499,6 @@ def reply_play(request, play_id_char, question_id):
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
                     data["data"]= "Error al guardar la respuesta"
-                
-        
->>>>>>> d0e7d897b0044753e8a813ab20bf6cff1bbadd46
 
         return JsonResponse(data)
 

@@ -134,6 +134,17 @@ $(document).ready(function() {
     $("#imagen").css({cursor: "not-allowed" }); 
   }
 
+  $("#eliminar_foto").click(function(){
+      var input_foto = $("#input_foto");
+      input_foto.replaceWith(input_foto.val('').clone(true));;
+      nombre_foto = "";
+      //console.log("dentro sucess,nombre_foto: "+nombre_foto);
+      $("#imagen-desplegada").empty();//remueve div de la iamgen desplegada
+      $("#imagen").prop( "disabled", false );      
+      $("#imagen").css({cursor: "pointer" }); 
+      $('#imagen').val(''); //resetea el nombre que queda en el input para subir la misma si se quiere
+  });
+
   /* Fill modal preview */
   $("button[data-action='preview_question']").click(function(){ 
     titulo = $(".titulo-choice").val();
@@ -179,7 +190,7 @@ $(document).ready(function() {
       $("#valor_correcto_slider").text(valor_correcto);
     });
 
-    $("#content_preview").append('<div style="width:100%;height:auto;display: inline-block;text-align:center;"><span id="valor_correcto_slider">50</span></div>');
+    $("#content_preview").append('<div style="width:100%;height:auto;display: inline-block;text-align:center;"><span id="valor_correcto_slider"></span></div>');
 
     
     $('#preview_modal').modal('open');    

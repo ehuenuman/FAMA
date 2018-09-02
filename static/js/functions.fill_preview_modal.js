@@ -49,7 +49,7 @@
 
   if (image!='') {
     $("#content_preview").append('<span><b>Imagen:</span></br>');
-    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+    $("#content_preview").append("<center><img src='/preguntas/"+code+"/"+image+"' width='250px'/></center>");
   }
 
   if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
@@ -84,7 +84,7 @@
 
     if (image!='') {
         $("#content_preview").append('<span><b>Imagen:</span></br>');
-        $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+        $("#content_preview").append("<center><img src='/preguntas/"+code+"/"+image+"' width='250px'/></center>");
     }
 
     if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
@@ -125,7 +125,7 @@
 
     if (image!='') {
         $("#content_preview").append('<span><b>Imagen:</span></br>');
-        $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+        $("#content_preview").append("<center><img src='/preguntas/"+code+"/"+image+"' width='250px'/></center>");
     }
 
     if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
@@ -158,7 +158,7 @@
 
   if (image!='') {
     $("#content_preview").append('<span><b>Imagen:</span></br>');
-    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+    $("#content_preview").append("<center><img src='/preguntas/"+code+"/"+image+"' width='250px'/></center>");
   }
 
   if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
@@ -183,7 +183,7 @@
       $("#valor_correcto_slider").text(valor_correcto);
     });
 
-    $("#content_preview").append('<div style="width:100%;height:auto;display: inline-block;text-align:center;"><span id="valor_correcto_slider">50</span></div>');
+    $("#content_preview").append('<div style="width:100%;height:auto;display: inline-block;text-align:center;"><span id="valor_correcto_slider"></span></div>');
 
   $('#preview_modal').modal('open');
   resetVariables();
@@ -203,7 +203,7 @@
 
   if (image!='') {
     $("#content_preview").append('<span><b>Imagen:</span></br>');
-    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+    $("#content_preview").append("<center><img src='/preguntas/"+code+"/"+image+"' width='250px'/></center>");
   }
 
   if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');

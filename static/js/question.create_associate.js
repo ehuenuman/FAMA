@@ -199,7 +199,7 @@ $(document).ready(function() {
     $(".eliminar").click(function(){ //para la fila creada desde el comienzo
       var id = $(this).attr('id');
         console.log("esta es la id de la fila: "+id);
-        $("#"+id).remove();
+        $("#miTabla2 > tbody > tr#"+id).remove();
     });
 
   /* Load image */
@@ -253,6 +253,17 @@ $(document).ready(function() {
     $("#imagen").prop( "disabled", true );    
     $("#imagen").css({cursor: "not-allowed" }); 
   }
+
+  $("#eliminar_foto").click(function(){
+      var input_foto = $("#input_foto");
+      input_foto.replaceWith(input_foto.val('').clone(true));;
+      nombre_foto = "";
+      //console.log("dentro sucess,nombre_foto: "+nombre_foto);
+      $("#imagen-desplegada").empty();//remueve div de la iamgen desplegada
+      $("#imagen").prop( "disabled", false );      
+      $("#imagen").css({cursor: "pointer" }); 
+      $('#imagen').val(''); //resetea el nombre que queda en el input para subir la misma si se quiere
+  });
 
   /* Fill modal preview */
   $("button[data-action='preview_question']").click(function(){ 
@@ -352,9 +363,11 @@ function manage_question() {
   var inicio = 1;
   $('#miTabla2 >tbody >tr').each(function () {
     var numero_id = $(this)[0].id; 
-
-    orden_correcto_alternativa1[inicio] = $('select'+'#'+numero_id+'.alternativa1')[0].value;
-    orden_correcto_alternativa2[inicio] = $('select'+'#'+numero_id+'.alternativa2')[0].value;
+    console.log(numero_id);
+    console.log($('select'+'#'+numero_id+'.alternativa1').value);
+    console.log($('select'+'#'+numero_id+'.alternativa2').value);
+    orden_correcto_alternativa1[inicio] = $('select'+'#'+numero_id+'.alternativa1').value;
+    orden_correcto_alternativa2[inicio] = $('select'+'#'+numero_id+'.alternativa2').value;
     console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
     inicio++;
   });

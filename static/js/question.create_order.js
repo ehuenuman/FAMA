@@ -32,6 +32,16 @@ $(document).ready(function(){
     texto_alternativo = accentDecode(texto_alternativo);
     $(".texto_alternativo")[0].value = texto_alternativo;
 
+    if($("#imagen-desplegada img")[0] != undefined){
+    imgSrc = $("#imagen-desplegada img")[0].src;
+    var cadena = imgSrc,
+    patron = "fama/pregunta/editar/",
+    nuevoValor    = "preguntas/",
+    url = cadena.replace(patron, nuevoValor);
+    console.log(url);
+    $("#imagen-desplegada img")[0].src = url;
+    }
+
     $("form").submit(validates_form);
 
     $("button#save_question").click(function(){
@@ -215,7 +225,7 @@ $(document).ready(function(){
     function fileOnload(e) {
         result=e.target.result;
         //console.log(result);
-        $("#imagen-desplegada").append("<a style='display:block;right:-80%;padding-top:6px;background-color:#ee6e73;' id='eliminar_foto' class='btn-floating waves-effect waves-light btn-large'><i class='material-icons' id='icon-delete'>delete</i></a>");
+        $("#imagen-desplegada").append("<a id='eliminar_foto' class='btn-floating waves-effect waves-light btn-large btn-danger'><i class='fa fa-trash-o fa-2x' aria-hidden='true'></i></a>");
         $("#eliminar_foto").click(function(){
             var input_foto = $("#input_foto");
             input_foto.replaceWith(input_foto.val('').clone(true));;
@@ -234,6 +244,17 @@ $(document).ready(function(){
         $("#imagen").css({cursor: "not-allowed" }); 
     }
     /*------------ FIN Cargar la imagen ---------------------------------------------------------------*/
+
+    $("#eliminar_foto").click(function(){
+      var input_foto = $("#input_foto");
+      input_foto.replaceWith(input_foto.val('').clone(true));;
+      nombre_foto = "";
+      //console.log("dentro sucess,nombre_foto: "+nombre_foto);
+      $("#imagen-desplegada").empty();//remueve div de la iamgen desplegada
+      $("#imagen").prop( "disabled", false );      
+      $("#imagen").css({cursor: "pointer" }); 
+      $('#imagen').val(''); //resetea el nombre que queda en el input para subir la misma si se quiere
+  });
 });
 
 

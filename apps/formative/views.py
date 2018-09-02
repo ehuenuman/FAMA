@@ -103,11 +103,7 @@ def start_formative(request):
     if request.method == "POST":
         formative = Formative.objects.get(id=request.POST['formative'])
         course = Course.objects.get(id=request.POST['course'])
-<<<<<<< HEAD
         duration = request.POST['time']
-=======
-        duration = request.POST['time']        
->>>>>>> d0e7d897b0044753e8a813ab20bf6cff1bbadd46
 
         play_obj = Play.objects.all()
         #print(len(play_obj))
