@@ -6,7 +6,7 @@ from django.utils import timezone
 from play.settings import BASE_DIR
 from apps.login.views import teacher_check
 from apps.course.models import Course
-from apps.formative.models import Formative
+from apps.formative.models import Formative,FormativeHasQuestion
 from apps.play.models import Play
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
 import apps.question.manageXML as manageXML
@@ -45,17 +45,49 @@ def view_questions(request):
         data = user.question.filter(teacherhasquestion__deleted=0).order_by('-teacherhasquestion__incorporation_date').extra(select={'incorporation_date': 'teacher_has_question.incorporation_date'})
         questions = []
         for question in data:
-            #print(question)
-            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
-            questions.append({"question": q_question, "data": question})
+            print(question.type)
+            if question.type == "choice":
+                q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "order":
+                q_question = manageXML.data_order(question.code, question.extension)["itemBody"]["orderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "inline":
+                q_question = manageXML.data_inline(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "entry":
+                q_question = manageXML.data_entry(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "slider":
+                q_question = manageXML.data_slider(question.code, question.extension)["itemBody"]["sliderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "associate":
+                q_question = manageXML.data_associate(question.code, question.extension)["itemBody"]["associateInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
         return render(request, 'teacher/questions.html', {'questions': questions})
     else:
         id_question = request.POST.get("id_question", "")
         if request.POST.get("action", "") == "preview":
             try:
                 question = Question.objects.get(id = id_question)
-                data = manageXML.data_choice(question.code, question.extension)
-                data["extension"] = question.extension
+                if question.type == "choice":
+                    data = manageXML.data_choice(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "order":
+                    data = manageXML.data_order(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "inline":
+                    data = manageXML.data_inline(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "entry":
+                    data = manageXML.data_entry(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "slider":
+                    data = manageXML.data_slider(question.code, question.extension)
+                    data["extension"] = question.extension
+                if question.type == "associate":
+                    data = manageXML.data_associate(question.code, question.extension)
+                    data["extension"] = question.extension
                 return JsonResponse(data)
             except Exception as e:
                 print("Error:", e)
@@ -174,6 +206,28 @@ def add_question(request):
                 data = question_data(question)
         return JsonResponse(data)
 
+@login_required
+@user_passes_test(teacher_check)
+def delete_question(request):
+    data = {}
+    if request.method == "GET":
+        return render(request, "teacher/questions.html")
+    else:
+        id_question = request.POST.get("id_question", "")
+        if request.POST.get("action", "") == "delete":
+            f_has_q = FormativeHasQuestion.objects.filter(question_id=id_question).exists()
+            if f_has_q == False:
+                try:
+                    TeacherHasQuestion.objects.filter(question_id=id_question).delete()
+                    Question.objects.filter(id = id_question).delete()
+                    data["status"] = "success"
+                    return JsonResponse(data)
+                except Exception as e:
+                    data = {"result": "error", "message": str(e)}
+                    return JsonResponse(data)
+            else:
+                data = {"result": "error", "message": "No se pueden eliminar preguntas asociadas a una formativa"}
+                return JsonResponse(data)
 
 @login_required
 @user_passes_test(teacher_check)

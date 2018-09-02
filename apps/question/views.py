@@ -10,7 +10,7 @@ from io import BytesIO
 from PIL import Image
 import os, zlib, base64, zipfile, shutil
 from apps.teacher.models import Teacher, Question, TeacherHasQuestion
-
+import apps.question.manageXML as manageXML
 
 
 @login_required
@@ -26,6 +26,171 @@ def create_choice(request):
 
         return JsonResponse(response)
 
+@login_required
+def create_order(request):
+    """Create simple order interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_order.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Selección ordenamiento")
+        else:
+            response = save_question(request, "Selección ordenamiento")
+
+        return JsonResponse(response)
+
+@login_required
+def create_inlinechoice(request):
+    """Create simple inline choice interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_inlinechoice.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Selección entre lineas")
+        else:
+            response = save_question(request, "Selección entre lineas")
+
+        return JsonResponse(response)
+
+@login_required
+def create_textentry(request):
+    """Create simple inline choice interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_textentry.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Texto entre lineas")
+        else:
+            response = save_question(request, "Texto entre lineas")
+
+        return JsonResponse(response)
+
+@login_required
+def create_slider(request):
+    """Create simple inline choice interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_slider.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Deslizador")
+        else:
+            response = save_question(request, "Deslizador")
+
+        return JsonResponse(response)
+
+@login_required
+def create_associate(request):
+    """Create simple inline choice interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_associate.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Términos pareados")
+        else:
+            response = save_question(request, "Términos pareados")
+
+        return JsonResponse(response)
+
+@login_required
+def edit_choice(request, question_id):
+    """Edit simple choice interaction."""
+    #questions = []
+    if request.method == "GET":
+        question = Question.objects.get(id = question_id)
+        if (question.type == "choice"):
+            q_question = manageXML.data_choice(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_choice.html',{'questions': q_question})
+        if (question.type == "order"):
+            q_question = manageXML.data_order(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_order.html',{'questions': q_question})
+        if (question.type == "inline"):
+            q_question = manageXML.data_inline(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_inlinechoice.html',{'questions': q_question})
+        if (question.type == "entry"):
+            q_question = manageXML.data_entry(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_textentry.html',{'questions': q_question})
+        if (question.type == "slider"):
+            q_question = manageXML.data_slider(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_slider.html',{'questions': q_question})
+        if (question.type == "associate"):
+            q_question = manageXML.data_associate(question.code, question.extension)
+            #questions.append({"question": q_question, "data": question})
+            return render(request, 'question/edit_associate.html',{'questions': q_question})
+    else:
+        if request.POST.get("extension", "") == "zip":
+            question = Question.objects.get(id = question_id)
+            if (question.type == "choice"):
+                response = editSave_zip(request, "Selección simple",question_id)
+            if (question.type == "order"):
+                response = editSave_zip(request, "Selección ordenamiento",question_id)
+            if (question.type == "inline"):
+                response = editSave_zip(request, "Selección entre líneas",question_id)
+            if (question.type == "entry"):
+                response = editSave_zip(request, "Texto entre líneas",question_id)
+            if (question.type == "slider"):
+                response = editSave_zip(request, "Deslizador",question_id)
+            if (question.type == "associate"):
+                response = editSave_zip(request, "Términos pareados",question_id)
+        else:
+            question = Question.objects.get(id = question_id)
+            if (question.type == "choice"):
+                response = editSave_question(request, "Selección simple",question_id)
+            if (question.type == "order"):
+                response = editSave_question(request, "Selección ordenamiento",question_id)
+            if (question.type == "inline"):
+                response = editSave_question(request, "Selección entre líneas",question_id)
+            if (question.type == "entry"):
+                response = editSave_question(request, "Texto entre líneas",question_id)
+            if (question.type == "slider"):
+                response = editSave_question(request, "Deslizador",question_id)
+            if (question.type == "associate"):
+                response = editSave_question(request, "Términos pareados",question_id)
+        return JsonResponse(response)
+        
+
+def editSave_question(request, spanish_type, question_id):
+    """Save xml for interaction without image."""
+    question_xml = request.POST.get("question", "")
+    title = request.POST.get("title", "")
+    correct = request.POST.get("correct", "")
+    random = request.POST.get("number", "")
+    type_question = request.POST.get("type", "")
+    extension = request.POST.get("extension", "")
+
+    response = {}
+    try:
+        q_code = Question.objects.get(id=question_id)
+        code = q_code.code
+        
+        question_url = "preguntas/{0}.{1}".format(code, extension)
+        #question.save()
+
+        question = Question.objects.filter(id=question_id).update(
+            title=title,
+            type=type_question,
+            spanish_type=spanish_type,
+            correct="alternativa{0}".format(correct),
+            creation_date=timezone.now(),
+            share=0,
+            code=code,
+            url=question_url,
+            extension=extension)
+
+        file = open(BASE_DIR+"/"+question_url, "w")
+        file.write(question_xml)
+        file.close()    
+
+        response["result"] = "success"
+        return response
+    except Exception as e:
+        print("Error: {0}".format(e))
+        response["result"] = "fail"
+        return response
 
 def save_question(request, spanish_type):
     """Save xml for interaction without image."""
@@ -134,6 +299,57 @@ def save_zip(request, spanish_type):
         response["result"] = "fail"
         return response
 
+
+def editSave_zip(request, spanish_type,question_id):
+    """Create folder with imsmanifest and interaction.
+    Only work with folder, not create the zip file."""
+    question_xml = request.POST.get("question", "")
+    imsmanifest_xml = request.POST.get("imsmanifest", "")
+    title = request.POST.get("title", "")
+    correct = request.POST.get("correct", "")
+    random = request.POST.get("number", "")
+    type_question = request.POST.get("type", "")
+    extension = request.POST.get("extension", "")
+    name_image = request.POST.get("name_image", "")
+
+    response = {}
+    try:
+        q_code = Question.objects.get(id=question_id)
+        code = q_code.code
+        
+        question_url = "preguntas/{0}.{1}".format(code, extension)
+        #question.save()
+
+        question = Question.objects.filter(id=question_id).update(
+            title=title,
+            type=type_question,
+            spanish_type=spanish_type,
+            correct="alternativa{0}".format(correct),
+            creation_date=timezone.now(),
+            share=0,
+            code=code,
+            url=question_url,
+            extension=extension)
+
+        os.makedirs(BASE_DIR+"/preguntas/{0}".format(code))
+        os.makedirs(BASE_DIR+"/preguntas/{0}/images".format(code))
+        file = open(BASE_DIR+"/preguntas/{0}/{0}.xml".format(code), "w")
+        file.write(question_xml)
+        file.close()
+        file = open(BASE_DIR+"/preguntas/{0}/imsmanifest.xml".format(code), "w")
+        file.write(imsmanifest_xml)
+        file.close()
+                
+        #print((request.POST['image'].partition('base64,')[2]))
+        image = Image.open(BytesIO(base64.b64decode(request.POST['image'].partition('base64,')[2])))
+        image.save(BASE_DIR+"/preguntas/{0}/images/{1}".format(code, name_image), image.format, quality = 100)
+
+        response["result"] = "success"
+        return response
+    except Exception as e:
+        print("Error: {0}".format(e))
+        response["result"] = "fail"
+        return response
 
 def question_data(question):
     # Obtener datos pregunta

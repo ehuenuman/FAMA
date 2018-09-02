@@ -77,6 +77,11 @@
             <div class="collapsible-body">
               <ul>
                 <li id="simple_choice"><a href="{% url 'question:create_choice' %}"><i class="fa fa-crosshairs" aria-hidden="true"></i></i>Selección simple</a></li>
+                <li id="order"><a href="{% url 'question:create_order' %}"><i class="fa fa-crosshairs" aria-hidden="true"></i></i>Ordenamiento</a></li>
+                <li id="inline"><a href="{% url 'question:create_inlinechoice' %}"><i class="fa fa-crosshairs" aria-hidden="true"></i></i>Selección entre líneas</a></li>
+                <li id="text_entry"><a href="{% url 'question:create_textentry' %}"><i class="fa fa-crosshairs" aria-hidden="true"></i></i>Texto entre líneas</a></li>
+                <li id="slider"><a href="{% url 'question:create_slider' %}"><i class="fa fa-crosshairs" aria-hidden="true"></i></i>Deslizador</a></li>
+                <li id="associate"><a href="{% url 'question:create_associate' %}"><i class="fa fa-crosshairs" aria-hidden="true"></i></i>Términos pareados</a></li>
               </ul>
             </div>
           </li>

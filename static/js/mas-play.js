@@ -47,3 +47,39 @@ function remplazarCaracteresEspeciales(texto) {
 
   return texto;
 }
+
+var accentDecode = function (tx)
+{
+  var rp = String(tx);
+  //console.log(rp);
+  //
+  rp = rp.replace(/&aacute;/g, 'á');
+  rp = rp.replace(/&eacute;/g, 'é');
+  rp = rp.replace(/&iacute;/g, 'í');
+  rp = rp.replace(/&oacute;/g, 'ó');
+  rp = rp.replace(/&uacute;/g, 'ú');
+  rp = rp.replace(/&ntilde;/g, 'ñ');
+  rp = rp.replace(/&uuml;/g, 'ü');
+  //
+  rp = rp.replace(/&Aacute;/g, 'Á');
+  rp = rp.replace(/&Eacute;/g, 'É');
+  rp = rp.replace(/&Iacute;/g, 'Í');
+  rp = rp.replace(/&Oacute;/g, 'Ó');
+  rp = rp.replace(/&Uacute;/g, 'Ú');
+  rp = rp.replace(/&Ñtilde;/g, 'Ñ');
+  rp = rp.replace(/&Üuml;/g, 'Ü');
+  //
+  rp = rp.replace(/&iquest;/g, '¿');
+  rp = rp.replace(/&iexcl;/g, '¡');
+  rp = rp.replace(/&quot;/g, '"');
+  rp = rp.replace(/&quot;/g, '“');
+  rp = rp.replace(/&quot;/g, '”');
+  rp = rp.replace(/&lt;/g, '<');
+  rp = rp.replace(/&gt;/g, '>');
+  rp = rp.replace(/&#44;/g, ',');
+  rp = rp.replace(/&#58;/g, ':');
+  rp = rp.replace(/&#61;/g, '=');
+  //
+  //console.log(rp);
+  return rp;
+};

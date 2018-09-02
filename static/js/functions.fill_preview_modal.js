@@ -35,6 +35,208 @@
   resetVariables();
 };
 
+ function loadModalOrderData() {
+  $("#modal-text-mis-preguntas").click();
+  $("#content_preview").empty();
+  $("#banner_preview h5.white-text").empty();
+  $("#banner_preview h5.white-text").append('Selecci&oacute;n Ordenamiento');
+
+  if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
+  else $("#content_preview").append('<span><b>Titulo: </b>* Pregunta sin t&iacute;tulo *</span></br>');
+
+  if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Texto alternativo: </b>* Pregunta sin texto alternativo *</span></br>');
+
+  if (image!='') {
+    $("#content_preview").append('<span><b>Imagen:</span></br>');
+    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+  }
+
+  if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
+
+  $("#content_preview").append('<span><b>Alternativas: </b></span></br>');
+  var agregar = "";
+  for (var i = 0; i < alternatives.length ; i++) {
+    agregar += '<ul id="sortable">';
+    
+    agregar += '<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'+alternatives[i].alternative+'</li>';
+    
+    //agregar += "<label for='"+alternatives[i].identifier+"'>"+alternatives[i].alternative+"</label>";
+    agregar += "</ul>";
+  };
+  $('#content_preview').append(agregar);
+  $('#preview_modal').modal('open');
+  resetVariables();
+};
+
+ function loadModalInlineData() {
+    $("#modal-text-mis-preguntas").click();
+    $("#content_preview").empty();
+    $("#banner_preview h5.white-text").empty();
+    $("#banner_preview h5.white-text").append('Selecci&oacute;n entre l&iacute;neas');
+
+    if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
+    else $("#content_preview").append('<span><b>Titulo: </b>* No tiene t&iacute;tulo *</span></br>');
+
+    if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
+    else $("#content_preview").append('<span><b>Texto alternativo: </b>* No tiene texto alternativo *</span></br>');
+
+    if (image!='') {
+        $("#content_preview").append('<span><b>Imagen:</span></br>');
+        $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+    }
+
+    if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
+    else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
+ 
+    $("#content_preview").append('<span><b>Alternativas: </b></span></br>');
+    var agregar = "";
+    //alternatives = $('#answers_table >tbody >tr').length;
+
+    agregar += '<select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">';
+    for (var i = 0; i < alternatives.length ; i++) {
+      agregar += '<option value='+alternatives[i].identifier+'>'+alternatives[i].alternative+'</option>'; 
+    };
+    agregar += '</select>';
+
+    $("#content_preview").append(
+      '<div style="width:100%;height:auto;">' +
+      '<div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">'+text_previo+'</div>' +
+      agregar+
+      '<div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">'+text_posterior+'</div>'+
+      '</div>');
+
+    $('#preview_modal').modal('open');
+    resetVariables();
+};
+
+ function loadModalEntryData() {
+    $("#modal-text-mis-preguntas").click();
+    $("#content_preview").empty();
+    $("#banner_preview h5.white-text").empty();
+    $("#banner_preview h5.white-text").append('Texto entre l&iacute;neas');
+
+    if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
+    else $("#content_preview").append('<span><b>Titulo: </b>* No tiene t&iacute;tulo *</span></br>');
+
+    if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
+    else $("#content_preview").append('<span><b>Texto alternativo: </b>* No tiene texto alternativo *</span></br>');
+
+    if (image!='') {
+        $("#content_preview").append('<span><b>Imagen:</span></br>');
+        $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+    }
+
+    if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
+    else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
+ 
+    $("#content_preview").append(
+      '<div style="width:100%;height:auto;">' +
+        '<div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">'+text_previo+'</div>' +
+
+        '<input style="width:18%;float:left;border:1px solid black;height: 1.3rem;margin:0 0 0px 0;" type="text" name="" value="" size="15">' +
+
+        '<div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">'+text_posterior+'</div>'+
+      '</div>');
+
+    $('#preview_modal').modal('open');
+    resetVariables();
+};
+
+ function loadModalSliderData() {
+  $("#modal-text-mis-preguntas").click();
+  $("#content_preview").empty();
+  $("#banner_preview h5.white-text").empty();
+  $("#banner_preview h5.white-text").append('Deslizador');
+
+  if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
+  else $("#content_preview").append('<span><b>Titulo: </b>* Pregunta sin t&iacute;tulo *</span></br>');
+
+  if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Texto alternativo: </b>* Pregunta sin texto alternativo *</span></br>');
+
+  if (image!='') {
+    $("#content_preview").append('<span><b>Imagen:</span></br>');
+    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+  }
+
+  if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
+
+  $("#content_preview").append(
+      '<div style="width:100%;height:auto;">' +
+      '<div style="width:10%;height:auto;background-color:none;float:left;text-align:center;margin-top: 20px;">'+limite_inferior+'</div>' +
+                    
+      '<div style="width:80%;float:left;" class="slider-content">' +
+        '<p class="range-field">' +
+        '<input type="range" id="slider-input_preview"  step="1" min='+limite_inferior+' max='+limite_superior+' />' +
+        '</p>' +
+      '</div>' +
+
+      '<div style="width:10%;height:auto;background-color:none;float:left;text-align:center;margin-top: 20px;">'+limite_superior+'</div>'+
+      '</div>'
+    );
+
+    $('#slider-input_preview').on("change mousemove", function() {
+      valor_correcto = $(this).val();
+      $("#valor_correcto_slider").text(valor_correcto);
+    });
+
+    $("#content_preview").append('<div style="width:100%;height:auto;display: inline-block;text-align:center;"><span id="valor_correcto_slider">50</span></div>');
+
+  $('#preview_modal').modal('open');
+  resetVariables();
+};
+
+ function loadModalAssociateData() {
+  $("#modal-text-mis-preguntas").click();
+  $("#content_preview").empty();
+  $("#banner_preview h5.white-text").empty();
+  $("#banner_preview h5.white-text").append('T&eacute;rminos Pareados');
+
+  if (question_title!="") $("#content_preview").append('<span><b>Titulo: </b>'+question_title+'</span></br>');
+  else $("#content_preview").append('<span><b>Titulo: </b>* Pregunta sin t&iacute;tulo *</span></br>');
+
+  if (alternative_text!="") $("#content_preview").append('<span><b>Texto alternativo: </b>'+alternative_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Texto alternativo: </b>* Pregunta sin texto alternativo *</span></br>');
+
+  if (image!='') {
+    $("#content_preview").append('<span><b>Imagen:</span></br>');
+    $("#content_preview").append("<center><img src='/fama/media/"+code+"/"+image+"' width='250px'/></center>");
+  }
+
+  if (question_text!="") $("#content_preview").append('<span><b>Pregunta: </b>'+question_text+'</span></br>');
+  else $("#content_preview").append('<span><b>Pregunta: </b>* No tiene pregunta *</span></br>');
+
+  var opciones = "";
+  for (var i = 0; i < alternatives.length; i++) {
+    opciones +='<option value='+alternatives[i].alternative+'>'+alternatives[i].alternative+'</option>';
+  };
+
+  var agregar = "";
+  numero_fila_pares = alternatives.length / 2;
+  //console.log(numero_fila_pares);
+  agregar += '<table>';
+  agregar += '<thead style="border-bottom: 0px solid #d0d0d0;">';
+  agregar += '<tr><th style="padding: 2px;"></th><th style="padding: 2px;" ></th></tr>';
+  agregar += '</thead>';
+  for (var i = 0; i < numero_fila_pares; i++) {
+    agregar += '<tr style="    border: 1px dashed grey;padding: 5px;margin-top: 5px;"> ';
+    agregar +=      '<td style="width:50%;padding: 2px 2px;">'
+    agregar +=            '<select class="alternativa1"  style="display:inline;height: auto;">'+opciones+'</select>'
+    agregar +=      '</td>'
+
+    agregar +=      '<td style="width:50%;padding: 2px 2px;">'
+    agregar +=            '<select class="alternativa2"  style="display:inline;height: auto;">'+opciones+'</select>'
+    agregar +=      '</td>'
+    agregar += '</tr>';
+  };
+
+  $('#content_preview').append(agregar);
+  $('#preview_modal').modal('open');
+  resetVariables();
+};
 
 
 /*#################################################################################################################

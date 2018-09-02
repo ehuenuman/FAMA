@@ -48,11 +48,17 @@
               <!--{{question.data.incorporation_date|date:"d M Y"}}--> {{question.data.incorporation_date|date:"D d/M/Y"}}
               </td>
               <td class="center-align">
-                <button class="waves-effect waves-light btn btn-action" id='{{question.data.id}}' data-action="download">
+                <button class="waves-effect light-blue btn btn-action" id='{{question.data.id}}' data-action="edit">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button class="waves-effect green btn btn-action" id='{{question.data.id}}' data-action="preview">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+                <button class="waves-effect orange btn btn-action" id='{{question.data.id}}' data-action="download">
                   <i class="fa fa-download" aria-hidden="true"></i>
                 </button>
-                <button class="waves-effect waves-light btn btn-action" id='{{question.data.id}}' data-action="preview">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                <button class="waves-effect red btn btn-action" id='{{question.data.id}}' data-action="delete">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
               </td>
             </tr>
