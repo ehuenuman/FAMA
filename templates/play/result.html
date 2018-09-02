@@ -1,36 +1,39 @@
 {% extends 'teacher/base.html' %}
 {% load staticfiles %}
 
-{% block extracss%}
-<style>
-  .flex-container {
-    display: -webkit-flex;
-    display: flex;
-  }
+{% block extracss%}  
+  <link rel="stylesheet" href="{% static 'css/library/c3.min.css' %}">
+  <style>
+    .reply {
+      border-radius: 0px;
+      padding: 0px;
 
-  .flex-container .col {
-    height: auto;
-  }
+    }
 
-  .flex-container .col .col {
-    height: 100%;
-  }
+    .reply.correct {
+      background-color: #4caf50;
+      border-color: #388e3c;
+      color: #ffffff;
+      padding: 10px 8px;
+      border-radius: 80px;
+    }
 
-  .reply {
-    border-radius: 0px;
-  }
-
-  .reply.correct {
-    background-color: #4caf50;
-  }
-
-  .reply.incorrect {
-    background-color: #f44336;
-  }
-</style>
+    .reply.incorrect {
+      background-color: #f44336;      
+      border-color: #d32f2f;
+      color: #ffffff;
+      padding: 10px 10px;
+      border-radius: 80px;
+    }
+  </style>
 {% endblock %}
 
 {% block extrajs%}
+  <script src="{% static 'js/library/js.cookie.js' %}"></script>
+  <script src="{% static 'js/library/d3.min.js' %}"></script>
+  <script src="{% static 'js/library/c3.min.js' %}"></script>
+  <script src="{% static 'js/functions.stop_formative.js' %}"></script>
+  <script src="{% static 'js/play.result.charts.js' %}"></script>
 {% endblock %}
 
 {% block title %}
@@ -43,13 +46,101 @@ Resultados
 
 
 {% block content %}
+<div class="row last-row">
+  {% if play.is_active == 1 %}
+  <div class="col s12 messages">
+    <div class="col s12 alert valign-wrapper">
+      <div class="col s9">La formativa a&uacute;n se encuentra disponible para ser respondida.</div>
+      <div class="col s3">
+        <div class="waves-effect waves-ligth btn btn-danger btn-action stop-formative" data-url="{% url 'play:stop' %}" data-play-id="{{play.id}}">
+          <i class="fa fa-stop fa-2x" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="col s12 m4">
+
+    <div class="s12">
+      <ul class="collection">
+        <li class="collection-item col s12">
+          <div class="list-group">
+            <div class="list-group-item truncate">
+              <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
+            </div>
+            <div class="list-group-item truncate">
+              <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
+            </div>
+            <div class="list-group-item truncate">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{play.duration_to_time}}
+            </div>
+            <div class="list-group-item truncate">
+              <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;
+              {% if play.is_active == 1 %}
+                Activa
+              {% else %}
+                {{play.close_play|date:"D d/M/Y"}}
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="s12">
+      <ul class="collection with-header white">
+        <li class="collection-header col s12">
+          <div class="s12 m6 center-align"><b>Estado del curso</b></div>
+          <div class="s12 m6 center-align" style="font-size: 11px;">Total estudiantes: {{course.student.count}}</div>
+        </li> 
+        <div class="col s12 l6">
+          <span class="col s12 center-align" style="font-size: 11px;">Iniciaron formativa</span>
+          <li class="collection-item chart col s12 center-align" id="students_start_chart"></li>
+        </div>
+        <div class="col s12 l6">
+          <span class="col s12 center-align" style="font-size: 11px;">Terminaron formativa</span>
+          <li class="collection-item chart col s12 center-align" id="students_end_chart"></li>
+        </div>
+      </ul>
+    </div>  
+
+  </div>
+
+  <div class="col s12 m8">
+    <ul class="collection with-header">
+      <li class="collection-header col s12 center-align"><b>Respuestas</b></li>
+      <li class="collection-item chart col s12 center-align" id="students_answer_chart"></li>
+    </ul>
+  </div>
+
+</div>
+
 <div class="row">
-  <div class="col s12">
+  <div class="col s12 m6">
+    <ul class="tabs">
+      <li class="tab col s6">
+        <a class="active" href="#table_result">
+          <i class="fa fa-table fa-lg" aria-hidden="true"></i>
+          <span class="hide-on-small-only">&nbsp;Tabla general</span>
+        </a>
+      </li>
+      <li class="tab col s6 disabled">
+        <a href="#plots_result">
+          <i class="fa fa-pie-chart fa-lg" aria-hidden="true"></i>
+          <span class="hide-on-small-only">&nbsp;Est&iacute;sticas</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="col s12" id="table_result">
     <div style="overflow-x: auto;">
-      <table class="card-box" style="font-size: 13px;">
-        <thead>          
+      <table class="card-box" style="font-size: 13px; margin-top: 0px;">
+        <thead>
           <tr>
-            <th class="hide-on-med-and-down" style="width: 90px;">RUT</th>
+            <th class="hide-on-med-and-down" style="min-width: 90px; width: 90px;">RUT</th>
             <th style="width: 250px;">Estudiante</th>
             {% for question in questions %}
               <th class="center-align" data-question="{{ question.id }}">P{{ forloop.counter }} {{ question.title|truncatechars_html:20 }}</th>
@@ -57,37 +148,71 @@ Resultados
             <th class="center-align" style="width: 100px;">Total</th>
           </tr>
         </thead>
-        <tbody>          
+        <tbody>
           {% for student in students %}
             <tr>
               <td class="hide-on-med-and-down">{{ student.username }}</td>
               <td class="truncate" data-student="{{ student.id }}">{{ student.first_name|title }} {{ student.last_name|title }}</td>
               {% for question in questions %}
-                <td data-student="{{ student.id }}" data-question="{{ question.id }}"
-                  {% for answer in student.answers %}        
+                <td class="center-align reply" data-student="{{ student.id }}" data-question="{{ question.id }}">
+                  {% for answer in student.answers %}
                     {% if answer.question == question.id %}
                       {% if answer.correct == 1 %}
-                         class="center-align reply correct">
-                          <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                        <i class="fa fa-check fa-lg reply correct" aria-hidden="true"></i>
                       {% else %}
-                        class="center-align reply incorrect">
-                          <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                        <i class="fa fa-times fa-lg reply incorrect" aria-hidden="true"></i>
                       {% endif %}
                     {% endif %}
-                  {% endfor %} 
-                  </td>
+                  {% empty %}
+                    <i class="fa fa-minus fa-lg" aria-hidden="true"></i>
+                  {% endfor %}
+                </td>
               {% endfor %}
               <td class="center-align">{{ student.corrects }}</td>
             </tr>
           {% endfor %}
           <tr>
             <td class="hide-on-med-and-down"></td>
-            <td><b>Total</b></td>
+            <td class="right-align"><b>Correctas</b></td>
             {% for question in questions %}
               <td class="center-align" data-question="{{ question.id }}">
               {% for total in total_for_question %}
                 {% if total.question == question.id %}
-                  {{ total.correct__sum }}
+                  <div class="col s12 center-align corrects">
+                    {{ total.corrects }}
+                  </div>                  
+                {% endif %}
+              {% endfor %}
+              </td>
+            {% endfor %}
+            <td></td>
+          </tr>
+          <tr>
+            <td class="hide-on-med-and-down"></td>
+            <td class="right-align"><b>Incorrectas</b></td>
+            {% for question in questions %}
+              <td class="center-align" data-question="{{ question.id }}">
+              {% for total in total_for_question %}
+                {% if total.question == question.id %}
+                  <div class="col s12 center-align incorrects">
+                    {{ total.incorrects }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+              </td>
+            {% endfor %}
+            <td></td>
+          </tr>
+          <tr>
+            <td class="hide-on-med-and-down"></td>
+            <td class="right-align"><b>Respondidas</b></td>
+            {% for question in questions %}
+              <td class="center-align" data-question="{{ question.id }}">
+              {% for total in total_for_question %}
+                {% if total.question == question.id %}
+                  <div class="col s12 center-align total">
+                    {{ total.incorrects|add:total.corrects }}
+                  </div>
                 {% endif %}
               {% endfor %}
               </td>
@@ -95,10 +220,25 @@ Resultados
             <td></td>
           </tr>
         </tbody>
+        <thead>
+          <tr>
+            <th class="hide-on-med-and-down" style="min-width: 90px; width: 90px;"></th>
+            <th style="width: 250px;"></th>
+            {% for question in questions %}
+              <th class="center-align" data-question="{{ question.id }}">P{{ forloop.counter }} {{ question.title|truncatechars_html:20 }}</th>
+            {% endfor %}
+            <th class="center-align" style="width: 100px;"></th>
+          </tr>
+        </thead>
       </table>
-    </div>
+    </div>    
+  </div>  
+
+  <div class="col s12" id="plots_result">
   </div>
 </div>
+
+{% include "functions/modal_stop_formative.html" %}
 {% endblock %}
 
 {% block footer %}
@@ -106,92 +246,27 @@ Resultados
 
 {% block js %}
 <script>
+  $(document).ready(function(){
+    $('ul.tabs').tabs();
+
+    $.each($("td.reply"), function(index, val) {
+      if ($(val).children().length == 0) {
+        $(val).html('<i class="fa fa-minus fa-lg" aria-hidden="true"></i>');
+      }
+    });    
+  });
+
+  //Conect socket
   var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
   var ws_url = ws_scheme + "://" + window.location.hostname + ":2412" + "/ws/play/" 
-    + window.location.pathname.split("/")[3] + "/" + "?session_key={{ request.session.session_key }}";
-
-  //console.log("Conecting to... " + ws_url)
+  + window.location.pathname.split("/")[3] + "/" + "?session_key={{request.session.session_key}}";  
 
   var socket = new WebSocket(ws_url);
 
-  socket.onmessage = function(e) {
-    var data = JSON.parse(e.data);
-    var cell = $("td[data-student='"+data.student+"'][data-question='"+data.question+"']");
-
-    if (cell.hasClass("reply correct")) {
-      if (data.correct == 0) {
-        cell
-          .removeClass('correct')
-          .empty()
-          .addClass("incorrect")
-          .append('<i class="fa fa-times fa-lg" aria-hidden="true"></i>');
-        var student_total = parseInt(cell.parent().children().last().html());
-        if (student_total > 0) {
-          cell.parent().children().last().html(student_total-1);
-        }
-        var question_total = parseInt($("td[data-question='"+data.question+"']").last().html());
-        if (isNaN(question_total)) {
-          $("td[data-question='"+data.question+"']").last().html(1);
-        } else {
-          if (question_total > 0) {
-            $("td[data-question='"+data.question+"']").last().html(question_total-1);
-          }
-        }
-      }
-    } else {
-      if (cell.hasClass("reply incorrect")) {
-        if (data.correct == 1) {
-          cell
-            .removeClass('incorrect')
-            .empty()
-            .addClass("correct")
-            .append('<i class="fa fa-check fa-lg" aria-hidden="true"></i>');
-          var student_total = parseInt(cell.parent().children().last().html());
-          if (student_total >= 0) {
-            cell.parent().children().last().html(student_total+1);
-          }
-          var question_total = parseInt($("td[data-question='"+data.question+"']").last().html());
-          if (isNaN(question_total)) {
-            $("td[data-question='"+data.question+"']").last().html(1);
-          } else {
-            if (question_total >= 0) {
-              $("td[data-question='"+data.question+"']").last().html(question_total+1);
-            }        
-          }
-        }
-      } else {        
-        if (data.correct == 0) {
-          cell            
-            .empty()
-            .addClass("center-align reply incorrect")
-            .append('<i class="fa fa-times fa-lg" aria-hidden="true"></i>');          
-          var question_total = parseInt($("td[data-question='"+data.question+"']").last().html());
-          if (isNaN(question_total)) {
-            $("td[data-question='"+data.question+"']").last().html(0);
-          } 
-        } else {
-          cell
-            .empty()
-            .addClass("center-align reply correct")
-            .append('<i class="fa fa-check fa-lg" aria-hidden="true"></i>');
-          var student_total = parseInt(cell.parent().children().last().html());
-          if (student_total >= 0) {
-            cell.parent().children().last().html(student_total+1);
-          }
-          var question_total = parseInt($("td[data-question='"+data.question+"']").last().html());
-          if (isNaN(question_total)) {
-            $("td[data-question='"+data.question+"']").last().html(1);
-          } else {
-            if (question_total >= 0) {
-              $("td[data-question='"+data.question+"']").last().html(question_total+1);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // Call onopen directly if socket is already open
-  if (socket.readyState == WebSocket.OPEN) socket.onopen();
+  //Set up charts
+  setup_played_formative_chart({{course.student.count}}, {{started_play}});
+  setup_finished_formative_chart({{course.student.count}}, {{finished_play.total}}, {{finished_play.students}});
+  setup_answer_formative_chart({{total_for_question|safe}});
 </script>
+<script type="text/javascript" src="{% static 'js/play.result.socket.js' %}"></script>
 {% endblock %}

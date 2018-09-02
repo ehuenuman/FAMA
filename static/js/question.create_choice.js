@@ -21,7 +21,7 @@ $(document).ready(function() {
 
   titulo = $(".titulo-choice").val();
   titulo = accentDecode(titulo);
-  $(".titulo-choice").value = titulo;
+  $(".titulo-choice")[0].value = titulo;
 
   pregunta = $(".pregunta-choice").val();
   pregunta = accentDecode(pregunta);
@@ -29,8 +29,9 @@ $(document).ready(function() {
         
   texto_alternativo = $(".texto_alternativo").val();
   texto_alternativo = accentDecode(texto_alternativo);
-  $(".texto_alternativo").value = texto_alternativo;
+  $(".texto_alternativo")[0].value = texto_alternativo;
 
+  number = $('#answers_table>tbody>tr').length
   
   if($("#imagen-desplegada img")[0] != undefined){
     imgSrc = $("#imagen-desplegada img")[0].src;
@@ -227,6 +228,7 @@ $(document).ready(function() {
 
 }); 
 
+
 function validate_form(){    
   manage_question();
   return false;
@@ -235,6 +237,7 @@ function validate_form(){
 function manage_question() {
   //console.log("1) extrayendo los datos del formulario");
   titulo = $(".titulo-choice").val();
+  var titulo2 = $(".titulo-choice").val();
   titulo = remplazarCaracteresEspeciales(titulo);
 
   pregunta = $(".pregunta-choice").val();
@@ -282,7 +285,7 @@ function manage_question() {
       var data = {
         "question": xml_question,
         "imsmanifest": xml_imsmanifest,
-        "title": titulo,
+        "title": titulo2,
         "number": random,
         "type": "choice",
         "extension": "zip",
@@ -299,7 +302,7 @@ function manage_question() {
     } else {      
       var data = {
         "question": xml_question,
-        "title": titulo,
+        "title": titulo2,
         "number": random,
         "type": "choice",
         "extension": "xml",

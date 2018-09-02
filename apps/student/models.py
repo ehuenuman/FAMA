@@ -1,5 +1,7 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
+
 
 #from teacher.models import Formative
 
@@ -41,4 +43,8 @@ class Reply(models.Model):
         managed = False
         db_table = 'reply'
         unique_together = (('play', 'student'),)
+
+    def time_to_finish(self):
+        """Use in template for render the time for the close play"""
+        return self.close_reply - timezone.now()
         

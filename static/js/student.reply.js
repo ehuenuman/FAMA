@@ -1,5 +1,5 @@
-$(document).ready(function() {
-  $('#timer').countdown($("#timer").data("limit-time"))
+$(document).ready(function() {  
+  $('#timer').countdown(moment().add(moment.duration($("#timer").data("limit-time"))).toDate())
   .on('update.countdown', function(event) {
     var format = '%H:%M:%S';
     if(event.offset.totalDays > 0) {

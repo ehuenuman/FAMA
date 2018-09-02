@@ -101,6 +101,7 @@ $(document).ready(function(){
 });
 
 function startFormative(url) {
+  console.log(url);
   $.ajax({
     url: url,
     type: "POST",
@@ -115,6 +116,7 @@ function startFormative(url) {
     if (data.redirect == "OK") {
       document.location.href = document.location.pathname;
     } else {
+      console.log(data);
       console.log(data.message);  
     }
   })

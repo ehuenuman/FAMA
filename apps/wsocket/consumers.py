@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
-from django.dispatch import receiver
-from apps.student.models import Answer
 from apps.login.views import teacher_check
+from apps.student.models import Reply, Answer
+from apps.play.models import Play
 
 from channels import Group
 from channels.sessions import channel_session
@@ -30,15 +30,41 @@ def ws_connect(message, room_name):
     # Add the user to the room_name group
     Group("chat-%s" % room_name).add(message.reply_channel)
 
-def send_update(sender, instance, **kwargs):    
-    room_name = instance.play.id_char    
+def send_answer(sender, instance, **kwargs):
+    room_name = instance.play.id_char 
+    
+    total_for_question = Play.total_for_question(instance.play.id, instance.play.formative.id)    
+    
+    total_question = len(total_for_question)
+    total_answers = len(Answer.objects.filter(student=instance.student, play=instance.play.id))    
+    if total_question == total_answers:
+        add_finish = True
+    else:
+        add_finish = False
+
+    for index in range(0, len(total_for_question)):
+        total_for_question[index]["question"] = "P{0}".format(index+1)
+
     Group("chat-%s" % room_name).send({
-        "text": json.dumps({            
+        "text": json.dumps({ 
+            "action": "answer",
             "correct": instance.correct,
             "student": instance.student.user_id,
             "question": instance.question.id,
+            "total_for_question": total_for_question,
+            "add_finish": add_finish
         }),
     })
+
+def send_reply(sender, instance, **kwargs):
+    room_name = instance.play.id_char
+    Group("chat-%s" % room_name).send({
+        "text": json.dumps({
+            "action": "reply",
+            "played_students": Reply.objects.filter(play=instance.play.id).count()
+        }),
+    })
+
 
 # Connected to websocket.disconnect
 @channel_session_user

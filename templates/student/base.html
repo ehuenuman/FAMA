@@ -12,6 +12,8 @@
   <script src="{% static 'js/library/jquery-3.1.1.min.js' %}"></script>
   <script src="{% static 'js/library/materialize.min.js' %}"></script>
   <script src="{% static 'js/library/js.cookie.js' %}"></script>
+  <script src="{% static 'js/library/moment.js' %}"></script>  
+  <script src="{% static 'js/library/moment-timezone-with-data-2012-2022.js' %}"></script>
   <script src="{% static 'js/library/jquery.countdown.min.js' %}"></script>
   <script src="{% static 'js/mas-play.js' %}"></script>
   <script src="{% static 'js/student.reply.js' %}"></script>
@@ -32,9 +34,9 @@
           <div class="nav-wrapper">
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
             <a id="page-title" class="brand-logo">{% block page-title %}{% endblock %}</a>
-            {% if close_reply %}
+            {% if reply.close_reply %}
             <ul class="countdown">              
-              <li id="timer" data-limit-time="{{ close_reply|date:'Y/m/d H:i:s'}}"></li>
+              <li id="timer" data-limit-time="{{ reply.time_to_finish }}"></li>
             </ul>
             {% endif %}
           </div>

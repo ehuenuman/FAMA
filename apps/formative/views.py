@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.core import serializers
 from datetime import timedelta
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import FormativeForm
 from .models import Formative, FormativeHasQuestion
@@ -11,6 +12,7 @@ from apps.play.models import Play
 from apps.student.models import Student
 from apps.teacher.models import Question
 from apps.course.models import Course
+import apps.question.manageXML as manageXML
 
 @login_required
 def view_formatives(request):
@@ -46,7 +48,12 @@ def create_formative(request):
         data['redirect'] = '/formativa/'
         return JsonResponse(data)
     else:
-        questions = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
+        data = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
+        questions = []
+        for question in data:
+            #print(question)
+            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+            questions.append({"question": q_question, "data": question})
         form = FormativeForm()
     return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'Crear Formativa'})
 
@@ -55,8 +62,17 @@ def create_formative(request):
 def edit_formative(request, formative_id):
     formative = Formative.objects.get(id=formative_id)
     if request.method == 'GET':
-        question_selected = formative.question.all().order_by('formativehasquestion__order')
-        questions = request.user.teacher.question.exclude(id__in=question_selected).order_by('teacherhasquestion__incorporation_date').reverse()
+        data_selected = formative.question.all().order_by('formativehasquestion__order')
+        data = request.user.teacher.question.exclude(id__in=data_selected).order_by('teacherhasquestion__incorporation_date').reverse()
+        questions = []
+        for question in data:
+            #print(question)
+            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+            questions.append({"question": q_question, "data": question})
+        question_selected = []
+        for question in data_selected:
+            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+            question_selected.append({"question": q_question, "data": question})
         form = FormativeForm(instance=formative)
     else:
         formative.name = request.POST.getlist('name')[0]
@@ -87,7 +103,11 @@ def start_formative(request):
     if request.method == "POST":
         formative = Formative.objects.get(id=request.POST['formative'])
         course = Course.objects.get(id=request.POST['course'])
+<<<<<<< HEAD
         duration = request.POST['time']
+=======
+        duration = request.POST['time']        
+>>>>>>> d0e7d897b0044753e8a813ab20bf6cff1bbadd46
 
         play_obj = Play.objects.all()
         #print(len(play_obj))
@@ -109,9 +129,9 @@ def start_formative(request):
                 formative=formative,
                 course=course)
 
-            play.id_char = "{0}{1}".format(                    
-                play.id_char,
-                play.id)
+            play.id_char = "P{0}{1}".format(                    
+                play.id,
+                play.id_char)
             play.save()            
             data = {"redirect": "OK"}
 

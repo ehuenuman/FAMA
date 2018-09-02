@@ -56,7 +56,7 @@ a.collection-item {
 
 .card-box {
   padding: 7px !important;
-  margin-top: 7px !important;
+  margin-top: 7px;
   margin-bottom: 14px !important;
   border-radius: 0px !important;
   border: 1px solid #E0E0E0 !important;
@@ -86,6 +86,37 @@ a.collection-item {
   background-color: #e74046;
 }
 
+/* Messages */
+.messages {
+  margin-bottom: 15px;
+}
+
+.messages .error {
+  background-color: #e57373;
+  border: solid 1px #f44336;
+  border-radius: 5px;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 5px;
+}
+
+.messages .alert {
+  background-color: #ffab91;
+  border: solid 1px #ff7043;
+  border-radius: 5px;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 5px;
+}
+
+.messages .warning {
+  background-color: #ff9100;
+  border: solid 1px #ff6d00;
+  border-radius: 5px;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 5px;
+}
 
 /* Modal Preview */
 #banner_preview,
@@ -114,6 +145,24 @@ a.collection-item {
   text-align: center;
   padding: 10px 0px;
 }
+
+.modal.modal-alert {
+  width: 30%;
+}
+
+@media only screen and (max-width : 992px) {
+  .modal.modal-alert {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width : 600px) {
+  .modal.modal-alert {
+    width: 80%;
+  }
+}
+
+/* Buttons */
 
 .btn-box {
   color: #000;  
@@ -182,4 +231,10 @@ i.prefix.fa {
 
 .reply-control i.fa {
   color: #000000;
+}
+
+/* Chart */
+.collection
+.collection-item.chart {
+  padding: 0px 0px !important;
 }

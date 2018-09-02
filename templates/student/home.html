@@ -25,8 +25,8 @@
           <h5>Disponibles</h5>
         </div>
       </li>
-      {% for play in active_plays %}       
-      <a class="collection-item col s12" href="{% url 'play:show' play.id_char %}">
+      {% for play in active_plays %}
+      <li class="collection-item col s12">
         <div class="s12">
           <div class="col s9 list-group">
             <div class="s12 l4 list-group-item truncate">
@@ -37,15 +37,15 @@
             </div>
           </div>        
           <div class="col s3 right-align">
-            <div class="waves-effect waves-teal btn btn-action">
+            <a class="waves-effect waves-teal btn btn-action" href="{% url 'play:show' play.id_char %}">
               <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-            </div>  
+            </a>  
           </div>
         </div>
         <div class="col s12 l4 list-group-item">
           <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
         </div>
-      </a>
+      </li>      
       {% endfor %}
     </ul>
   </div>
@@ -61,7 +61,7 @@
         </div>
       </li>
       {% for play in closed_plays %}
-      <a class="collection-item col s12" href="#">
+      <li class="collection-item col s12">
         <div class="s12">
           <div class="col s9 list-group">
             <div class="s12 l4 list-group-item truncate">
@@ -71,7 +71,7 @@
               <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
             </div>
           </div>        
-          <div class="col s3 right-align">
+          <div class="col s3 right-align hide">
             <div class="waves-effect waves-teal btn btn-action">
               <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
             </div>  
@@ -83,7 +83,7 @@
         <div class="col s8 m4 l4 list-group-item">
           <i class="fa fa-calendar-times-o" aria-hidden="true"></i>&nbsp;{{ play.close_play|date:"D d/M/Y" }}
         </div>
-      </a>
+      </li>
       {% endfor %}
     </ul>
   </div>
