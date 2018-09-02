@@ -51,7 +51,7 @@ def create_formative(request):
         data = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
         questions = []
         for question in data:
-            #print(question)
+            print(question)
             q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
             questions.append({"question": q_question, "data": question})
         form = FormativeForm()
