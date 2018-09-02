@@ -6,7 +6,7 @@ from django.core import serializers
 from django.db.models import Sum
 import json
 from django.db.models.signals import post_save
-from apps.wsocket.consumers import send_update
+from apps.wsocket.consumers import send_answer, send_reply 
 
 from django.contrib.auth.models import User
 from apps.login.views import teacher_check
@@ -19,7 +19,8 @@ from apps.student.models import Student, Answer, Reply
 import apps.question.manageXML as manageXML
 
 # Create your views here.
-post_save.connect(send_update, Answer)
+post_save.connect(send_answer, Answer)
+post_save.connect(send_reply, Reply)
 
 @login_required
 @user_passes_test(teacher_check)
@@ -52,18 +53,17 @@ def show_play(request, play_id_char):
         try:
             reply = Reply.objects.get(student=request.user.student, play=play)
             status = reply.is_active
-            close_reply = reply.close_reply
         except Exception as e:
+            reply = {}
             status = 1
-            close_reply = ""
 
         return render(request, "play/show.html", {
             "play": play,            
             "formative": formative,
             "questions": questions,
             "first_q": first_question,
-            "status": status,
-            "close_reply": close_reply
+            "reply": reply,
+            "status": status
             })
 
 
@@ -82,8 +82,7 @@ def reply_play(request, play_id_char, question_id):
                     play=play,
                     start_reply=timezone.now(),
                     close_reply=timezone.now() + play.duration,
-                    is_active=1)
-                close_reply = reply.close_reply
+                    is_active=1)                
                 #print(reply.student.user.first_name)
                 #print(reply.play.formative.name)
                 stop_reply.apply_async([reply.id], countdown=play.duration.seconds)
@@ -127,7 +126,7 @@ def reply_play(request, play_id_char, question_id):
                     {
                         "question": data,                        
                         "play": play,
-                        "close_reply": close_reply
+                        "reply": reply
                     })
 
             if question.type == "associate":
@@ -516,19 +515,24 @@ def play_result(request, play_id_char):
     play = Play.objects.get(id_char=play_id_char)
     formative = Formative.objects.get(id=play.formative.id)
     questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
-    total_for_question = Answer.objects.filter(play=play.id).values("question").annotate(Sum("correct"))
     course = Course.objects.get(id=play.course.id)
     students = User.objects.filter(student__course=course.id).select_related("User").values("id", "username", "first_name", "last_name").order_by("last_name")
+    total_for_question = Play.total_for_question(play.id, formative.id)
+    started_play = Reply.objects.filter(play=play.id).count()
+    finished_play = {"total": 0, "students": []}
     temp = []
     for student in students:
         answer = Answer.objects.filter(student=student["id"], play=play.id).values("question", "correct")
         corrects = 0
+        if len(answer) == len(questions):
+            finished_play["total"] += 1
+            finished_play["students"].append(student["id"])
         for reply in answer:
             corrects += reply["correct"]
         student["answers"] = answer
         student["corrects"] = corrects
         corrects = 0
-        temp.append(student)
+        temp.append(student)    
 
     #print(students)
     #print(answer)
@@ -546,5 +550,7 @@ def play_result(request, play_id_char):
             "questions": questions,
             "course": course,
             "students": temp,
-            "total_for_question": total_for_question
+            "total_for_question": total_for_question,
+            "started_play": started_play,
+            "finished_play": finished_play
         })

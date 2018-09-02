@@ -1,5 +1,5 @@
 {% extends 'teacher/base.html' %}
-{%load staticfiles %}
+{% load staticfiles %}
 
 {% block extracss%}
 {% endblock %}
@@ -26,25 +26,27 @@
 
 {% block content %}
 <div class="row">
-  <div class="col s12">    
+  <div class="col s12">
     <div style="overflow-x:auto;">
       <table id="miTabla-mispreguntas" class="col s12 bordered card-box">
         <thead>
           <tr>            
             <th class="left-align" style="min-width: 150px;">Pregunta</th>
             <th class="left-align" style="width: 170px;">Tipo</th>
-            <th class="center-align" style="width: 160px;">Creada el</th>            
+            <th class="center-align" style="width: 160px;">Creada el</th>
             <th class="center-align" style="width: 150px;">Acciones</th>
           </tr>
         </thead>
       
-        <tbody class="galler">          
-          {% if questions %}            
+        <tbody class="galler">
+          {% if questions %}
             {% for question in questions %}
-            <tr id='{{question.data.id}}'>              
+            <tr id='{{question.data.id}}'>
               <td>{{question.question|safe}}</td>
               <td>{{question.data.spanish_type}}</td>
-              <td class="center-align">{{question.data.incorporation_date|date:"d M Y H:i"}}</td>
+              <td class="center-align">              
+              <!--{{question.data.incorporation_date|date:"d M Y"}}--> {{question.data.incorporation_date|date:"D d/M/Y"}}
+              </td>
               <td class="center-align">
                 <button class="waves-effect light-blue btn btn-action" id='{{question.data.id}}' data-action="edit">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -58,11 +60,11 @@
                 <button class="waves-effect red btn btn-action" id='{{question.data.id}}' data-action="delete">
                   <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
-              </td>                    
+              </td>
             </tr>
             {% endfor %}
           {% endif %}
-        </tbody>      
+        </tbody>
       </table>
     </div>
     <div >
