@@ -181,7 +181,7 @@ Crear T&eacute;rminos Pareados
                 <select class="{{alternativa.identifier}}" id="{{ forloop.counter }}" style="display:inline;height: auto;">
                     {% for alternativa in questions.itemBody.associateInteraction.associateChoice %}
                     {% if correcta.text1 == alternativa.identifier %}
-                    <option value="{{correcta}}">{{alternativa.alternative}}</option>
+                    <option value="{{correcta.text1}}">{{alternativa.alternative}}</option>
                     {% endif %}
                     {% endfor %}      
                 </select>
@@ -190,13 +190,13 @@ Crear T&eacute;rminos Pareados
                 <select class="{{alternativa.identifier}}" id="{{ forloop.counter }}" style="display:inline;height: auto;">
                     {% for alternativa in questions.itemBody.associateInteraction.associateChoice %}
                     {% if correcta.text2 == alternativa.identifier %}
-                    <option value="{{correcta}}">{{alternativa.alternative}}</option>
+                    <option value="{{correcta.text2}}">{{alternativa.alternative}}</option>
                     {% endif %}
                     {% endfor %}    
                 </select>
               </td>
               <td style="padding-bottom: 10px;">
-                <button class="eliminar waves-effect waves-light btn btn-danger" id="{{ forloop.counter }}" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                <button class="eliminar waves-effect waves-light btn btn-danger" id="{{ forloop.counter }}" type="button" data-action="delete-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
               </td>
               
             </tr>
@@ -246,7 +246,7 @@ Crear T&eacute;rminos Pareados
 <script>
   $(document).ready(function() {
     $("button").parents('td').css("padding-bottom", "0").css("padding-top", "0");
-    $('#nav-mobile ul.collapsible li#simple_choice').addClass('active').parent().parent().show().parent().addClass('active');  
+    $('#nav-mobile ul.collapsible li#associate').addClass('active').parent().parent().show().parent().addClass('active');  
   });
 </script>
 {% endblock %}
