@@ -51,9 +51,25 @@ def create_formative(request):
         data = request.user.teacher.question.all().order_by('teacherhasquestion__incorporation_date').reverse()
         questions = []
         for question in data:
-            print(question)
-            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
-            questions.append({"question": q_question, "data": question})
+            #print(question.type)
+            if question.type == "choice":
+                q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "associate":
+                q_question = manageXML.data_associate(question.code, question.extension)["itemBody"]["associateInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "entry":
+                q_question = manageXML.data_entry(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "slider":
+                q_question = manageXML.data_slider(question.code, question.extension)["itemBody"]["sliderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "order":
+                q_question = manageXML.data_order(question.code, question.extension)["itemBody"]["orderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "inline":
+                q_question = manageXML.data_inline(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
         form = FormativeForm()
     return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'Crear Formativa'})
 
@@ -67,12 +83,44 @@ def edit_formative(request, formative_id):
         questions = []
         for question in data:
             #print(question)
-            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
-            questions.append({"question": q_question, "data": question})
+            if question.type == "choice":
+                q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "associate":
+                q_question = manageXML.data_associate(question.code, question.extension)["itemBody"]["associateInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "entry":
+                q_question = manageXML.data_entry(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "slider":
+                q_question = manageXML.data_slider(question.code, question.extension)["itemBody"]["sliderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "order":
+                q_question = manageXML.data_order(question.code, question.extension)["itemBody"]["orderInteraction"]["question"]
+                questions.append({"question": q_question, "data": question})
+            if question.type == "inline":
+                q_question = manageXML.data_inline(question.code, question.extension)["itemBody"]["question"]
+                questions.append({"question": q_question, "data": question})
         question_selected = []
         for question in data_selected:
-            q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
-            question_selected.append({"question": q_question, "data": question})
+            if question.type == "choice":
+                q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+                question_selected.append({"question": q_question, "data": question})
+            if question.type == "associate":
+                q_question = manageXML.data_associate(question.code, question.extension)["itemBody"]["associateInteraction"]["question"]
+                question_selected.append({"question": q_question, "data": question})
+            if question.type == "entry":
+                q_question = manageXML.data_entry(question.code, question.extension)["itemBody"]["question"]
+                question_selected.append({"question": q_question, "data": question})
+            if question.type == "slider":
+                q_question = manageXML.data_slider(question.code, question.extension)["itemBody"]["sliderInteraction"]["question"]
+                question_selected.append({"question": q_question, "data": question})
+            if question.type == "order":
+                q_question = manageXML.data_order(question.code, question.extension)["itemBody"]["orderInteraction"]["question"]
+                question_selected.append({"question": q_question, "data": question})
+            if question.type == "inline":
+                q_question = manageXML.data_inline(question.code, question.extension)["itemBody"]["question"]
+                question_selected.append({"question": q_question, "data": question})
         form = FormativeForm(instance=formative)
     else:
         formative.name = request.POST.getlist('name')[0]

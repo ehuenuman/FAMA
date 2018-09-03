@@ -350,18 +350,17 @@ function manage_question() {
   });
 
   var inicio = 1;
-  $('#miTabla2 >tbody >tr').each(function () {
-    var numero_id = $(this)[0].id; 
+  $('#miTabla2 >tbody >tr').each(function () { 
 
-    orden_correcto_alternativa1[inicio] = $('select'+'#'+numero_id+'.alternativa1')[0].value;
-    orden_correcto_alternativa2[inicio] = $('select'+'#'+numero_id+'.alternativa2')[0].value;
-    console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
+    orden_correcto_alternativa1[inicio] = $('select option')[0].text;
+    orden_correcto_alternativa2[inicio] = $('select option')[1].text;
+    //console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
     inicio++;
   });
 
-  console.log(respuestas);
-  console.log(orden_correcto_alternativa1);
-  console.log(orden_correcto_alternativa2);
+  //console.log(respuestas);
+  //console.log(orden_correcto_alternativa1);
+  //console.log(orden_correcto_alternativa2);
   
   var xml_question = crear_pregunta_xml();
   if (nombre_foto != "") {
