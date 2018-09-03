@@ -360,7 +360,14 @@ function manage_question() {
     inicio++;
   });
 
-  
+  var inicio = 1;
+  $('#miTabla2 >tbody >tr').each(function () { 
+
+    orden_correcto_alternativa1[inicio] = $('select option')[0].text;
+    orden_correcto_alternativa2[inicio] = $('select option')[1].text;
+    //console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
+    inicio++;
+ });
 
   console.log(respuestas);
   console.log(orden_correcto_alternativa1);
