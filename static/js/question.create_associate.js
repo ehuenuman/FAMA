@@ -360,17 +360,7 @@ function manage_question() {
     inicio++;
   });
 
-  var inicio = 1;
-  $('#miTabla2 >tbody >tr').each(function () {
-    var numero_id = $(this)[0].id; 
-    console.log(numero_id);
-    console.log($('select'+'#'+numero_id+'.alternativa1').value);
-    console.log($('select'+'#'+numero_id+'.alternativa2').value);
-    orden_correcto_alternativa1[inicio] = $('select'+'#'+numero_id+'.alternativa1').value;
-    orden_correcto_alternativa2[inicio] = $('select'+'#'+numero_id+'.alternativa2').value;
-    console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
-    inicio++;
-  });
+  
 
   console.log(respuestas);
   console.log(orden_correcto_alternativa1);
