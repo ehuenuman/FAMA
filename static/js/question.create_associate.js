@@ -369,9 +369,9 @@ function manage_question() {
     inicio++;
  });
 
-  console.log(respuestas);
-  console.log(orden_correcto_alternativa1);
-  console.log(orden_correcto_alternativa2);
+  //console.log(respuestas);
+  //console.log(orden_correcto_alternativa1);
+  //console.log(orden_correcto_alternativa2);
   
   var xml_question = crear_pregunta_xml();
   if (nombre_foto != "") {
