@@ -38,13 +38,13 @@
   <div class="col s12">
     <ul class="collection">    
       <li class="collection-item center-align">Seleccione una alternativa</li>
-      <div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">{{question.itemBody.previo}}</div>
+      <div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">{{question.itemBody.previo|safe}}</div>
       <select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">
       {% for alternative in question.itemBody.inlineChoiceInteraction.inlineChoice %}              
         <option value="{{ forloop.counter }}">{{ alternative.alternative|safe }}</option>
       {% endfor %}
       </select>
-      <div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">{{question.itemBody.posterior}}</div>
+      <div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">{{question.itemBody.posterior|safe}}</div>
     </ul>
   </div>
   <div class="row">

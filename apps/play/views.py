@@ -93,15 +93,17 @@ def reply_play(request, play_id_char, question_id):
             question = Question.objects.get(id=question_id)            
             data = {}
             data["code"] = question.code
+            """
             try:
                 answer = Answer.objects.filter(
                     student=request.user.student,
                     play=play,
                     question=question)[:1]
-                data["answer"] = answer[0].answer
+                data["answer"] = "answer" #answer[0].answer
             except Exception as e:
+                print(answer)
                 print("No existe respuesta: " ,e)
-
+            """
             if question.type == "choice":
                 data_file = manageXML.data_choice(question.code, question.extension)
 
@@ -154,7 +156,7 @@ def reply_play(request, play_id_char, question_id):
                     {
                         "question": data,                        
                         "play": play,
-                        "close_reply": close_reply
+                        "reply": reply
                     })
 
             if question.type == "entry":
@@ -182,7 +184,7 @@ def reply_play(request, play_id_char, question_id):
                     {
                         "question": data,                        
                         "play": play,
-                        "close_reply": close_reply
+                        "reply": reply
                     })
 
             if question.type == "slider":
@@ -210,7 +212,7 @@ def reply_play(request, play_id_char, question_id):
                     {
                         "question": data,                        
                         "play": play,
-                        "close_reply": close_reply
+                        "reply": reply
                     })
 
             if question.type == "inline":
@@ -238,7 +240,7 @@ def reply_play(request, play_id_char, question_id):
                     {
                         "question": data,                        
                         "play": play,
-                        "close_reply": close_reply
+                        "reply": reply
                     })
 
             if question.type == "order":
@@ -266,7 +268,7 @@ def reply_play(request, play_id_char, question_id):
                     {
                         "question": data,                        
                         "play": play,
-                        "close_reply": close_reply
+                        "reply": reply
                     })
 
         else:
@@ -281,24 +283,29 @@ def reply_play(request, play_id_char, question_id):
                 correct = 1
             else:
                 correct = 0
+            
             try:
-                Answer.objects.create(answer=student_answer, correct=correct, date=timezone.now(), student=student, play=play, question=question)
-                data["data"] = "OK"
-            except Exception as e:
-                print("Error al guardar la respuesta: ", e)
-                #data["data"]= "Error: {0}".format(e)
-                data["data"]= "Error al guardar la respuesta"
-        else:
-            try:
-                answer.answer = student_answer
-                answer.correct = correct
-                answer.date = timezone.now()
-                answer.save()
-                data["data"] = "OK"
-            except Exception as e:
-                print("Error al guardar la respuesta: ", e)
-                data["data"]= "Error al guardar la respuesta"
-                #data["data"]= "Error: {0}".format(e)
+                answer = Answer.objects.get(student=student, play=play, question=question)
+            except:
+                answer = None
+            
+            if answer is None:
+                try:
+                    Answer.objects.create(answer=student_answer, correct=correct, date=timezone.now(), student=student, play=play, question=question)
+                    data["data"] = "OK"
+                except Exception as e:
+                    print("Error al guardar la respuesta: ", e)
+                    data["data"]= "Error al guardar la respuesta"
+            else:
+                try:
+                    answer.answer = student_answer
+                    answer.correct = correct
+                    answer.date = timezone.now()
+                    answer.save()
+                    data["data"] = "OK"
+                except Exception as e:
+                    print("Error al guardar la respuesta: ", e)
+                    data["data"]= "Error al guardar la respuesta"
 
         if question.type == "associate":
             dataCorrect = {}
