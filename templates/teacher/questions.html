@@ -30,7 +30,8 @@
     <div style="overflow-x:auto;">
       <table id="miTabla-mispreguntas" class="col s12 bordered card-box">
         <thead>
-          <tr>            
+          <tr>
+            <th class="left-align" style="min-width: 150px;">Titulo</th>         
             <th class="left-align" style="min-width: 150px;">Pregunta</th>
             <th class="left-align" style="width: 170px;">Tipo</th>
             <th class="center-align" style="width: 160px;">Creada el</th>
@@ -42,6 +43,7 @@
           {% if questions %}
             {% for question in questions %}
             <tr id='{{question.data.id}}'>
+              <td>{{question.data.title|safe}}</td>
               <td>{{question.question|safe}}</td>
               <td>{{question.data.spanish_type}}</td>
               <td class="center-align">              
