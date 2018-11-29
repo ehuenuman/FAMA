@@ -37,6 +37,36 @@
     display: block;
     right:-80%;    
   }
+
+  #caja { 
+    width: 30px; height: 30px; 
+    z-index: 4;
+    position: absolute;
+    /*background-color: red;*/
+    /*background-image: url("img/icon_gps.png");*/
+    cursor: move;
+  }
+  .caja1 { 
+    width: 30px; height: 30px; 
+    z-index: 2;
+    position: absolute;
+    background-color: white;
+    border-radius: 50px;
+    border: 2px solid #ee6e73;
+  }
+  .caja2 { 
+    /*width: 30px; height: 30px; */
+    z-index: 3;
+    /*position: relative;*/
+    /*background-color: blue;*/
+    border-radius: 50px;
+    border: 3px solid #ee6e73;
+  }
+  .contenedor-hot{
+    width: 100%;
+    height: 200px;
+    background-color: #cccccc;
+  }
 </style>
 {% endblock %}
 
@@ -47,15 +77,16 @@
 <script type="text/javascript" src="{% static 'js/library/Blob.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/library/FileSaver.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/library/jszip.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/question.create_associate.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/library/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/question.create_hotspot.js' %}"></script>
 {% endblock %}
 
 {% block title %}
-  FAMA - T&eacute;rminos Pareados
+  FAMA - Puntos Seleccionables
 {% endblock %}
 
 {% block page-title %}
-Crear T&eacute;rminos Pareados
+Crear Puntos Seleccionables
 {% endblock %}
 
 {% block content %}
@@ -90,12 +121,12 @@ Crear T&eacute;rminos Pareados
       <div class="row">
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" data-length="30" maxlength="30" id="title" type="text" value={{questions.assessmentItem.title}}>
+          <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" data-length="30" maxlength="30" id="title" type="text">
           <label for="title">Código de la pregunta (Opcional)</label>
         </div>
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" data-length="100" maxlength="100" id="alternative_text"  type="text" value="{{questions.itemBody.alternativeText}}">
+          <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" data-length="100" maxlength="100" id="alternative_text"  type="text">
           <label for="alternative_text">Contexto de la pregunta (Opcional)</label>
         </div>
       </div>
@@ -103,7 +134,7 @@ Crear T&eacute;rminos Pareados
       <div class="row">
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" data-length="100" maxlength="100" id="question" type="text" value="{{questions.itemBody.associateInteraction.question}}" required>
+          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" data-length="100" maxlength="100" id="question" type="text" required>
           <label for="question">Pregunta</label>
         </div>
       </div>
@@ -116,15 +147,11 @@ Crear T&eacute;rminos Pareados
             <input id="imagen" type="file" name="archivo" accept="image/*"/>
           </div>
           <div class="file-path-wrapper">
-            <input class="file-path" id="input_foto" name="sitebg" type="text" placeholder="Imagen Opcional">
+            <input class="file-path" id="input_foto" name="sitebg" type="text" placeholder="Imagen Obligatoria" disabled required>
           </div>
-        </div>        
-        <div id="imagen-desplegada" class="center-align">
-          {% if questions.itemBody.img.src %}
-            <img style='top:-20px;position: relative;' src='{{questions.code}}/{{questions.itemBody.img.src}}' width='350px'/>
-            <a id='eliminar_foto' class='btn-floating waves-effect waves-light btn-large btn-danger'><i class='fa fa-trash-o fa-2x' aria-hidden='true'></i></a>
-          {% endif %}
         </div>
+        <div class="guardar-punto"></div>        
+        <div id="imagen-desplegada" class="center-align"></div>
       </div>
 
       <div id="mensaje"></div>
@@ -133,80 +160,15 @@ Crear T&eacute;rminos Pareados
         <table id="answers_table">
           <thead>
             <tr>
+              <th>Correcta</th>
               <th>Respuesta</th>
               <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Acci&oacute;n</th>
               <th class="center-align" style="min-width: 75px; max-width: 75px; width: 75px;">Eliminar</th>
             </tr>
           </thead>
           <tbody>
-            {% for alternativa in questions.itemBody.associateInteraction.associateChoice %}
-            <tr id="{{ forloop.counter }}" >
-              <td>
-                <input class="respuesta" id="{{ forloop.counter }}" type="text" placeholder="Ejemplo: GTM-3" data-content="alternative" value="{{alternativa.alternative}}" required>
-              </td>
-              <td class="center-align">
-                <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
-                <i id="1" class="down fa fa-caret-down fa-3x" aria-hidden="true"></i>
-              </td>            
-              <td>
-                <button id="1" type="button" class="waves-effect waves-light btn btn-danger" data-action="delete-row">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </button>
-              </td>
-            </tr>
-            {% endfor %}
           </tbody>
         </table>
-      
-        <div class="col s12" style="padding-bottom: 10px;">
-          <button class="waves-effect waves-light btn col s12" id="add_alternative" type="button">agregar nueva alternativa</button>
-        </div>
-
-      </div>
-
-      <div class="row dashed-border">
-        <table id="miTabla2">
-          <thead>
-            <tr>
-                <th>Alternativa 1</th>
-                <th>Alternativa 2</th>
-                <th>Eliminar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for correcta in questions.responseDeclaration.correctResponse %}
-            <tr id="{{ forloop.counter }}" class="center-align" style="padding-bottom: 10px;">
-              
-              <td>
-                <select class="{{alternativa.identifier}}" id="{{ forloop.counter }}" style="display:inline;height: auto;">
-                    {% for alternativa in questions.itemBody.associateInteraction.associateChoice %}
-                    {% if correcta.text1 == alternativa.identifier %}
-                    <option value="{{correcta.text1}}">{{alternativa.alternative}}</option>
-                    {% endif %}
-                    {% endfor %}      
-                </select>
-              </td>
-              <td>
-                <select class="{{alternativa.identifier}}" id="{{ forloop.counter }}" style="display:inline;height: auto;">
-                    {% for alternativa in questions.itemBody.associateInteraction.associateChoice %}
-                    {% if correcta.text2 == alternativa.identifier %}
-                    <option value="{{correcta.text2}}">{{alternativa.alternative}}</option>
-                    {% endif %}
-                    {% endfor %}    
-                </select>
-              </td>
-              <td style="padding-bottom: 10px;">
-                <button class="eliminar waves-effect waves-light btn btn-danger" id="{{ forloop.counter }}" type="button" data-action="delete-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-              </td>
-              
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-            
-        <div class="col s12" style="padding-bottom: 10px;">
-          <button class="waves-effect waves-light btn col s12" id="agregar-relacion" type="button">agregar nuevo par</button>
-        </div>
       </div>  
 
       <div class="row last-row">
@@ -246,7 +208,7 @@ Crear T&eacute;rminos Pareados
 <script>
   $(document).ready(function() {
     $("button").parents('td').css("padding-bottom", "0").css("padding-top", "0");
-    $('#nav-mobile ul.collapsible li#associate').addClass('active').parent().parent().show().parent().addClass('active');  
+    $('#nav-mobile ul.collapsible li#hotspot').addClass('active').parent().parent().show().parent().addClass('active');  
   });
 </script>
 {% endblock %}

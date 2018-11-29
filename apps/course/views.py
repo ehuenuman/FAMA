@@ -113,10 +113,10 @@ def add_students(request, course_id_char):
                                                 'last_name': student.user.last_name}
                 else:
                     #New student                    
-                    rx_last_name = sh.row(rx)[1].value.split(',')[0].strip(" ").title()
-                    rx_first_name = sh.row(rx)[1].value.split(',')[1].strip(" ").title()
-                    rx_email = sh.row(rx)[2].value.strip(" ")
-                    rx_study = sh.row(rx)[3].value.strip(" ").title()
+                    rx_last_name = sh.row(rx)[1].value.strip(" ").title()
+                    rx_first_name = sh.row(rx)[2].value.strip(" ").title()
+                    rx_email = sh.row(rx)[3].value.strip(" ")
+                    rx_study = sh.row(rx)[4].value.strip(" ").title()
                     
                     user = User.objects.create_user(
                         username=rx_rut,

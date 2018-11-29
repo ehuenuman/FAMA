@@ -20,9 +20,9 @@ def create_choice(request):
         return render(request, 'question/create_choice.html')
     else:
         if request.POST.get("extension", "") == "zip":
-            response = save_zip(request, "Selección simple")
+            response = save_zip(request, "Alternativas")
         else:
-            response = save_question(request, "Selección simple")
+            response = save_question(request, "Alternativas")
 
         return JsonResponse(response)
 
@@ -54,20 +54,20 @@ def create_inlinechoice(request):
 
 @login_required
 def create_textentry(request):
-    """Create simple inline choice interaction."""
+    """Create simple textentry interaction."""
     if request.method == "GET":
         return render(request, 'question/create_textentry.html')
     else:
         if request.POST.get("extension", "") == "zip":
-            response = save_zip(request, "Texto entre lineas")
+            response = save_zip(request, "Completar texto")
         else:
-            response = save_question(request, "Texto entre lineas")
+            response = save_question(request, "Completar texto")
 
         return JsonResponse(response)
 
 @login_required
 def create_slider(request):
-    """Create simple inline choice interaction."""
+    """Create simple slider interaction."""
     if request.method == "GET":
         return render(request, 'question/create_slider.html')
     else:
@@ -80,7 +80,7 @@ def create_slider(request):
 
 @login_required
 def create_associate(request):
-    """Create simple inline choice interaction."""
+    """Create simple associate interaction."""
     if request.method == "GET":
         return render(request, 'question/create_associate.html')
     else:
@@ -88,6 +88,19 @@ def create_associate(request):
             response = save_zip(request, "Términos pareados")
         else:
             response = save_question(request, "Términos pareados")
+
+        return JsonResponse(response)
+
+@login_required
+def create_hotspot(request):
+    """Create simple associate interaction."""
+    if request.method == "GET":
+        return render(request, 'question/create_hotspot.html')
+    else:
+        if request.POST.get("extension", "") == "zip":
+            response = save_zip(request, "Puntos seleccionables")
+        else:
+            response = save_question(request, "Puntos seleccionables")
 
         return JsonResponse(response)
 
@@ -125,11 +138,11 @@ def edit_choice(request, question_id):
         if request.POST.get("extension", "") == "zip":
             question = Question.objects.get(id = question_id)
             if (question.type == "choice"):
-                response = editSave_zip(request, "Selección simple",question_id)
+                response = editSave_zip(request, "Alternativas",question_id)
             if (question.type == "order"):
                 response = editSave_zip(request, "Selección ordenamiento",question_id)
             if (question.type == "inline"):
-                response = editSave_zip(request, "Selección entre líneas",question_id)
+                response = editSave_zip(request, "Completar texto",question_id)
             if (question.type == "entry"):
                 response = editSave_zip(request, "Texto entre líneas",question_id)
             if (question.type == "slider"):
@@ -139,11 +152,11 @@ def edit_choice(request, question_id):
         else:
             question = Question.objects.get(id = question_id)
             if (question.type == "choice"):
-                response = editSave_question(request, "Selección simple",question_id)
+                response = editSave_question(request, "Alternativas",question_id)
             if (question.type == "order"):
                 response = editSave_question(request, "Selección ordenamiento",question_id)
             if (question.type == "inline"):
-                response = editSave_question(request, "Selección entre líneas",question_id)
+                response = editSave_question(request, "Completar texto",question_id)
             if (question.type == "entry"):
                 response = editSave_question(request, "Texto entre líneas",question_id)
             if (question.type == "slider"):
