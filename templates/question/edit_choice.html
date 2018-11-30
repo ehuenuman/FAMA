@@ -51,11 +51,11 @@
 {% endblock %}
 
 {% block title %}
-  FAMA - Selecci&oacute;n Simple
+  FAMA - Alternativas
 {% endblock %}
 
 {% block page-title %}
-Editar Selecci&oacute;n Simple
+Editar Alternativas
 {% endblock %}
 
 {% block content %}
@@ -91,12 +91,20 @@ Editar Selecci&oacute;n Simple
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
           <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" data-length="30" maxlength="30" id="title" type="text" value={{questions.assessmentItem.title}}>
-          <label for="title">Título de la pregunta (Opcional)</label>
+          <label for="title">Código de la pregunta (Opcional)</label>
         </div>
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
           <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" data-length="100" maxlength="100" id="alternative_text"  type="text" value="{{questions.itemBody.alternativeText}}">
-          <label for="alternative_text">Texto complementario (Opcional)</label>
+          <label for="alternative_text">Contexto de la pregunta (Opcional)</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12" >
+          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
+          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" data-length="100" maxlength="100" id="question" type="text" value="{{questions.itemBody.choiceInteraction.question}}" required>
+          <label for="question">Pregunta</label>
         </div>
       </div>
 
@@ -116,12 +124,6 @@ Editar Selecci&oacute;n Simple
             <img style='top:-20px;position: relative;' src='{{questions.code}}/{{questions.itemBody.img.src}}' width='350px'/>
             <a id='eliminar_foto' class='btn-floating waves-effect waves-light btn-large btn-danger'><i class='fa fa-trash-o fa-2x' aria-hidden='true'></i></a>
           {% endif %}
-        </div>
-      <div class="row">
-        <div class="input-field col s12" >
-          <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" data-length="100" maxlength="100" id="question" type="text" value="{{questions.itemBody.choiceInteraction.question}}" required>
-          <label for="question">Pregunta</label>
         </div>
       </div>
 

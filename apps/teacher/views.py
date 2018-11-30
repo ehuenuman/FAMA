@@ -45,9 +45,9 @@ def view_questions(request):
         data = user.question.filter(teacherhasquestion__deleted=0).order_by('-teacherhasquestion__incorporation_date').extra(select={'incorporation_date': 'teacher_has_question.incorporation_date'})
         questions = []
         for question in data:
-            print(question.type)
             if question.type == "choice":
                 q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
+                print(question.title)
                 questions.append({"question": q_question, "data": question})
             if question.type == "order":
                 q_question = manageXML.data_order(question.code, question.extension)["itemBody"]["orderInteraction"]["question"]

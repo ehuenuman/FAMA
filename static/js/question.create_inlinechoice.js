@@ -347,7 +347,7 @@ function send_question(data) {
       Materialize.toast('Pregunta guardada con exito', 3000, 'rounded');
     } else {
 
-      Materialize.toast('Error al gurdar la pregunta', 3000, 'rounded');
+      Materialize.toast('Error al guardar la pregunta', 3000, 'rounded');
     }
   })
   .fail(function(jqXHR, textStatus, errorThrown) {
