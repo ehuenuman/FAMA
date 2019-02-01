@@ -90,12 +90,12 @@ Crear Ordenamiento
       <div class="row">
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" data-length="30" maxlength="30" id="title" type="text" value="{{questions.assessmentItem.title}}">
+          <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" id="title" type="text" value="{{questions.assessmentItem.title}}">
           <label for="title">Código de la pregunta (Opcional)</label>
         </div>
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" data-length="100" maxlength="100" id="first_name"  type="text" value="{{questions.itemBody.alternativeText}}">
+          <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" id="first_name"  type="text" value="{{questions.itemBody.alternativeText}}">
           <label for="alternative_text">Contexto de la pregunta (Opcional)</label>
         </div>
       </div>
@@ -103,7 +103,7 @@ Crear Ordenamiento
       <div class="row">
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" data-length="100" maxlength="100" id="first_name" type="text" value="{{questions.itemBody.orderInteraction.question}}" required>
+          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" id="first_name" type="text" value="{{questions.itemBody.orderInteraction.question}}" required>
           <label for="first_name">Pregunta</label>
         </div>
       </div>
