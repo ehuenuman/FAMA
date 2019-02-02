@@ -33,5 +33,6 @@ class Play(models.Model):
         for total in results:
             total_for_question.append({"question": total[0], "replys": int(total[1]), "corrects": int(total[2]), "incorrects": int(total[3])})
         
+        #print(total_for_question)
         return total_for_question
         #[Play(*row) for row in results]

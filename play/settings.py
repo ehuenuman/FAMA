@@ -26,7 +26,7 @@ credentials = json.load(open(os.path.join(BASE_DIR, 'play/credentials.json')))
 SECRET_KEY = credentials['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = credentials['allowed_hosts']
 

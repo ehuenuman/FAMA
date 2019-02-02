@@ -92,19 +92,6 @@ def create_associate(request):
         return JsonResponse(response)
 
 @login_required
-def create_hotspot(request):
-    """Create simple associate interaction."""
-    if request.method == "GET":
-        return render(request, 'question/create_hotspot.html')
-    else:
-        if request.POST.get("extension", "") == "zip":
-            response = save_zip(request, "Puntos seleccionables")
-        else:
-            response = save_question(request, "Puntos seleccionables")
-
-        return JsonResponse(response)
-
-@login_required
 def edit_choice(request, question_id):
     """Edit simple choice interaction."""
     #questions = []

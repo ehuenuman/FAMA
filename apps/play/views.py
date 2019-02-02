@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from django.core import serializers
 from django.db.models import Sum
@@ -17,6 +17,8 @@ from apps.course.models import Course
 from apps.teacher.models import Question
 from apps.student.models import Student, Answer, Reply
 import apps.question.manageXML as manageXML
+import io
+from xlsxwriter.workbook import Workbook
 
 # Create your views here.
 post_save.connect(send_answer, Answer)
@@ -556,3 +558,70 @@ def play_result(request, play_id_char):
             "started_play": started_play,
             "finished_play": finished_play
         })
+
+
+@login_required
+@user_passes_test(teacher_check)
+def download_excel(request, play_id_char):
+    if request.method == "GET":
+        play = Play.objects.get(id_char=play_id_char)
+        formative = Formative.objects.get(id=play.formative.id)
+        questions = Question.objects.filter(formative=play.formative).order_by("formativehasquestion__order")
+        course = Course.objects.get(id=play.course.id)
+        students = User.objects.filter(student__course=course.id).select_related("User").values("id", "username", "first_name", "last_name").order_by("last_name")
+        total_for_question = Play.total_for_question(play.id, formative.id)
+        started_play = Reply.objects.filter(play=play.id).count()
+        finished_play = {"total": 0, "students": []}
+        temp = []
+        for student in students:
+            answer = Answer.objects.filter(student=student["id"], play=play.id).values("question", "correct")
+            corrects = 0
+            if len(answer) == len(questions):
+                finished_play["total"] += 1
+                finished_play["students"].append(student["id"])
+            for reply in answer:
+                corrects += reply["correct"]
+            student["answers"] = answer
+            student["corrects"] = corrects
+            corrects = 0
+            temp.append(student)    
+
+        output = io.BytesIO()
+
+        workbook = Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        worksheet.write(0, 0, 'Rut')
+        worksheet.write(0, 1, 'Estudiante')
+        #worksheet.write(0, 2, 'Pregunta')
+        c=2
+        for q in questions:
+            #print(q.title)
+            worksheet.write(0, c, 'P'+str(c-1)+ " " + q.title)
+            c = c+1 
+        worksheet.write(0, c, 'Total')    
+        
+        f=1
+        for st in temp:
+            #print(st)
+            worksheet.write(f, 0, st['username'])
+            worksheet.write(f, 1, st['first_name'] + " " + st['last_name'])
+            c=2
+            for q in questions:
+                for ans in st['answers']:
+                    if ans['question'] == q.id:
+                        if ans['correct'] == 1:
+                            worksheet.write(f, c, '1')
+                        else:
+                            worksheet.write(f, c, '0')
+                c=c+1
+            worksheet.write(f, c, st['corrects']) 
+            f = f+1 
+        workbook.close()
+
+        output.seek(0)
+        response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = "attachment; filename=Formativa.xlsx"
+
+        output.close()
+
+        return response

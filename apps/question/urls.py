@@ -9,6 +9,5 @@ urlpatterns = [
     url(r'nueva/entry', create_textentry, name='create_textentry'),
     url(r'nueva/slider', create_slider, name='create_slider'),
     url(r'nueva/associate', create_associate, name='create_associate'),
-    url(r'nueva/hotspot', create_hotspot, name='create_hotspot'),
     url(r'editar/(?P<question_id>\d+)$', edit_choice, name='edit_choice'),
 ]
