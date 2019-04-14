@@ -620,7 +620,7 @@ def download_excel(request, play_id_char):
 
         output.seek(0)
         response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        response['Content-Disposition'] = "attachment; filename=Formativa.xlsx"
+        response['Content-Disposition'] = "attachment; filename=Formativa-{0}.xlsx".format(formative.name)
 
         output.close()
 

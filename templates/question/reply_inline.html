@@ -70,6 +70,8 @@
       <a href="{% url 'play:reply' play.id_char question.next %}">
         <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
       </a>
+    {% else %}
+      <a class="waves-effect red darken-4 btn" href="{% url 'student:home' %}" >Finalizar Formativa</a>
     {% endif %}
     </div>
   </div>

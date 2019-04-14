@@ -7995,7 +7995,7 @@ input[type=range]:focus::-ms-fill-upper {
 .slider.fullscreen {
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
@@ -8007,7 +8007,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .slider.fullscreen ul.indicators {
-  z-index: 2;
+  z-index: 0;
   bottom: 30px;
 }
 
@@ -8038,7 +8038,7 @@ input[type=range]:focus::-ms-fill-upper {
 .slider .slides li .caption {
   color: #fff;
   position: absolute;
-  top: 15%;
+  top: 0;
   left: 15%;
   width: 70%;
   opacity: 0;
@@ -8049,11 +8049,11 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .slider .slides li.active {
-  z-index: 2;
+  z-index: 0;
 }
 
 .slider .indicators {
-  position: absolute;
+  position: relative;
   text-align: center;
   left: 0;
   right: 0;

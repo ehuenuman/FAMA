@@ -195,7 +195,7 @@ def download_template(request, course_id):
         xls = open(BASE_DIR+"/templates/course/StudentsTemplate.xls", "rb")
 
         response = HttpResponse(xls, content_type="application/vnd.ms-excel")
-        response["content-Disposition"] = "attachment; filename='EstudiantesCurso-{0}.xls'".format(course.code)
+        response["content-Disposition"] = "attachment; filename=EstudiantesCurso-{0}.xls".format(course.code)
 
         xls.close()
 
@@ -207,7 +207,7 @@ def get_courses(request):
         #print("POST")
         data = {}
         courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
-
+        
         for course in courses:
             data[course.id] = {"code": course.code, "name": course.name}
 
