@@ -6,3 +6,4 @@ xlrd==1.1.0            	# Reading data and formatting information from Excel fil
 celery==4.1.0          	# Task queue
 channels==1.1.8			# WebSockets and HTTP2 server for Django
 asgi_rabbitmq==0.4.1	# RabbitMQ backend for ASGI
+XlsxWriter==1.1.6 # XlsxWriter is a Python module for writing files in the Excel 2007+ XLSX file format.

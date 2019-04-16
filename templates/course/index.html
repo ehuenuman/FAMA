@@ -1,7 +1,8 @@
 {% extends 'teacher/base.html' %}
+{% load staticfiles %} 
 
 {% block extracss %}
-<style type="text/css">  
+<style type="text/css">
   .clickable-row {
     cursor: pointer;
   }
@@ -9,15 +10,12 @@
 {% endblock %}
 
 {% block extrajs %}
+<script src="{% static 'js/course.delete.js' %}"></script>
 {% endblock %}
 
-{% block title %}
-FAMA - Mis Cursos
-{% endblock %}
+{% block title %} FAMA - Mis Cursos {% endblock %}
 
-{% block page-title %}
-Mis Cursos
-{% endblock %}
+{% block page-title %} Mis Cursos {% endblock %}
 
 {% block content %}
 <div class="row">
@@ -27,26 +25,44 @@ Mis Cursos
         <thead>
           <tr>
             <th data-field="code" style="width: 120px;">C&oacute;digo</th>
-            <th data-field="name" style="min-width: 200px;">Nombre</th>            
-            <th data-field="semester" style="width: 110px;">Semestre/A&ntilde;o</th>
-            <th class="center-align" style="width: 150px;" data-field="edit">Acciones</th>
+            <th data-field="name" style="min-width: 200px;">Nombre</th>
+            <th data-field="semester" style="width: 110px;">
+              Semestre/A&ntilde;o
+            </th>
+            <th class="center-align" style="width: 150px;" data-field="edit">
+              Acciones
+            </th>
           </tr>
         </thead>
         <tbody>
           {% for course in courses %}
           <tr>
             <td>{{ course.code }}</td>
-            <td>{{ course.name|truncatewords_html:5 }}</td>            
-            <td class="center-align">{{ course.semester }}/{{ course.year }}</td>
+            <td>{{ course.name | truncatewords_html:5 }}</td>
             <td class="center-align">
-              <a class="waves-effect waves-light btn btn-action" href="{% url 'course:show' course.id_char %}">
+              {{ course.semester }}/{{ course.year }}
+            </td>
+            <td class="center-align">
+              <a
+                class="waves-effect waves-light btn btn-action"
+                href="{% url 'course:show' course.id_char %}"
+              >
                 <i class="fa fa-info"></i>
               </a>
-              <a class="waves-effect waves-light btn btn-action" href="{% url 'course:edit' course.id_char %}">
+              <a
+                class="waves-effect waves-light btn btn-action"
+                href="{% url 'course:edit' course.id_char %}"
+              >
                 <i class="fa fa-pencil"></i>
               </a>
-            </td>          
-          </tr>        
+              <a
+                class="waves-effect red btn btn-action"
+                href="{% url 'course:delete' course.id_char %}"
+              >
+                <i class="fa fa-trash"></i>
+              </a>              
+            </td>
+          </tr>
           {% endfor %}
         </tbody>
       </table>
