@@ -43,24 +43,15 @@
               {{ course.semester }}/{{ course.year }}
             </td>
             <td class="center-align">
-              <a
-                class="waves-effect waves-light btn btn-action"
-                href="{% url 'course:show' course.id_char %}"
-              >
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'course:show' course.id_char %}">
                 <i class="fa fa-info"></i>
               </a>
-              <a
-                class="waves-effect waves-light btn btn-action"
-                href="{% url 'course:edit' course.id_char %}"
-              >
+              <a class="waves-effect waves-light btn btn-action" href="{% url 'course:edit' course.id_char %}">
                 <i class="fa fa-pencil"></i>
               </a>
-              <a
-                class="waves-effect red btn btn-action"
-                href="{% url 'course:delete' course.id_char %}"
-              >
+              <a class="waves-effect red btn btn-action" href="{% url 'course:delete' course.id_char %}">
                 <i class="fa fa-trash"></i>
-              </a>              
+              </a>
             </td>
           </tr>
           {% endfor %}

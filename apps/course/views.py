@@ -74,8 +74,7 @@ def edit_course(request, course_id_char):
 @login_required
 def delete_course(request, course_id_char):
     course = Course.objects.get(id_char=course_id_char)
-    if request.method == 'POST':
-      print(course_id_char)
+    if request.method == 'GET':
       course.delete()
       messages.add_message(request, messages.SUCCESS, course.code + ' ' + course.name + ' borrado exitosamente')
       return redirect('course:index')    
