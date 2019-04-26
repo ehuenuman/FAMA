@@ -19,3 +19,6 @@ play/settings-files/*
 
 # SFTP config
 sftp-config.json
+
+# Mac
+.DS_Store
