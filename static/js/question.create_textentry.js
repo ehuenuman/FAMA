@@ -302,6 +302,12 @@ function crear_preguntaInline_xml() {
 
   cH.writeStartElement('itemBody');
 
+  if (texto_alternativo != "") {
+    cH.writeStartElement('prompt');
+    cH.writeString(texto_alternativo);
+    cH.writeEndElement('prompt'); 
+  };
+  
   cH.writeStartElement('p');
   cH.writeString(pregunta);
   cH.writeEndElement('p');

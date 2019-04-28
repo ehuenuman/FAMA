@@ -123,6 +123,8 @@ def data_inline(code, extension="xml"):
         file_data["itemBody"]["img"] = root.find(".//ns1:p/ns1:img", namespace).attrib
     #Atributos inlineChoiceInteraction
     file_data["itemBody"]["inlineChoiceInteraction"] = root.find(".//ns1:itemBody/ns1:blockquote/ns1:p/ns1:inlineChoiceInteraction", namespace).attrib
+    #texto alternativo
+    file_data["itemBody"]["alternativeText"] = root.find(".//ns1:itemBody/ns1:prompt", namespace).text
     #Pregunta
     file_data["itemBody"]["question"] = root.find(".//ns1:itemBody/ns1:p", namespace).text
     #texto_previo
@@ -165,6 +167,8 @@ def data_entry(code, extension="xml"):
         file_data["itemBody"]["img"] = root.find(".//ns1:p/ns1:img", namespace).attrib
     #Atributos textEntryInteraction
     file_data["itemBody"]["textEntryInteraction"] = root.find(".//ns1:itemBody/ns1:blockquote/ns1:p/ns1:textEntryInteraction", namespace).attrib
+    #texto alternativo
+    file_data["itemBody"]["alternativeText"] = root.find(".//ns1:itemBody/ns1:prompt", namespace).text
     #Pregunta
     file_data["itemBody"]["question"] = root.find(".//ns1:itemBody/ns1:p", namespace).text
     #texto_previo

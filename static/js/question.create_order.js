@@ -32,6 +32,29 @@ $(document).ready(function(){
     texto_alternativo = accentDecode(texto_alternativo);
     $(".texto_alternativo")[0].value = texto_alternativo;
 
+    var inicio = 1;
+    $('#tablaoriginal tr').each(function () {
+        var numero_id = $(this)[0].id; 
+
+        var respuesta = $('#'+numero_id+".respuesta").val();
+        respuesta = accentDecode(respuesta);
+        //console.log(respuesta);
+        $('#'+numero_id+".respuesta")[0].value = respuesta;
+        //console.log($('#'+numero_id+".respuesta").val());
+        inicio++;
+    }); 
+
+    inicio = 1;
+    $('#tablacopia tr').each(function () {
+        var numero_id = $(this)[0].id; 
+
+        var respuesta = $('#'+numero_id+".respuesta").val();
+        respuesta = accentDecode(respuesta);
+        $('#'+numero_id+".respuestas")[0].value = respuesta;
+        console.log($('#'+numero_id+".respuesta").val());
+        inicio++;
+    });
+
     if($("#imagen-desplegada img")[0] != undefined){
     imgSrc = $("#imagen-desplegada img")[0].src;
     var cadena = imgSrc,
@@ -288,6 +311,8 @@ function manages_question() {
             var estado = "desactivado";
         }
         var respuesta = $('#'+numero_id+".respuesta").val();
+        respuesta = remplazarCaracteresEspeciales(respuesta);
+        console.log(respuesta);
         var puntuacion = $('#'+numero_id+".puntuacion").val();
         //console.log(estado+" id: "+numero_id+" respuesta: "+respuesta+" puntuacion: "+puntuacion);
 
@@ -308,6 +333,8 @@ function manages_question() {
             var estado = "desactivado";
         }
         var respuesta = $('#'+numero_id+".respuesta").val();
+        respuesta = remplazarCaracteresEspeciales(respuesta);
+        console.log(respuesta);
         var puntuacion = $('#'+numero_id+".puntuacion").val();
         //console.log(estado+" id: "+numero_id+" respuesta: "+respuesta+" puntuacion: "+puntuacion);
 

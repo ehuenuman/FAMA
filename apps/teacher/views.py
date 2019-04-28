@@ -47,7 +47,7 @@ def view_questions(request):
         for question in data:
             if question.type == "choice":
                 q_question = manageXML.data_choice(question.code, question.extension)["itemBody"]["choiceInteraction"]["question"]
-                print(question.title)
+                #print(question.title)
                 questions.append({"question": q_question, "data": question})
             if question.type == "order":
                 q_question = manageXML.data_order(question.code, question.extension)["itemBody"]["orderInteraction"]["question"]
