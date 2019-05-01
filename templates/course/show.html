@@ -104,7 +104,7 @@
               </div>
             </div>
             <div style="float:right;">
-              <a class="waves-effect waves-light btn btn-danger btn-action" href="{% url 'student:delete' course_id_char=course.id_char student_rut=student.rut %}">
+              <a class="waves-effect waves-light btn btn-danger btn-action" href="{% url 'course:delete_student' course_id_char=course.id_char student_rut=student.rut %}">
                 <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
               </a>
             </div>

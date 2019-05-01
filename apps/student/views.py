@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from apps.login.views import student_check
-from apps.course.models import Course, CourseHasStudent
+from apps.course.models import Course
 from apps.student.models import Student
 from apps.play.models import Play
 
@@ -22,10 +22,3 @@ def index(request):
             })
     else:
         return redirect('teacher:home')
-
-@login_required
-def delete_student(request, course_id_char, student_rut):
-  student = Student.objects.get(rut=student_rut)
-  studentInCourse = CourseHasStudent.objects.get(student=student)
-  studentInCourse.delete()
-  return redirect('course:show', course_id_char=course_id_char)

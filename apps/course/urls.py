@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^(?P<course_id>\d+)/download-template$', download_template, name='download_csv'),
     url(r'^editar/(?P<course_id_char>\w+)/$', edit_course, name='edit'),
     url(r'^borrar/(?P<course_id_char>\w+)$', delete_course, name='delete'),
+    url(r'^borrar_estudiante/(?P<course_id_char>\w+)/(?P<student_rut>[\w-]+)$', delete_student, name='delete_student')
 ]

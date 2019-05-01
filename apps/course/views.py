@@ -73,13 +73,13 @@ def edit_course(request, course_id_char):
 
 @login_required
 def delete_course(request, course_id_char):
-    course = Course.objects.get(id_char=course_id_char)
-    if request.method == 'GET':
+    try:
+      course = Course.objects.get(id_char=course_id_char)
       course.delete()
-      messages.add_message(request, messages.SUCCESS, course.code + ' ' + course.name + ' borrado exitosamente')
-      return redirect('course:index')    
-    else:
-      print(course)
+      messages.add_message(request, messages.SUCCESS, course.code + ' ' + course.name + ' borrado exitosamente.')
+      return redirect('course:index')
+    except:
+      messages.add_message(request, messages.ERROR, course.code + ' ' + course.name + ' no pudo ser borrado porque tiene estudiantes asignados. Por favor borra los estudiantes e intentalo nuevamente.')
       return redirect('course:index')
 
 @login_required
@@ -180,6 +180,13 @@ def add_students(request, course_id_char):
                 student = None
                 m = None
     return JsonResponse(data)
+
+@login_required
+def delete_student(request, course_id_char, student_rut):
+  student = Student.objects.filter(rut=student_rut)
+  studentInCourse = CourseHasStudent.objects.filter(student=student)
+  studentInCourse.delete()
+  return redirect('course:show', course_id_char=course_id_char)
 
 
 @login_required
