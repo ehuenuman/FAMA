@@ -39,6 +39,18 @@ $(document).ready(function() {
   texto_posterior = accentDecode(texto_posterior);
   $(".texto_posterior")[0].value = texto_posterior;
 
+  var inicio = 1;
+
+  $('tbody tr').each(function () {
+    var numero_id = $(this)[0].id;
+    
+    var respuesta = $('#'+numero_id+'.respuesta').val();
+    respuesta = accentDecode(respuesta);
+    $('#'+numero_id+'.respuesta')[0].value = respuesta;
+    console.log(respuesta);
+    inicio++;
+  }); 
+
   number = $('#answers_table>tbody>tr').length
   
 
@@ -398,6 +410,12 @@ function crear_preguntaInline_xml() {
 
   cH.writeStartElement('itemBody');
 
+  if (texto_alternativo != "") {
+    cH.writeStartElement('prompt');
+    cH.writeString(texto_alternativo);
+    cH.writeEndElement('prompt'); 
+  };
+
   cH.writeStartElement('p');
   cH.writeString(pregunta);
   cH.writeEndElement('p');
@@ -443,6 +461,7 @@ function crear_preguntaInline_xml() {
   cH.writeEndElement('assessmentItem');//fin assessment item
   var xml = cH.flush();
 
+  //console.log(xml);
   return xml;
   /*++++++imprime el xml en consola++++++*/
   //console.log(xml);

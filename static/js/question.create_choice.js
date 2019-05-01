@@ -32,8 +32,8 @@ $(document).ready(function() {
   $(".texto_alternativo")[0].value = texto_alternativo;
 
   number = $('#answers_table>tbody>tr').length
-
   resp = $(".respuesta").val()
+
   for (var i=0; i<number; i++){
     var n = i + 1;
     var cad = '#answers_table>tbody>tr>td>input#'+ n +'.respuesta'
@@ -41,7 +41,6 @@ $(document).ready(function() {
     aux = accentDecode(aux);
     $(cad)[0].value = aux;
   }
-  
   if($("#imagen-desplegada img")[0] != undefined){
     imgSrc = $("#imagen-desplegada img")[0].src;
     var cadena = imgSrc,

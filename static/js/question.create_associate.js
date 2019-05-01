@@ -11,6 +11,8 @@ var numberdos           = 1;
 var orden_correcto_alternativa1 = []; 
 var orden_correcto_alternativa2 = [];   
 var numero_fila_pares;
+var temp_1 = 0;
+var temp_2 = 0;
 
 //queremos que esta variable sea global
 var fileExtension   = "";
@@ -34,6 +36,22 @@ $(document).ready(function() {
   texto_alternativo = $(".texto_alternativo").val();
   texto_alternativo = accentDecode(texto_alternativo);
   $(".texto_alternativo")[0].value = texto_alternativo;
+
+  $('#answers_table tbody tr').each(function () {
+    var numero_id = $(this).attr('id');
+    
+    var respuesta = accentDecode($('#'+numero_id+".respuesta").val());
+    $('#'+numero_id+".respuesta")[0].value = respuesta;
+  });
+
+  $('#miTabla2 tbody tr').each(function () {
+    //console.log($('select option')[0].text)
+    var resp = accentDecode($('select option')[0].text);
+    $('select option')[0].text = resp
+
+    var resp2 = accentDecode($('select option')[1].text);
+    $('select option')[1].text = resp2    
+  });
 
   number = $('#answers_table>tbody>tr').length
   
@@ -122,7 +140,7 @@ $(document).ready(function() {
             var numero_id = $(this).attr('id');
             var respuesta = $('#'+numero_id+".respuesta").val();
 
-            console.log("id: "+numero_id+" respuesta: "+respuesta);
+            //console.log("id: "+numero_id+" respuesta: "+respuesta);
             respuestas[inicio] = respuesta;
             inicio++;
         }); 
@@ -142,19 +160,19 @@ $(document).ready(function() {
         numero_fila = $('#answers_table >tbody >tr').length;  //cantidad de filas respuestas
         numero_fila_relacion = $('#miTabla2 >tbody >tr').length; 
 
-        console.log("numero_fila: "+numero_fila);
-        console.log("numero_fila_relacion: "+numero_fila_relacion);
+        //console.log("numero_fila: "+numero_fila);
+        //console.log("numero_fila_relacion: "+numero_fila_relacion);
         if ( numero_fila % 2 == 0 ) { //(numero_fila % 2 == 0) && (numero_fila_relacion % 2 ==0 )
             if ( ( numero_fila_relacion == 0 ) ||( numero_fila > numero_fila_relacion*2 ) ) {
-                console.log("es par");
+                //console.log("es par");
                         var inicio = 1;
 
                 $('#answers_table tbody tr').each(function () {
                     var numero_id = $(this).attr('id');
-                    console.log(numero_id); 
+                    //console.log(numero_id); 
                     var respuesta = $('#'+numero_id+".respuesta").val();
 
-                    console.log("id: "+numero_id+" respuesta: "+respuesta);
+                    //console.log("id: "+numero_id+" respuesta: "+respuesta);
                     respuestas[inicio] = respuesta;
                     inicio++;
                 }); 
@@ -180,7 +198,7 @@ $(document).ready(function() {
 
                 $("#"+osx+".eliminar").click(function(){ 
                     var id = $(this).attr('id');
-                    console.log("esta es la id de la fila: "+id);
+                    //console.log("esta es la id de la fila: "+id);
                     $("#"+id).remove();
                 });
 
@@ -190,7 +208,7 @@ $(document).ready(function() {
             }
 
         }else{
-            console.log("es impar");
+            //console.log("es impar");
             Materialize.toast('Necesita cantidad pares de alternativas para relaciones', 2000);
 
         }
@@ -198,7 +216,7 @@ $(document).ready(function() {
 
     $(".eliminar").click(function(){ //para la fila creada desde el comienzo
       var id = $(this).attr('id');
-        console.log("esta es la id de la fila: "+id);
+        //console.log("esta es la id de la fila: "+id);
         $("#miTabla2 > tbody > tr#"+id).remove();
     });
 
@@ -363,8 +381,8 @@ function manage_question() {
   var inicio = 1;
   $('#miTabla2 >tbody >tr').each(function () { 
 
-    orden_correcto_alternativa1[inicio] = $('select option')[0].text;
-    orden_correcto_alternativa2[inicio] = $('select option')[1].text;
+    orden_correcto_alternativa1[inicio] = remplazarCaracteresEspeciales($('select option')[0].text);
+    orden_correcto_alternativa2[inicio] = remplazarCaracteresEspeciales($('select option')[1].text);
     //console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
     inicio++;
  });
@@ -470,11 +488,11 @@ function crear_pregunta_xml() {
                                     {
                                         if ( orden_correcto_alternativa1[i] == respuestas[j] ){
                                             temp_1 = j;
-                                            console.log("temp_1: "+temp_1+" i: "+i+" j: "+j);
+                                            //console.log("temp_1: "+temp_1+" i: "+i+" j: "+j);
                                         };
                                         if ( orden_correcto_alternativa2[i] == respuestas[j]){
                                             temp_2 = j;
-                                            console.log("temp_2: "+temp_2+" i: "+i+" j: "+j);
+                                            //console.log("temp_2: "+temp_2+" i: "+i+" j: "+j);
                                         };
                                     }
                                     cH.writeStartElement('value');
