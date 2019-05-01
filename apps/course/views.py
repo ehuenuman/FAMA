@@ -183,10 +183,15 @@ def add_students(request, course_id_char):
 
 @login_required
 def delete_student(request, course_id_char, student_rut):
-  student = Student.objects.filter(rut=student_rut)
-  studentInCourse = CourseHasStudent.objects.filter(student=student)
-  studentInCourse.delete()
-  return redirect('course:show', course_id_char=course_id_char)
+  try:
+    course = Course.objects.get(id_char=course_id_char)
+    student = Student.objects.get(rut=student_rut)
+    studentInCourse = CourseHasStudent.objects.get(course=course , student=student)
+    studentInCourse.delete()
+    return redirect('course:show', course_id_char=course_id_char)
+  except Exception as e:
+    messages.add_message(request, messages.ERROR, str(e))
+    return redirect('course:show', course_id_char=course_id_char)
 
 
 @login_required
