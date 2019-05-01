@@ -82,7 +82,6 @@ def delete_course(request, course_id_char):
       print(course)
       return redirect('course:index')
 
-
 @login_required
 def add_students(request, course_id_char):
     course = Course.objects.get(id_char=course_id_char)
