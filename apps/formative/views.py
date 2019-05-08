@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import JsonResponse
 from django.utils import timezone
 from django.core import serializers
@@ -186,5 +187,14 @@ def start_formative(request):
     return JsonResponse(data)
 
 
-
-
+@login_required
+def delete_formative(request, formative_id):
+  formatives = Formative.objects.filter(teacher=request.user.teacher)
+  try:
+    formative = Formative.objects.get(id=formative_id)
+    formative.delete()
+    return render(request, 'formative/index.html', {'formatives': formatives})
+  except Exception as e:
+    print(e)
+    messages.add_message(request, messages.ERROR, str("No se puede eliminar la formativa porque tiene preguntas asociadas."))
+    return render(request, 'formative/index.html', {'formatives': formatives})

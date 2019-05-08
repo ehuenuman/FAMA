@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^play$', start_formative, name='start'), #only POST
     url(r'^editar/(?P<formative_id>\d+)$', edit_formative, name='edit'),
     url(r'^(?P<formative_id>\d+)$', show_formative, name='show'),
-    #url(r'^borrar/(?P<formative_id>\d+)$', delete_course, name='delete'),
+    url(r'^borrar/(?P<formative_id>\d+)$', delete_formative, name='delete'),
 ]
