@@ -5,7 +5,7 @@
 <style type="text/css">
   .modal {
     width: 75% !important;
-  }  
+  }
 </style>
 {% endblock %}
 
@@ -15,42 +15,44 @@
 {% endblock %}
 
 {% block title %}
-  FAMA - {{course.name}}
+FAMA - {{course.name}}
 {% endblock %}
 
 {% block page-title %}
-  {{course.name}}
+{{course.name}}
 {% endblock %}
 
 {% block content %}
 <div class="row">
   <div class="col s12 m12 l6">
     <ul class="collection with-header">
-      <li class="collection-header valign-wrapper">        
+      <li class="collection-header valign-wrapper">
         <div class="left-align col s6">
           <h5>Historial</h5>
         </div>
-        <div class="valign right-align col s6">                
-            <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
-              <i class="fa fa-list fa-2x black-text"></i>
-            </a>
-            <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nueva">
-              <i class="fa fa-plus-square fa-2x black-text" style="padding-left: 10px;"></i>
-            </a> 
-          </div>
-      </li>    
+        <div class="valign right-align col s6">
+          <a href="{% url 'play:index' %}" class="tooltipped" data-position="left" data-delay="50"
+            data-tooltip="Ver todas">
+            <i class="fa fa-list fa-2x black-text"></i>
+          </a>
+          <a href="{% url 'formative:create' %}" class="tooltipped" data-position="left" data-delay="50"
+            data-tooltip="Nueva">
+            <i class="fa fa-plus-square fa-2x black-text" style="padding-left: 10px;"></i>
+          </a>
+        </div>
+      </li>
       {% if plays %}
       {% for play in plays %}
       <li class="collection-item col s12">
         <div class="s12">
           <div class="col s9 list-group">
             <div class="s12 l4 list-group-item truncate">
-            <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
+              <i class="fa fa-file-o" aria-hidden="true"></i>&nbsp;{{play.formative.name}}
             </div>
             <div class="s12 l4 list-group-item truncate">
               &nbsp;{{play.formative.description}}
             </div>
-          </div>        
+          </div>
           <div class="col s3 right-align">
             <a class="waves-effect waves-light btn btn-action" href="{% url 'play:result' play.id_char %}">
               <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
@@ -66,7 +68,7 @@
       </li>
       {% endfor %}
       {% else %}
-      <a class="collection-item center-align col s12">
+      <a class="collection-item center-align col s12" href="{% url 'formative:create' %}">
         <b>Comenzar primera formativa del curso</b>
       </a>
       {% endif %}
@@ -75,25 +77,26 @@
 
   <div class="col s12 m12 l6">
     <ul class="collection with-header">
-      <li class="collection-header valign-wrapper">        
+      <li class="collection-header valign-wrapper">
         <div class="left-align col s8">
           <h5>Estudiantes</h5>
         </div>
-        <div class="valign right-align col s6">          
-          <a href="#add_student" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar estudiantes">
+        <div class="valign right-align col s6">
+          <a href="#add_student" class="tooltipped" data-position="left" data-delay="50"
+            data-tooltip="Agregar estudiantes">
             <i class="fa fa-plus-square fa-2x black-text"></i>
           </a>
         </div>
       </li>
       <li class="collection-item center-align">
-        <span>Estudiantes inscritos: 
+        <span>Estudiantes inscritos:
           <span id="student_count" data-count='{{ students.count }}'>{{ students.count }}</span>
         </span>
       </li>
       <div id="list_students" style="max-height: 400px; overflow-y: auto;">
-        {% if students %}          
+        {% if students %}
         {% for student in students %}
-        <li class="collection-item col s12">          
+        <li class="collection-item col s12">
           <div class="s12">
             <div class="col s8 list-group">
               <div class="s12 l4 list-group-item truncate">
@@ -104,18 +107,15 @@
               </div>
             </div>
             <div style="float:right;">
-              <a class="waves-effect waves-light btn btn-danger btn-action" href="{% url 'course:delete_student' course_id_char=course.id_char student_rut=student.rut %}">
+              <a class="waves-effect waves-light btn btn-danger btn-action"
+                href="{% url 'course:delete_student' course_id_char=course.id_char student_rut=student.rut %}">
                 <i class="fa fa-trash fa-2x" aria-hidden="true"></i>
               </a>
             </div>
           </div>
         </li>
         {% endfor %}
-        {% else %}
-        <a class="collection-item center-align col s12" href="#add_student">
-          <b>Comenzar primera formativa del curso</b>
-        </a>
-        {% endif %}        
+        {% endif %}
       </div>
     </ul>
   </div>
@@ -124,11 +124,11 @@
 <!-- Modal Add Student -->
 <div id="add_student" class="modal">
   <div class="modal-header">
-      <h5 class="modal-title">Agregar estudiantes al curso</h5>
+    <h5 class="modal-title">Agregar estudiantes al curso</h5>
   </div>
 
   <div id="modal_menu">
-    <div class="modal-content row">  
+    <div class="modal-content row">
       <div class="col s12">
         <a class="col m6 s12 center-align" id="manually">
           <div class="btn-box">
@@ -147,9 +147,9 @@
     <div class="modal-footer">
       <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
     </div>
-  </div>  
+  </div>
 
-  <form class="hide" id="form_manually">    
+  <form class="hide" id="form_manually">
     <div class="modal-content center-align">
       <span>Rellene los campos con los datos de los estudiantes.</span>
       <table class="bordered">
@@ -169,17 +169,17 @@
         </tbdoy>
       </table>
     </div>
-    <div class="modal-footer">      
+    <div class="modal-footer">
       <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
       <button type="submit" class="btn-flat">
         <span>Guardar estudiantes</span>
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw hide"></i>
-      </button>      
+      </button>
     </div>
   </form>
 
-  <form class="hide" id="form_template">    
-    <div class="modal-content row">  
+  <form class="hide" id="form_template">
+    <div class="modal-content row">
       <div class="col s12">
         <a class="col m6 s12 center-align" href="{% url 'course:download_csv' course.id %}">
           <div class="btn-box">
@@ -200,16 +200,16 @@
         <label for="name_file">Archivo seleccionado</label>
       </div>
     </div>
-    <div class="modal-footer row">    
+    <div class="modal-footer row">
       <div class="col s12">
         <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
         <button class="btn-flat" type="submit">
           <span>Cargar</span>
           <i class="fa fa-spinner fa-pulse fa-3x fa-fw hide"></i>
-        </button>        
+        </button>
       </div>
     </div>
-  </form> 
+  </form>
 </div>
 <!-- End modal add student-->
 {% endblock %}
