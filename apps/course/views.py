@@ -223,7 +223,7 @@ def get_courses(request):
         last_courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year-1).order_by('id').reverse() 
         present_courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
         courses = list(chain(last_courses, present_courses))
-        print (courses)
+        #print (courses)
         for course in courses:
             data[course.id] = {"code": course.code, "name": course.name}
 
