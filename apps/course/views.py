@@ -12,7 +12,7 @@ from .forms import CourseForm
 from .models import Course, CourseHasStudent
 from apps.student.models import Student
 from apps.play.models import Play
-
+from itertools import chain
 
 @login_required
 def view_courses(request):
@@ -217,10 +217,13 @@ def download_template(request, course_id):
 @login_required
 def get_courses(request):    
     if request.method == "POST":
-        #print("POST")
+        #print("POST") year=date.today().year
+        #print([date.today().year,date.today().year-1])
         data = {}
-        courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
-        
+        last_courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year-1).order_by('id').reverse() 
+        present_courses = Course.objects.filter(teacher=request.user.teacher, year=date.today().year).order_by('id').reverse()
+        courses = list(chain(last_courses, present_courses))
+        print (courses)
         for course in courses:
             data[course.id] = {"code": course.code, "name": course.name}
 
