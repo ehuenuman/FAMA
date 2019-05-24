@@ -3,13 +3,13 @@
 
 {% block extracss%}
 <style type="text/css">
-  .dashed-border{
+  .dashed-border {
     /*background-color: grey;*/
-    color: black;  
+    color: black;
     border: 1px dashed grey;
     border-radius: 8px;
     padding-left: 10px;
-    padding-right: 10px;    
+    padding-right: 10px;
   }
 
   .last-row {
@@ -19,10 +19,11 @@
   td {
     padding: 0px 5px;
   }
-  
+
   #answers_table {
     margin-bottom: 5px;
   }
+
   #answers_table input {
     margin-bottom: 0px;
     height: 22px;
@@ -35,7 +36,7 @@
 
   #eliminar_foto {
     display: block;
-    right:-80%;    
+    right: -80%;
   }
 </style>
 {% endblock %}
@@ -51,7 +52,7 @@
 {% endblock %}
 
 {% block title %}
-  FAMA - Completar Texto
+FAMA - Completar Texto
 {% endblock %}
 
 {% block page-title %}
@@ -62,8 +63,8 @@ Crear Completar Texto
 
 <div class="row">
   <div class="col s12">
-    <form  enctype="multipart/form-data" class="col s12 m10 l8 offset-m1 offset-l2 card-box">
-      
+    <form enctype="multipart/form-data" class="col s12 m10 l8 offset-m1 offset-l2 card-box">
+
       <div class="row">
         <div class="col s12 center-align">
           <div class="col s4">
@@ -82,48 +83,51 @@ Crear Completar Texto
             <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
               <i class="fa fa-eye" aria-hidden="true"></i>
               <span class="hide-on-small-only">Visualizar</span>
-            </button>  
+            </button>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s12" >
+        <div class="input-field col s12">
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
           <input class="titulo-choice validate" placeholder="Ejemplo: Zona Horaria" id="title" type="text">
           <label for="title">Código de la pregunta (Opcional)</label>
         </div>
-        <div class="input-field col s12" >
+        <div class="input-field col s12">
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="texto_alternativo validate"  placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente" id="alternative_text"  type="text">
+          <input class="texto_alternativo validate"
+            placeholder="Ejemplo: Sin considerar el horario de verano o respecto a la imagen siguiente"
+            id="alternative_text" type="text">
           <label for="alternative_text">Contexto de la pregunta (Opcional)</label>
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s12" >
+        <div class="input-field col s12">
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" id="question" type="text" required>
+          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" id="question"
+            type="text" required>
           <label for="question">Pregunta</label>
         </div>
       </div>
 
-      <div class="row dashed-border">         
+      <div class="row dashed-border">
         <div class="file-field input-field">
           <div class="btn">
             <i class="fa fa-picture-o" aria-hidden="true"></i>
             <span class="hide-on-med-and-down">Agregar imagen</span>
-            <input id="imagen" type="file" name="archivo" accept="image/*"/>
+            <input id="imagen" type="file" name="archivo" accept="image/*" />
           </div>
           <div class="file-path-wrapper">
             <input class="file-path" id="input_foto" name="sitebg" type="text" placeholder="Imagen Opcional">
           </div>
-        </div>        
+        </div>
         <div id="imagen-desplegada" class="center-align"></div>
       </div>
 
       <div class="row">
-        <div class="input-field col s12" >
+        <div class="input-field col s12">
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
           <input class="texto_previo validate" placeholder="Ejemplo: GTM" id="textoprevio" type="text">
           <label for="textoprevio">Texto previo de la respuesta correcta (Opcional)</label>
@@ -131,20 +135,22 @@ Crear Completar Texto
       </div>
 
       <div class="row">
-        <div class="input-field col s12" >
+        <div class="input-field col s12">
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="texto_correcto validate" placeholder="Ejemplo: -3" id="textoprevio" type="text" required>
-          <label for="textoprevio">Respuesta correcta</label>
+          <input class="texto_correcto validate" placeholder="Ejemplo: -3" id="textoprevio" type="text" maxlength="100"
+            required>
+          <label for="textoprevio">Respuesta correcta (máximo 100 caracteres)</label>
         </div>
       </div>
 
       <div class="row">
-        <div class="input-field col s12" >
+        <div class="input-field col s12">
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="texto_posterior validate" placeholder="Ejemplo: hora estandar de Chile" id="textoposterior" type="text">
+          <input class="texto_posterior validate" placeholder="Ejemplo: hora estandar de Chile" id="textoposterior"
+            type="text">
           <label for="textoposterior">Texto posterior de la respuesta correcta (Opcional)</label>
         </div>
-      </div>  
+      </div>
 
       <div class="row last-row">
         <div class="col s12 center-align">
@@ -164,7 +170,7 @@ Crear Completar Texto
             <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
               <i class="fa fa-eye" aria-hidden="true"></i>
               <span class="hide-on-small-only">Visualizar</span>
-            </button>  
+            </button>
           </div>
         </div>
       </div>
@@ -181,9 +187,9 @@ Crear Completar Texto
 
 {% block js %}
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $("button").parents('td').css("padding-bottom", "0").css("padding-top", "0");
-    $('#nav-mobile ul.collapsible li#text_entry').addClass('active').parent().parent().show().parent().addClass('active');  
+    $('#nav-mobile ul.collapsible li#text_entry').addClass('active').parent().parent().show().parent().addClass('active');
   });
 </script>
 {% endblock %}
