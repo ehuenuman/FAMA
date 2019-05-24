@@ -72,7 +72,7 @@ def create_formative(request):
                 q_question = manageXML.data_inline(question.code, question.extension)["itemBody"]["question"]
                 questions.append({"question": q_question, "data": question})
         form = FormativeForm()
-    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'Crear Formativa'})
+    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'title': 'Crear Evaluación'})
 
 
 @login_required
@@ -144,7 +144,7 @@ def edit_formative(request, formative_id):
         data = {}
         data['redirect'] = '/formativa/'
         return JsonResponse(data)
-    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'question_selected': question_selected, 'title': 'MAs Play - Editar Formativa'})
+    return render(request, 'formative/create.html', {'form': form, 'questions': questions, 'question_selected': question_selected, 'title': 'MAs Play - Editar Evaluación'})
 
 
 @login_required
@@ -196,5 +196,5 @@ def delete_formative(request, formative_id):
     return render(request, 'formative/index.html', {'formatives': formatives})
   except Exception as e:
     print(e)
-    messages.add_message(request, messages.ERROR, str("No se puede eliminar la formativa porque tiene preguntas asociadas."))
+    messages.add_message(request, messages.ERROR, str("No se puede eliminar la evaluación porque tiene preguntas asociadas."))
     return render(request, 'formative/index.html', {'formatives': formatives})

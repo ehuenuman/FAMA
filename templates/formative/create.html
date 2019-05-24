@@ -7,9 +7,11 @@
   .card-panel {
     padding: 10px !important;
   }
+
   .collection {
     overflow: initial;
   }
+
   .collection-item {
     cursor: move;
   }
@@ -24,19 +26,19 @@
 {% endblock %}
 
 {% block title %}
-  {% if form.name.value != None %}
-    FAMA - Nueva Formativa
-  {% else %}
-    FAMA - Editar Formativa
-  {% endif %}
+{% if form.name.value != None %}
+FAMA - Nueva Evaluación
+{% else %}
+FAMA - Editar Evaluación
+{% endif %}
 {% endblock %}
 
 {% block page-title %}
-  {% if form.name.value != None %}
-    Editar Formativa {{ form.name.value }}
-  {% else %}
-    Nueva Formativa
-  {% endif %}
+{% if form.name.value != None %}
+Editar Evaluación {{ form.name.value }}
+{% else %}
+Nueva Evaluación
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -49,27 +51,28 @@
           <div class="row last-row">
             <div class="input-field col s12">
               {{ form.name }}
-              <label for="{{ form.name.id_for_label }}">Nombre de la formativa</label>
-            </div>        
+              <label for="{{ form.name.id_for_label }}">Nombre de la evaluación</label>
+            </div>
           </div>
           <div class="row last-row">
             <div class="input-field col s12">
               {{ form.description }}
-              <label for="{{ form.description.id_for_label }}">Descripción de la formativa (Opcional)</label>
+              <label for="{{ form.description.id_for_label }}">Descripción de la evaluación (Opcional)</label>
             </div>
           </div>
           <div class="row last-row">
-            <label class="col s12">Preguntas de la formativa</label>
+            <label class="col s12">Preguntas de la evaluación</label>
             <div class="input-field col s12">
               {% if question_selected %}
               <ul id="formative-questions" class="collection connectedSortable">
                 {% for question in question_selected %}
-                <li class="collection-item" data-id="{{ question.data.id }}">{{ question.question|safe }} - {{ question.data.spanish_type }}</li>
+                <li class="collection-item" data-id="{{ question.data.id }}">{{ question.question|safe }} -
+                  {{ question.data.spanish_type }}</li>
                 {% endfor %}
               </ul>
               {% else %}
               <ul class="collection connectedSortable valign-wrapper center-align" id="formative-questions">
-                <h5>Arrastre desde la derecha las preguntas que desea asignar en esta formativa</h5>
+                <h5>Arrastre desde la derecha las preguntas que desea asignar en esta evaluación</h5>
               </ul>
               {% endif %}
             </div>
@@ -82,12 +85,12 @@
                 <i class="fa fa-send right" aria-hidden="true"></i>
               </button>
             </div>
-          </div>  
+          </div>
         </form>
       </li>
     </ul>
   </div>
-  
+
   <div class="col s12 m6">
     <ul class="collection with-header">
       <li class="collection-header">
@@ -105,17 +108,18 @@
         </div>
         <div>
           {% if questions %}
-            <ul class="collection connectedSortable" id="list-question-for-formative">
-            {% for question in questions %}                
-              <li class="collection-item" data-id="{{ question.data.id }}">{{ question.question|safe }} - {{ question.data.spanish_type }}</li>
+          <ul class="collection connectedSortable" id="list-question-for-formative">
+            {% for question in questions %}
+            <li class="collection-item" data-id="{{ question.data.id }}">{{ question.question|safe }} -
+              {{ question.data.spanish_type }}</li>
             {% endfor %}
-            </ul>
+          </ul>
           {% else %}
-            <a href="#">
-              <div class="card-panel hoverable teal">
-                 <span class="white-text">Cree su primera pregunta</span>
-              </div>
-            </a>
+          <a href="#">
+            <div class="card-panel hoverable teal">
+              <span class="white-text">Cree su primera pregunta</span>
+            </div>
+          </a>
           {% endif %}
         </div>
       </li>
@@ -129,7 +133,7 @@
 
 {% block js %}
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('#nav-mobile ul.collapsible li#new_formative').addClass('active').parent().parent().show().parent().addClass('active')
   });
 </script>

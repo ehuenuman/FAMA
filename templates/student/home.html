@@ -8,11 +8,11 @@
 {% endblock %}
 
 {% block title %}
-  FAMA
+FAMA
 {% endblock %}
 
 {% block page-title %}
-  Mis Formativas
+Mis Evaluaciones
 {% endblock %}
 
 {% block content %}
@@ -35,17 +35,17 @@
             <div class="s12 l4 list-group-item truncate">
               <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
             </div>
-          </div>        
+          </div>
           <div class="col s3 right-align">
             <a class="waves-effect waves-teal btn btn-action" href="{% url 'play:show' play.id_char %}">
               <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
-            </a>  
+            </a>
           </div>
         </div>
         <div class="col s12 l4 list-group-item">
           <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ play.duration_to_time }}
         </div>
-      </li>      
+      </li>
       {% endfor %}
     </ul>
   </div>
@@ -70,11 +70,11 @@
             <div class="s12 l4 list-group-item truncate">
               <i class="fa fa-users" aria-hidden="true"></i>&nbsp;{{play.course.code}} - {{play.course.name}}
             </div>
-          </div>        
+          </div>
           <div class="col s3 right-align hide">
             <div class="waves-effect waves-teal btn btn-action">
               <i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i>
-            </div>  
+            </div>
           </div>
         </div>
         <div class="col s4 m4 l4 list-group-item">

@@ -6,9 +6,11 @@
   .modal {
     width: 75% !important;
   }
+
   .card-panel {
     padding: 10px !important;
   }
+
   /*div#add_student a#add {
     position: relative;
     top: -28px;
@@ -22,11 +24,11 @@
 {% endblock %}
 
 {% block title %}
-  FAMA - {{formative.name}}
+FAMA - {{formative.name}}
 {% endblock %}
 
 {% block page-title %}
-  {{formative.name}}
+{{formative.name}}
 {% endblock %}
 
 {% block content %}
@@ -36,30 +38,30 @@
       <li class="collection-header">
         <div class="row valign-wrapper" style="margin-bottom: 0px">
           <div class="left-align col s6">
-            <h5>Formativas</h5>
+            <h5>Evaluaciones</h5>
           </div>
-          <div class="valign right-align col s6">                
+          <div class="valign right-align col s6">
             <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todas">
               <i class="fa fa-list fa-2x" style="color: #000000"></i>
             </a>
             <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Nueva">
-              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
-            </a> 
+              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>
+            </a>
           </div>
         </div>
       </li>
       <li class="collection-item center-align">
         <div class="row">
-        {% if formatives %}
-        {% else %}
+          {% if formatives %}
+          {% else %}
           <div clas="col s12 m5">
             <div class="card-panel teal">
-              <span class="white-text">Asigne su primera formativa al curso</span>
+              <span class="white-text">Asigne su primera evaluación al curso</span>
             </div>
           </div>
-        {% endif %}
+          {% endif %}
         </div>
-      </li>      
+      </li>
     </ul>
   </div>
 
@@ -70,14 +72,15 @@
           <div class="left-align col s6">
             <h5>Estudiantes<h5>
           </div>
-          <div class="valign right-align col s6">                
-          <!--
+          <div class="valign right-align col s6">
+            <!--
             <a href="#" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver todos">
               <i class="fa fa-list fa-2x" style="color: #000000"></i>
             </a>
             -->
-            <a href="#add_student" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Agregar estudiantes">
-              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>                
+            <a href="#add_student" class="tooltipped" data-position="left" data-delay="50"
+              data-tooltip="Agregar estudiantes">
+              <i class="fa fa-plus-square fa-2x" style="padding-left: 10px; color: #000000;"></i>
             </a>
           </div>
         </div>
@@ -103,13 +106,13 @@
           <div clas="col s12">
             <a href="#add_student">
               <div class="card-panel teal">
-                  <span class="white-text">Agrege alumnos al curso</span><br>
+                <span class="white-text">Agrege alumnos al curso</span><br>
               </div>
             </a>
           </div>
           {% endif %}
         </div>
-      </li>      
+      </li>
     </ul>
   </div>
 </div>

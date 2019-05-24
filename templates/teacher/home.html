@@ -28,7 +28,7 @@ FAMA
     <ul class="collection with-header">
       <li class="collection-header col s12">
         <div class="left-align col s12">
-          <h5>Formativas en curso</h5>
+          <h5>Evaluaciones en curso</h5>
         </div>
       </li>
       {% for play in active_plays %}
@@ -68,7 +68,7 @@ FAMA
     <ul class="collection with-header">
       <li class="collection-header valign-wrapper">
         <div class="left-align col s10">
-          <h5>Formativas finalizadas</h5>
+          <h5>Evaluaciones finalizadas</h5>
         </div>
         <div class="valign right-align col s2">
           <a href="{% url 'play:index' %}">
@@ -116,7 +116,7 @@ FAMA
     <ul class="collection with-header">
       <li class="collection-header valign-wrapper">
         <div class="left-align col s8">
-          <h5>Mis Formativas</h5>
+          <h5>Mis Evaluaciones</h5>
         </div>
         <div class="valign right-align col s4">
           <a href="{% url 'formative:index' %}" class="tooltipped" data-position="left" data-delay="50"
@@ -131,7 +131,7 @@ FAMA
       </li>
       {% if formatives %}
       <li class="collection-item center-align col s12">
-        <b>&Uacute;ltimas formativas creadas</b>
+        <b>&Uacute;ltimas evaluaciones creadas</b>
       </li>
       {% for formative in formatives %}
       <li class="collection-item col s12">
@@ -154,11 +154,11 @@ FAMA
       </li>
       {% endfor %}
       <li class="collection-item center-align col s12">
-        <b>Actualmente posee {{total_formatives}} formativas</b>
+        <b>Actualmente posee {{total_formatives}} evaluaciones</b>
       </li>
       {% else %}
       <a class="collection-item center-align col s12" href="{% url 'formative:create' %}">
-        <b>Crear primera formativa</b>
+        <b>Crear primera evaluación</b>
       </a>
       {% endif %}
     </ul>
