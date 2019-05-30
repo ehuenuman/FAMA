@@ -5,12 +5,13 @@
   border-radius: 5px;
   box-shadow: 0px 0px 5px #999;
   margin: 0 auto;
-  margin-top: 40px;width: 350px;
+  margin-top: 40px;
+  width: 350px;
   box-shadow: 2px 0px 20px #999;
 }
 
 .log-title-container {
-  background-color:  #26a69a;
+  background-color: #26a69a;
   width: 100%;
   height: 100px;
 }
@@ -25,7 +26,7 @@
 }
 
 .switch {
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
 }
 
 .messages {
@@ -36,7 +37,7 @@
   background-color: #e57373;
   border: solid 1px #f44336;
   border-radius: 5px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   padding: 5px;
 }
@@ -45,16 +46,44 @@
   background-color: #ffb74d;
   border: solid 1px #ff9800;
   border-radius: 5px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   padding: 5px;
 }
 
 .fa {
-  color: #807B7B;
+  color: #807b7b;
   font-size: 30px;
 }
 
 a {
   color: #26a69a;
+}
+
+.logo-container {
+  margin-top: 2em;
+}
+
+.logo_uach {
+  margin-right: 1em;
+  width: 40%;
+  height: auto;
+}
+
+.logo_innoving {
+  margin-left: 3em;
+  width: 25%;
+  height: auto;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .logo_uach {
+    width: 60%;
+    height: auto;
+  }
+
+  .logo_innoving {
+    width: 40%;
+    height: auto;
+  }
 }
