@@ -9,13 +9,13 @@
 {% endblock %}
 
 {% block title %}
-  FAMA
+FAMA
 {% endblock %}
 
 {% block title-page %}
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <div class="row reply-container">
   <div class="row title-container">
     <div class="col s12 center-align">
@@ -24,37 +24,39 @@
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}</div>
+      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}
+      </div>
       {% if question.itemBody.alternativeText %}
-        <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
-      {% endif %}      
+      <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
+      {% endif %}
       {% if question.itemBody.img %}
-        <div class="center-align">
-          <img class="responsive-img materialboxed image" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
-        </div>
+      <div class="center-align">
+        <img class="responsive-img materialboxed image"
+          src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
+      </div>
       {% endif %}
     </div>
   </div>
   <div class="col s12">
-    <ul class="collection">    
+    <ul class="collection">
       <li class="collection-item center-align">Seleccione una alternativa</li>
-      {% for alternative in question.itemBody.choiceInteraction.simpleChoice %}      
-      <li class="collection-item click">        
+      {% for alternative in question.itemBody.choiceInteraction.simpleChoice %}
+      <li class="collection-item click">
         {% if alternative.identifier == question.answer %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}" checked>
+        <input name="alternatives" type="radio" id="{{ alternative.identifier }}" checked>
         {% else %}
-          <input name="alternatives" type="radio" id="{{ alternative.identifier }}">
+        <input name="alternatives" type="radio" id="{{ alternative.identifier }}">
         {% endif %}
         <label for="{{ alternative.identifier }}">{{ alternative.alternative|safe }}</label>
       </li>
       {% endfor %}
     </ul>
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col s12">
       <a class="col s12 waves-effect waves-light btn reply-btn">Responder</a>
     </div>
-  </div>
+  </div> -->
   <div class="row center-align reply-control">
     <div class="col s4">
       {% if question.prev %}
@@ -69,17 +71,17 @@
       </a>
     </div>
     <div class="col s4">
-    {% if question.next %}
+      {% if question.next %}
       <a href="{% url 'play:reply' play.id_char question.next %}">
         <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
       </a>
-    {% else %}
-      <a class="waves-effect red darken-4 btn" href="{% url 'student:home' %}" >Finalizar Formativa</a>
-    {% endif %}
+      {% else %}
+      <a class="waves-effect red darken-4 btn" href="{% url 'student:home' %}">Finalizar Formativa</a>
+      {% endif %}
     </div>
   </div>
 
-</div>  
+</div>
 {% endblock %}
 
 {% block footer %}
