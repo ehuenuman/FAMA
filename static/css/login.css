@@ -75,3 +75,15 @@ a {
   width: 25%;
   height: auto;
 }
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .logo_uach {
+    width: 60%;
+    height: auto;
+  }
+
+  .logo_innoving {
+    width: 40%;
+    height: auto;
+  }
+}
