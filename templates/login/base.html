@@ -5,7 +5,7 @@
   <!-- import css -->
   <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">  
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
   {% block extracss %}
   {% endblock %}
   <!-- import js -->
@@ -14,16 +14,17 @@
   <script src="{% static 'js/login.js' %}"></script>
   {% block extrajs %}
   {% endblock %}
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta charset="utf-8"/>
+  <link rel="icon" type="image/png" href="{% static 'img/fama_icono.png' %}">
   <title>{% block title %} FAMA {% endblock %}</title>
 </head>
 <body>
-  
+
   {% block header %}
   {% endblock %}
-  
+
   <main>
   {% block content %}
   {% endblock %}
