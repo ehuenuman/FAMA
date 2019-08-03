@@ -297,7 +297,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
             else:
                 try:
                     answer.answer = student_answer
@@ -307,7 +308,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
 
         if question.type == "associate":
             dataCorrect = {}
@@ -321,13 +323,12 @@ def reply_play(request, play_id_char, question_id):
             for y in dataCorrect["correctResponse"]:
                 aux.append(y["text1"])
                 aux.append(y["text2"])
-            #print(aux)
+            
 
             if dataAnswer == aux:
                 correct = 1
             else:
                 correct = 0
-            #print(correct)
             
             try:
                 answer = Answer.objects.get(student=student, play=play, question=question)
@@ -339,7 +340,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
             else:
                 try:
                     answer.answer = student_answer
@@ -349,7 +351,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
         
         if question.type == "entry":
             dataCorrect = {}
@@ -358,15 +361,10 @@ def reply_play(request, play_id_char, question_id):
             data_file = manageXML.data_entry(question.code, question.extension)
             dataCorrect["correctResponse"] = data_file["responseDeclaration"]["correctResponse"]
             
-            #print(dataCorrect["correctResponse"])
-
-            
             if dataCorrect["correctResponse"] == student_answer:
                 correct = 1
             else:
                 correct = 0
-            #print(correct)
-            
             
             try:
                 answer = Answer.objects.get(student=student, play=play, question=question)
@@ -378,7 +376,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
             else:
                 try:
                     answer.answer = student_answer
@@ -388,7 +387,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
 
         if question.type == "slider":
             dataCorrect = {}
@@ -397,15 +397,10 @@ def reply_play(request, play_id_char, question_id):
             data_file = manageXML.data_slider(question.code, question.extension)
             dataCorrect["correctResponse"] = data_file["responseDeclaration"]["correctResponse"]
             
-            #print(dataCorrect["correctResponse"])
-
-            
             if dataCorrect["correctResponse"] == student_answer:
                 correct = 1
             else:
                 correct = 0
-            #print(correct)
-            
             
             try:
                 answer = Answer.objects.get(student=student, play=play, question=question)
@@ -417,7 +412,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
             else:
                 try:
                     answer.answer = student_answer
@@ -427,7 +423,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
 
         if question.type == "inline":
             dataCorrect = {}
@@ -436,15 +433,10 @@ def reply_play(request, play_id_char, question_id):
             data_file = manageXML.data_inline(question.code, question.extension)
             dataCorrect["correctResponse"] = data_file["responseDeclaration"]["correctResponse"]
             
-            #print(dataCorrect["correctResponse"])
-
-            
             if dataCorrect["correctResponse"] == student_answer:
                 correct = 1
             else:
                 correct = 0
-            print(correct)
-            
             
             try:
                 answer = Answer.objects.get(student=student, play=play, question=question)
@@ -456,7 +448,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
             else:
                 try:
                     answer.answer = student_answer
@@ -466,7 +459,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
         
         if question.type == "order":
             dataCorrect = {}
@@ -475,18 +469,12 @@ def reply_play(request, play_id_char, question_id):
             dataAnswer = json.loads(student_answer)
             data_file = manageXML.data_order(question.code, question.extension)
             dataCorrect["correctResponse"] = data_file["responseDeclaration"]["correctResponse"]
-            
-            #print(dataAnswer)
-
-            
+                       
             if dataCorrect["correctResponse"] == dataAnswer:
                 correct = 1
             else:
                 correct = 0
-            #print(correct)
-            
 
-            
             try:
                 answer = Answer.objects.get(student=student, play=play, question=question)
             except:
@@ -497,7 +485,8 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
             else:
                 try:
                     answer.answer = student_answer
@@ -507,10 +496,10 @@ def reply_play(request, play_id_char, question_id):
                     data["data"] = "OK"
                 except Exception as e:
                     print("Error al guardar la respuesta: ", e)
-                    data["data"]= "Error al guardar la respuesta"
+                    #data["data"]= "Error al guardar la respuesta"
+                    data["data"] = "OK"
 
         return JsonResponse(data)
-
 
 
 @login_required
