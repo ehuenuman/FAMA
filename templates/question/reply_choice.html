@@ -24,16 +24,16 @@ FAMA
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}
-      </div>
-      {% if question.itemBody.alternativeText %}
-      <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
-      {% endif %}
       {% if question.itemBody.img %}
       <div class="center-align">
         <img class="responsive-img materialboxed image"
           src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
       </div>
+      {% endif %}
+      <div class="col s12 dashed-border question center-align">{{ question.itemBody.choiceInteraction.question|safe }}
+      </div>
+      {% if question.itemBody.alternativeText %}
+      <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
       {% endif %}
     </div>
   </div>
