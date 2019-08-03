@@ -72,6 +72,7 @@ def show_play(request, play_id_char):
 @login_required
 def reply_play(request, play_id_char, question_id):    
     play = Play.objects.get(id_char=play_id_char)
+    reply = None
     if request.method == "GET":
         formative = Formative.objects.get(id=play.formative.id)            
         try:
