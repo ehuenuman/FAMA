@@ -15,7 +15,7 @@
 {% block title-page %}
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <div class="row reply-container">
   <div class="row title-container">
     <div class="col s12 center-align">
@@ -24,42 +24,42 @@
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
+      {% if question.itemBody.img %}
+        <div class="center-align">
+          <img class="responsive-img materialboxed image" style="margin: 0 auto;" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
+        </div>
+      {% endif %}
       <div class="col s12 dashed-border question center-align">{{ question.itemBody.associateInteraction.question|safe }}</div>
       {% if question.itemBody.alternativeText %}
         <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
-      {% endif %}      
-      {% if question.itemBody.img %}
-        <div class="center-align">
-          <img class="responsive-img materialboxed image" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
-        </div>
       {% endif %}
     </div>
   </div>
   <div class="col s12">
-    <ul class="collection">    
+    <ul class="collection">
       <li class="collection-item center-align">Selecione las opciones para asociar</li>
     </ul>
     <table id="answers_table">
       <tbody>
             {% for correcta in question.responseDeclaration.correctResponse %}
             <tr id="{{ forloop.counter }}" class="center-align" style="padding-bottom: 10px;">
-              
+
               <td>
                 <select class="" id="{{ forloop.counter }}" style="display:inline;height: auto;">
                     {% for alternativa in question.itemBody.associateInteraction.associateChoice %}
-                    
+
                     <option value="{{ forloop.counter }}">{{alternativa.alternative}}</option>
-                    
-                    {% endfor %}      
+
+                    {% endfor %}
                 </select>
               </td>
               <td>
                 <select class="" id="{{ forloop.counter }}" style="display:inline;height: auto;">
                     {% for alternativa in question.itemBody.associateInteraction.associateChoice %}
-                    
+
                     <option value="{{ forloop.counter }}">{{alternativa.alternative}}</option>
-                    
-                    {% endfor %}    
+
+                    {% endfor %}
                 </select>
               </td>
             </tr>
@@ -96,7 +96,7 @@
     </div>
   </div>
 
-</div>  
+</div>
 {% endblock %}
 
 {% block footer %}

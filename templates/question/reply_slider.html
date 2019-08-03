@@ -15,7 +15,7 @@
 {% block title-page %}
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <div class="row reply-container">
   <div class="row title-container">
     <div class="col s12 center-align">
@@ -24,20 +24,20 @@
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
+      {% if question.itemBody.img %}
+        <div class="center-align">
+          <img class="responsive-img materialboxed image" style="margin: 0 auto;" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
+        </div>
+      {% endif %}
       <div class="col s12 dashed-border question center-align">{{ question.itemBody.sliderInteraction.question|safe }}</div>
       {% if question.itemBody.alternativeText %}
         <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
-      {% endif %}      
-      {% if question.itemBody.img %}
-        <div class="center-align">
-          <img class="responsive-img materialboxed image" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
-        </div>
       {% endif %}
     </div>
   </div>
   <div class="col s12">
-    <ul class="collection">    
-      <li class="collection-item center-align">Deslice para marcar la respuesta correcta</li>      
+    <ul class="collection">
+      <li class="collection-item center-align">Deslice para marcar la respuesta correcta</li>
       <li class="collection-item click">
           <input type="range" id="slider-input"  step="{{question.itemBody.sliderInteraction.step}}" min="{{question.itemBody.sliderInteraction.lowerBound}}" max="{{question.itemBody.sliderInteraction.upperBound}}" />
       </li>
@@ -72,7 +72,7 @@
     </div>
   </div>
 
-</div>  
+</div>
 {% endblock %}
 
 {% block footer %}
