@@ -1,5 +1,5 @@
 Django==1.10.6         	# Framework
-mysqlclient==1.3.10    	# Python interface to MySQL
+mysqlclient==1.3.6    	# Python interface to MySQL
 pytz==2017.2           	# TimeZone used for Django < 1.11
 Pillow==4.2.1          	# Python Image Library (PIL)
 xlrd==1.1.0            	# Reading data and formatting information from Excel files, whether they are .xls or .xlsx files
