@@ -501,7 +501,6 @@ def reply_play(request, play_id_char, question_id):
 
         return JsonResponse(data)
 
-
 @login_required
 @user_passes_test(teacher_check)
 def play_result(request, play_id_char):
