@@ -5,11 +5,11 @@
 <style type="text/css">
   .dashed-border{
     /*background-color: grey;*/
-    color: black;  
+    color: black;
     border: 1px dashed grey;
     border-radius: 8px;
     padding-left: 10px;
-    padding-right: 10px;    
+    padding-right: 10px;
   }
 
   .last-row {
@@ -19,7 +19,7 @@
   td {
     padding: 0px 5px;
   }
-  
+
   #answers_table {
     margin-bottom: 5px;
   }
@@ -35,7 +35,7 @@
 
   #eliminar_foto {
     display: block;
-    right:-80%;    
+    right:-80%;
   }
 </style>
 {% endblock %}
@@ -63,7 +63,7 @@ Crear Alternativas
 <div class="row">
   <div class="col s12">
     <form  enctype="multipart/form-data" class="col s12 m10 l8 offset-m1 offset-l2 card-box">
-      
+
       <div class="row">
         <div class="col s12 center-align">
           <div class="col s4">
@@ -82,7 +82,7 @@ Crear Alternativas
             <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
               <i class="fa fa-eye" aria-hidden="true"></i>
               <span class="hide-on-small-only">Visualizar</span>
-            </button>  
+            </button>
           </div>
         </div>
       </div>
@@ -104,12 +104,13 @@ Crear Alternativas
       <div class="row">
         <div class="input-field col s12" >
           <i class="fa fa-pencil prefix" aria-hidden="true"></i>
-          <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" id="question" type="text" required>
+          {% comment %} <input class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" id="question" type="text" required> {% endcomment %}
+          <textarea class="pregunta-choice validate" placeholder="Ejemplo: ¿Cuál es la zona horaria chilena?" id="question" rows=10 cols=50 required></textarea>
           <label for="question">Pregunta</label>
         </div>
       </div>
 
-      <div class="row dashed-border">         
+      <div class="row dashed-border">
         <div class="file-field input-field">
           <div class="btn">
             <i class="fa fa-picture-o" aria-hidden="true"></i>
@@ -119,7 +120,7 @@ Crear Alternativas
           <div class="file-path-wrapper">
             <input class="file-path" id="input_foto" name="sitebg" type="text" placeholder="Imagen Opcional">
           </div>
-        </div>        
+        </div>
         <div id="imagen-desplegada" class="center-align"></div>
       </div>
 
@@ -137,7 +138,7 @@ Crear Alternativas
           </thead>
           <tbody>
             <tr id="1" >
-              <td>              
+              <td>
                 <input id="test1" name="group1" type="radio" class="check" checked="checked"/>
                 <label for="test1"></label>
               </td>
@@ -147,7 +148,7 @@ Crear Alternativas
               <td class="center-align">
                 <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
                 <i id="1" class="down fa fa-caret-down fa-3x" aria-hidden="true"></i>
-              </td>            
+              </td>
               <td>
                 <button id="1" type="button" class="waves-effect waves-light btn btn-danger" data-action="delete-row">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -156,12 +157,12 @@ Crear Alternativas
             </tr>
           </tbody>
         </table>
-      
+
         <div class="col s12" style="padding-bottom: 10px;">
           <button class="waves-effect waves-light btn col s12" id="add_alternative" type="button">agregar nueva alternativa</button>
         </div>
 
-      </div>  
+      </div>
 
       <div class="row last-row">
         <div class="col s12 center-align">
@@ -181,7 +182,7 @@ Crear Alternativas
             <button class="waves-effect waves-light btn col s12" type="button" data-action="preview_question">
               <i class="fa fa-eye" aria-hidden="true"></i>
               <span class="hide-on-small-only">Visualizar</span>
-            </button>  
+            </button>
           </div>
         </div>
       </div>
@@ -200,7 +201,7 @@ Crear Alternativas
 <script>
   $(document).ready(function() {
     $("button").parents('td').css("padding-bottom", "0").css("padding-top", "0");
-    $('#nav-mobile ul.collapsible li#simple_choice').addClass('active').parent().parent().show().parent().addClass('active');  
+    $('#nav-mobile ul.collapsible li#simple_choice').addClass('active').parent().parent().show().parent().addClass('active');
   });
 </script>
 {% endblock %}

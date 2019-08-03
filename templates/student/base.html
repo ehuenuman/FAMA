@@ -12,20 +12,21 @@
   <script src="{% static 'js/library/jquery-3.1.1.min.js' %}"></script>
   <script src="{% static 'js/library/materialize.min.js' %}"></script>
   <script src="{% static 'js/library/js.cookie.js' %}"></script>
-  <script src="{% static 'js/library/moment.js' %}"></script>  
+  <script src="{% static 'js/library/moment.js' %}"></script>
   <script src="{% static 'js/library/moment-timezone-with-data-2012-2022.js' %}"></script>
   <script src="{% static 'js/library/jquery.countdown.min.js' %}"></script>
   <script src="{% static 'js/mas-play.js' %}"></script>
   <script src="{% static 'js/student.reply.js' %}"></script>
   {% block extrajs %}
   {% endblock %}
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta charset="utf-8"/>
+  <link rel="icon" type="image/png" href="{% static 'img/fama_icono.png' %}">
   <title>{% block title %} FAMA {% endblock %}</title>
 </head>
 <body>
-  
+
   {% block header %}
   <header>
     <div class="navbar-fixed row">
@@ -35,7 +36,7 @@
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
             <a id="page-title" class="brand-logo">{% block page-title %}{% endblock %}</a>
             {% if reply.close_reply %}
-            <ul class="countdown">              
+            <ul class="countdown">
               <li id="timer" data-limit-time="{{ reply.time_to_finish }}"></li>
             </ul>
             {% endif %}
@@ -47,24 +48,24 @@
       <div class="center-align">
         <div style="width: 100%; height: 100px; background-color: white"></div>
       </div>
-      <div class="center-align">      
+      <div class="center-align">
         {{ user.first_name|title }}&nbsp;{{ user.last_name|title }}
       </div>
       <li><div class="divider"></div></li>
       <li class="bold">
         <a href="{% url 'login:login' %}" class="waves-effect waves-teal"><i class="fa fa-home fa-lg"></i>Inicio</a>
-      </li>    
+      </li>
       <li><div class="divider"></div></li>
       <li class="bold">
         <a href="{% url 'login:logout' %}" class="waves-effect waves-teal"><i class="fa fa-sign-out fa-lg"></i>Salir</a>
       </li>
       <li class="bold hide">
         <a href="" class="waves-effect waves-teal"><i class="fa fa-cog fa-lg"></i>Configurar Cuenta</a>
-      </li>      
+      </li>
     </ul>
   </header>
   {% endblock %}
-  
+
   <main>
   {% block content %}
   {% endblock %}

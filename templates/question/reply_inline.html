@@ -2,81 +2,88 @@
 {% load staticfiles %}
 
 {% block extracss%}
-{% endblock %}
+{%endblock %}
 
 {% block extrajs%}
 <script src="{% static 'js/question.reply_inline.js' %}"></script>
 {% endblock %}
 
 {% block title %}
-  FAMA
+FAMA
 {% endblock %}
 
 {% block title-page %}
-{% endblock %}
+{%endblock %}
 
-{% block content %} 
+{% block content %}
 <div class="row reply-container">
-  <div class="row title-container">
-    <div class="col s12 center-align">
-      <h5 class="title">{{ question.assessmentItem.title|safe }}</h5>
-    </div>
-  </div>
-  <div class="col s12">
-    <div class="col s12 question-container dashed-border">
-      <div class="col s12 dashed-border question center-align">{{ question.itemBody.question|safe }}</div>
-      {% if question.itemBody.alternativeText %}
-        <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
-      {% endif %}      
-      {% if question.itemBody.img %}
-        <div class="center-align">
-          <img class="responsive-img materialboxed image" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
+    <div class="row title-container">
+        <div class="col s12 center-align">
+            <h5 class="title">{{ question.assessmentItem.title | safe }}</h5>
         </div>
-      {% endif %}
     </div>
-  </div>
-  <div class="col s12">
-    <ul class="collection">    
-      <li class="collection-item center-align">Seleccione una alternativa</li>
-      <div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">{{question.itemBody.previo|safe}}</div>
-      <select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">
-      {% for alternative in question.itemBody.inlineChoiceInteraction.inlineChoice %}              
-        <option value="{{ forloop.counter }}">{{ alternative.alternative|safe }}</option>
-      {% endfor %}
-      </select>
-      <div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">{{question.itemBody.posterior|safe}}</div>
-    </ul>
-  </div>
-  <div class="row">
     <div class="col s12">
-      <a class="col s12 waves-effect waves-light btn reply-btn">Responder</a>
+        <div class="col s12 question-container dashed-border">
+            <div class="col s12 dashed-border question center-align">
+                {{ question.itemBody.question | safe }}
+            </div>
+            {% if question.itemBody.alternativeText %}
+            <div class="col s12 text">
+              {{ question.itemBody.alternativeText | safe }}
+            </div>
+            {% endif %}
+            {% if question.itemBody.img %}
+            <div class="center-align">
+                <img class="responsive-img materialboxed image" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}" />
+            </div>
+            {% endif %}
+        </div>
     </div>
-  </div>
-  <div class="row center-align reply-control">
-    <div class="col s4">
-      {% if question.prev %}
-      <a href="{% url 'play:reply' play.id_char question.prev %}">
-        <i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i>
-      </a>
-      {% endif %}
+    <div class="col s12">
+        <ul class="collection">
+            <li class="collection-item center-align">Seleccione una alternativa</li>
+            <div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">
+                {{ question.itemBody.previo | safe }}
+            </div>
+            <select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">
+              {% for alternative in question.itemBody.inlineChoiceInteraction.inlineChoice %}
+              <option value="{{ forloop.counter }}">{{ alternative.alternative | safe }}</option>
+              {% endfor %}
+            </select>
+            <div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">
+              {{ question.itemBody.posterior | safe }}
+            </div>
+        </ul>
     </div>
-    <div class="col s4">
-      <a href="{% url 'play:show' play.id_char %}">
-        <i class="fa fa-list fa-2x" aria-hidden="true"></i>
-      </a>
+    <div class="row">
+        <div class="col s12">
+            <a class="col s12 waves-effect waves-light btn reply-btn">Responder</a>
+        </div>
     </div>
-    <div class="col s4">
-    {% if question.next %}
-      <a href="{% url 'play:reply' play.id_char question.next %}">
-        <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
-      </a>
-    {% else %}
-      <a class="waves-effect red darken-4 btn" href="{% url 'student:home' %}" >Finalizar Formativa</a>
-    {% endif %}
+    <div class="row center-align reply-control">
+        <div class="col s4">
+            {% if question.prev %}
+            <a href="{% url 'play:reply' play.id_char question.prev %}">
+                <i class="fa fa-angle-double-left fa-2x" aria-hidden="true"></i>
+            </a>
+            {% endif %}
+        </div>
+        <div class="col s4">
+          <!-- <a href="{% url 'play:show' play.id_char %}">
+            <i class="fa fa-list fa-2x" aria-hidden="true"></i>
+          </a> -->
+        </div>
+        <div class="col s4">
+            {% if question.next %}
+            <a href="{% url 'play:reply' play.id_char question.next %}">
+                <i class="fa fa-angle-double-right fa-2x" aria-hidden="true"></i>
+            </a>
+            {% else %}
+            <a class="waves-effect red darken-4 btn" href="{% url 'student:home' %}">Finalizar Formativa</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
-
-</div>  
+</div>
 {% endblock %}
 
 {% block footer %}
