@@ -6,7 +6,7 @@ play/credentials.json
 # Python cache files
 **/__pycache__
 
-# Questions 
+# Questions
 preguntas/*
 #preguntas/*.xml
 #preguntas/*.zip
@@ -16,6 +16,7 @@ logs/*
 
 # Server settings files
 play/settings-files/*
+play/settings.py*
 
 # SFTP config
 sftp-config.json
