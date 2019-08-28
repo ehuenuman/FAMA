@@ -26,6 +26,8 @@ function remplazarCaracteresEspeciales(texto) {
   texto = texto.replace(/,/g,"&amp;#44;");  
   texto = texto.replace(/:/g,"&amp;#58;");
   texto = texto.replace(/=/g,"&amp;#61;");
+  texto = texto.replace(/-/g,"&amp;#45;");
+  texto = texto.replace(/_/g,"&amp;#95;");
 
   texto = texto.replace(/á/g,"&amp;aacute;");
   texto = texto.replace(/Á/g,"&amp;Aacute;");
@@ -79,6 +81,8 @@ var accentDecode = function (tx)
   rp = rp.replace(/&#44;/g, ',');
   rp = rp.replace(/&#58;/g, ':');
   rp = rp.replace(/&#61;/g, '=');
+  rp = rp.replace(/&#45;/g, '-');
+  rp = rp.replace(/&#95;/g, '_');
   //
   //console.log(rp);
   return rp;
