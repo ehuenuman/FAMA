@@ -2,6 +2,10 @@ var orden_correcto = [];
 
 $(document).ready(function() {
 
+  resp = $(".respuesta").val();
+  resp = accentDecode(resp);
+  $(".respuesta")[0].value = resp;
+
   number = 1;
   
   $(".up,.down").click(function(){ 
