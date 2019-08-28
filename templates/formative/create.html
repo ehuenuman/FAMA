@@ -110,7 +110,7 @@ Nueva Evaluación
           {% if questions %}
           <ul class="collection connectedSortable" id="list-question-for-formative">
             {% for question in questions %}
-            <li class="collection-item" data-id="{{ question.data.id }}">{{ question.question|safe }} -
+            <li class="collection-item" data-id="{{ question.data.id }}">{{question.data.title|safe}} - {{ question.question|safe }} -
               {{ question.data.spanish_type }}</li>
             {% endfor %}
           </ul>
