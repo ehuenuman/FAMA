@@ -19,30 +19,33 @@
 <div class="row reply-container">
   <div class="row title-container">
     <div class="col s12 center-align">
-      <h5 class="title">{{ question.assessmentItem.title|safe }}</h5>
+      <h5 class="title">Pregunta</h5>
     </div>
   </div>
   <div class="col s12">
     <div class="col s12 question-container dashed-border">
+      {% if question.itemBody.alternativeText %}
+        <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
+      {% endif %}
+      <div class="col s12 dashed-border question center-align">{{ question.itemBody.question|safe }}
+      </div>
       {% if question.itemBody.img %}
         <div class="center-align">
           <img class="responsive-img materialboxed image" style="margin: 0 auto;" src="/preguntas/{{ question.code }}/{{ question.itemBody.img.src }}">
         </div>
-      {% endif %}
-      <div class="col s12 dashed-border question center-align">{{ question.itemBody.question|safe }}</div>
-      {% if question.itemBody.alternativeText %}
-        <div class="col s12 text">{{ question.itemBody.alternativeText|safe }}</div>
       {% endif %}
     </div>
   </div>
   <div class="col s12">
     <ul class="collection">
       <li class="collection-item center-align">Complete la frase</li>
-      <li class="collection-item center-align">{{question.itemBody.previo}}</li>
+      <li class="previo collection-item center-align">{{question.itemBody.previo}}</li>
       <li class="collection-item center-align">
         <input class="texto_correcto validate" id="correcta" placeholder="Ingrese su respuesta" data-length="100" maxlength="100" type="text" value="" required>
       </li>
-      <li class="collection-item center-align">{{question.itemBody.posterior}}</li>
+      {% if question.itemBody.posterior %}
+      <li class="posterior collection-item center-align">{{question.itemBody.posterior}}</li>
+      {% endif %}
     </ul>
   </div>
   <div class="row">

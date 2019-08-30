@@ -1,11 +1,6 @@
 var orden_correcto = [];
 
 $(document).ready(function() {
-
-  resp = $(".respuesta").val();
-  resp = accentDecode(resp);
-  $(".respuesta")[0].value = resp;
-
   number = 1;
   
   $(".up,.down").click(function(){ 
@@ -23,6 +18,9 @@ $(document).ready(function() {
         //console.log("esta es la id de la filaxxx: "+id);
         $("#"+number+".respuestas").val(xx);
         //console.log(xx);
+        var resp = $(".respuesta").val();
+        resp = accentDecode(resp);
+        $(".respuesta")[0].value = resp;
   });
 
   $("a.reply-btn").click(function(event) {

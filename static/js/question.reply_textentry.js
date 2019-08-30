@@ -1,6 +1,9 @@
 $(document).ready(function() {
   
-
+  var resp = $(".previo.collection-item.center-align")[0].innerText;
+  resp = accentDecode(resp);
+  $(".previo.collection-item.center-align")[0].innerText = resp;
+  
   $("a.reply-btn").click(function(event) {
     
     //console.log($('li.collection-item input').val());
