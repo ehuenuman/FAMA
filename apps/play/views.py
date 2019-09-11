@@ -59,14 +59,17 @@ def show_play(request, play_id_char):
             reply = {}
             status = 1
 
-        return render(request, "play/show.html", {
+        return redirect("play:reply", play_id_char=play_id_char, question_id = first_question.id)
+        #return redirect(reply_play, play_id_char = play_id_char, question_id = first_question.id)
+        
+        """return render(request, "play/show.html", {
             "play": play,            
             "formative": formative,
             "questions": questions,
             "first_q": first_question,
             "reply": reply,
             "status": status
-            })
+            })"""
 
 
 @login_required
@@ -74,7 +77,7 @@ def reply_play(request, play_id_char, question_id):
     play = Play.objects.get(id_char=play_id_char)
     reply = None
     if request.method == "GET":
-        formative = Formative.objects.get(id=play.formative.id)            
+        formative = Formative.objects.get(id=play.formative.id)
         try:
             reply = Reply.objects.get(student=request.user.student, play=play)
             close_reply = reply.close_reply        
@@ -278,6 +281,7 @@ def reply_play(request, play_id_char, question_id):
             return redirect("play:show", play_id_char=play_id_char)
     else:
         data = {}
+
         question = Question.objects.get(id=question_id)
         if question.type == "choice":    
             student = request.user.student

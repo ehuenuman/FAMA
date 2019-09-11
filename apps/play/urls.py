@@ -10,3 +10,5 @@ urlpatterns = [
     url(r'^(?P<play_id_char>\w+)/dashboard/$', play_result, name='result'),
     url(r'^(?P<play_id_char>\w+)/download-excel$', download_excel, name='excel'),
 ]
+
+#(?P<question_id>\d+)/

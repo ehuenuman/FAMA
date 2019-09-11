@@ -37,8 +37,8 @@ Mis Evaluaciones
             </div>
           </div>
           <div class="col s3 right-align">
-            <a class="waves-effect waves-teal btn btn-action" href="{% url 'play:show' play.id_char %}">
-              <i class="fa fa-eye fa-2x" aria-hidden="true"></i>
+            <a class="waves-effect waves-light btn s12 right" href="{% url 'play:show' play.id_char %}">
+              Comenzar
             </a>
           </div>
         </div>
@@ -51,6 +51,7 @@ Mis Evaluaciones
   </div>
 </div>
 {% endif %}
+<!--
 {% if closed_plays %}
 <div class="row">
   <div class="col s12">
@@ -88,7 +89,7 @@ Mis Evaluaciones
     </ul>
   </div>
 </div>
-{% endif %}
+{% endif %}-->
 {% endblock %}
 
 {% block footer %}

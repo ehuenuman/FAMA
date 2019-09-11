@@ -5,6 +5,9 @@ from apps.login.views import student_check
 from apps.course.models import Course
 from apps.student.models import Student
 from apps.play.models import Play
+from apps.student.models import Reply
+from apps.formative.models import Formative
+from apps.teacher.models import Question
 
 # Create your views here.
 @login_required
