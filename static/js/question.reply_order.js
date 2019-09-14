@@ -2,7 +2,14 @@ var orden_correcto = [];
 
 $(document).ready(function() {
   number = 1;
-  
+
+  $('#tablacopia tr').each(function () {
+        var numero_id = $(this)[0].id;
+        var resp = $("#"+numero_id+".respuesta").val();
+        resp = accentDecode(resp);
+        $("#"+numero_id+".respuesta")[0].value = resp;
+    });
+
   $(".up,.down").click(function(){ 
         var row = $(this).parents("tr:first");
         if ($(this).is(".up")) {
@@ -18,9 +25,6 @@ $(document).ready(function() {
         //console.log("esta es la id de la filaxxx: "+id);
         $("#"+number+".respuestas").val(xx);
         //console.log(xx);
-        var resp = $(".respuesta").val();
-        resp = accentDecode(resp);
-        $(".respuesta")[0].value = resp;
   });
 
   $("a.reply-btn").click(function(event) {
