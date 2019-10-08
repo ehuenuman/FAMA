@@ -32,7 +32,7 @@ $(document).ready(function() {
     inicio = 0;
     $('#tablacopia tr').each(function () {
         var numero_id = $(this)[0].id; 
-
+        console.log(numero_id);
         if($("#"+numero_id+".check").is(':checked')) {  
             var estado = "activado";
             correcta = numero_id;
@@ -40,7 +40,7 @@ $(document).ready(function() {
             var estado = "desactivado";
         }
         //var respuesta = $('#'+numero_id+".respuesta").val();
-        var respuesta = "alternativa"+numero_id;
+        var respuesta = numero_id;
         var puntuacion = $('#'+numero_id+".puntuacion").val();
         //console.log(estado+" id: "+numero_id+" respuesta: "+respuesta+" puntuacion: "+puntuacion);
 
