@@ -44,7 +44,7 @@
           <label> {{answer.answer}} </label>
           {% if answer.answer != None %}
             {% for ans in answer.answer %}
-            <tr id="{{ forloop.counter }}">
+            <tr id="{{ ans.identifier }}">
               <td>
                 <input  type="text" id="{{ ans.identifier }}" class="respuesta" value="{{ans.alternative}}" disabled style="color:black">
               </td>
@@ -56,7 +56,7 @@
             {% endfor %}
           {% else %}
             {% for alternativa in question.itemBody.orderInteraction.simpleChoice %}
-            <tr id="{{ forloop.counter }}">
+            <tr id="{{ alternativa.identifier }}">
               <td>
                 <input  type="text" id="{{ alternativa.identifier }}" class="respuesta" value="{{alternativa.alternative}}" disabled style="color:black">
               </td>
