@@ -339,7 +339,7 @@ def reply_play(request, play_id_char, question_id):
                     for i in range(len(aux4)):
                         for j in range(len(resp)):
                             if (aux4[i] == resp[j]["identifier"]):
-                                final.append(aux4[i])
+                                final.append(resp[j])
                                 
                     print(final)
                     an["answer"] = final
