@@ -44,7 +44,7 @@ FAMA
       <li class="collection-item center-align">Seleccione una alternativa</li>
       {% for alternative in question.itemBody.choiceInteraction.simpleChoice %}
       <li class="collection-item click">
-        {% if alternative.identifier == question.answer %}
+        {% if alternative.identifier == answer.answer %}
         <input name="alternatives" type="radio" id="{{ alternative.identifier }}" checked>
         {% else %}
         <input name="alternatives" type="radio" id="{{ alternative.identifier }}">

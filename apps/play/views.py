@@ -128,13 +128,26 @@ def reply_play(request, play_id_char, question_id):
                         data["next"] = total_questions[order_question.order+1].id
                         data["prev"] = total_questions[order_question.order-1].id                
 
+                try:
+                    answer = Answer.objects.get(student=request.user.student, play=play, question=question)
+                except:
+                    answer = None
+
+                an = {}
+                if answer is not None:
+                    print(answer.answer)
+                    an["answer"] = answer.answer
+                else:
+                    an["answer"] = ""
+
                 return render(
                     request, 
                     "question/reply_choice.html", 
                     {
                         "question": data,                        
                         "play": play,
-                        "reply": reply
+                        "reply": reply,
+                        "answer": an
                     })
 
             if question.type == "associate":
@@ -184,13 +197,26 @@ def reply_play(request, play_id_char, question_id):
                         data["next"] = total_questions[order_question.order+1].id
                         data["prev"] = total_questions[order_question.order-1].id                
 
+                try:
+                    answer = Answer.objects.get(student=request.user.student, play=play, question=question)
+                except:
+                    answer = None
+
+                an = {}
+                if answer is not None:
+                    print(answer.answer)
+                    an["answer"] = answer.answer
+                else:
+                    an["answer"] = ""
+
                 return render(
                     request, 
                     "question/reply_textentry.html", 
                     {
                         "question": data,                        
                         "play": play,
-                        "reply": reply
+                        "reply": reply,
+                        "answer": an
                     })
 
             if question.type == "slider":
@@ -212,13 +238,26 @@ def reply_play(request, play_id_char, question_id):
                         data["next"] = total_questions[order_question.order+1].id
                         data["prev"] = total_questions[order_question.order-1].id                
 
+                try:
+                    answer = Answer.objects.get(student=request.user.student, play=play, question=question)
+                except:
+                    answer = None
+
+                an = {}
+                if answer is not None:
+                    print(answer.answer)
+                    an["answer"] = answer.answer
+                else:
+                    an["answer"] = ""
+
                 return render(
                     request, 
                     "question/reply_slider.html", 
                     {
                         "question": data,                        
                         "play": play,
-                        "reply": reply
+                        "reply": reply,
+                        "answer": an
                     })
 
             if question.type == "inline":
@@ -240,13 +279,26 @@ def reply_play(request, play_id_char, question_id):
                         data["next"] = total_questions[order_question.order+1].id
                         data["prev"] = total_questions[order_question.order-1].id                
 
+                try:
+                    answer = Answer.objects.get(student=request.user.student, play=play, question=question)
+                except:
+                    answer = None
+
+                an = {}
+                if answer is not None:
+                    print(answer.answer)
+                    an["answer"] = answer.answer
+                else:
+                    an["answer"] = ""
+
                 return render(
                     request, 
                     "question/reply_inline.html", 
                     {
                         "question": data,                        
                         "play": play,
-                        "reply": reply
+                        "reply": reply,
+                        "answer": an
                     })
 
             if question.type == "order":
@@ -268,13 +320,40 @@ def reply_play(request, play_id_char, question_id):
                         data["next"] = total_questions[order_question.order+1].id
                         data["prev"] = total_questions[order_question.order-1].id                
 
+                try:
+                    answer = Answer.objects.get(student=request.user.student, play=play, question=question)
+                except:
+                    answer = None
+
+                an = {}
+                if answer is not None:
+                    #print(answer.answer)
+                    aux = answer.answer.strip('[')
+                    aux2 = aux.strip(']')
+                    aux3 = aux2.replace('"',"")
+                    aux4 = aux3.split(',')
+                    print(aux4)
+                    final = []
+                    resp = data["itemBody"]["orderInteraction"]["simpleChoice"]
+            
+                    for i in range(len(aux4)):
+                        for j in range(len(resp)):
+                            if (aux4[i] == resp[j]["identifier"]):
+                                final.append(resp[j]["alternative"])
+                                
+                    print(final)
+                    an["answer"] = final
+                else:
+                    an["answer"] = None
+
                 return render(
                     request, 
                     "question/reply_order.html", 
                     {
                         "question": data,                        
                         "play": play,
-                        "reply": reply
+                        "reply": reply,
+                        "answer": an
                     })
 
         else:

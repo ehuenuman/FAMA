@@ -175,21 +175,21 @@ $(document).ready(function() {
                     //console.log("id: "+numero_id+" respuesta: "+respuesta);
                     respuestas[inicio] = respuesta;
                     inicio++;
-                }); 
+                });  
                 var opciones = "";
                 for (var i = 1; i <= numero_fila; i++) {
                     opciones +='<option value='+respuestas[i]+'>'+respuestas[i]+'</option>';
                 };
                 numberdos++;
-                var osx = numberdos+"n";
+                var osx = numberdos;
                 var agregar = "";
                 agregar += '<tr id='+osx+' class="center-align" style="padding-bottom: 10px;"> ';
                 agregar +=      '<td>'
-                agregar +=            '<select class="alternativa1" id='+osx+' style="display:inline;height: auto;">'+opciones+'</select>'
+                agregar +=            '<select class="alternativa' +osx+ '"id='+osx+' style="display:inline;height: auto;">'+opciones+'</select>'
                         +       '</td>'
 
                         +       '<td>'
-                        +             '<select class="alternativa2" id='+osx+' style="display:inline;height: auto;">'+opciones+'</select>'
+                        +             '<select class="alternativa' +osx+ '"id='+osx+' style="display:inline;height: auto;">'+opciones+'</select>'
                         +       '</td>'
 
                         +       '<td style="padding-bottom: 10px;"><button class=" eliminar waves-effect waves-light btn btn-danger" id='+osx+' type="button" data-action="delete-row"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>';
@@ -383,7 +383,7 @@ function manage_question() {
 
     orden_correcto_alternativa1[inicio] = remplazarCaracteresEspeciales($('select option')[0].text);
     orden_correcto_alternativa2[inicio] = remplazarCaracteresEspeciales($('select option')[1].text);
-    //console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
+    console.log(orden_correcto_alternativa1[inicio]+" "+orden_correcto_alternativa2[inicio]);
     inicio++;
  });
 
@@ -481,18 +481,20 @@ function crear_pregunta_xml() {
                             cH.writeAttributeString('baseType','pair');
 
                             cH.writeStartElement('correctResponse');
-
+                                console.log(numero_fila);
                                 for (var i = 1; i <= numero_fila_pares; i++) 
                                 {
                                     for (var j = 1; j <= numero_fila; j++) 
                                     {
+                                        console.log(orden_correcto_alternativa1[i]);
+                                        console.log(respuestas[j]);
                                         if ( orden_correcto_alternativa1[i] == respuestas[j] ){
                                             temp_1 = j;
-                                            //console.log("temp_1: "+temp_1+" i: "+i+" j: "+j);
+                                            console.log("temp_1: "+temp_1+" i: "+i+" j: "+j);
                                         };
                                         if ( orden_correcto_alternativa2[i] == respuestas[j]){
                                             temp_2 = j;
-                                            //console.log("temp_2: "+temp_2+" i: "+i+" j: "+j);
+                                            console.log("temp_2: "+temp_2+" i: "+i+" j: "+j);
                                         };
                                     }
                                     cH.writeStartElement('value');

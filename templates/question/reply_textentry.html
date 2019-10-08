@@ -41,7 +41,11 @@
       <li class="collection-item center-align">Complete la frase</li>
       <li class="previo collection-item center-align">{{question.itemBody.previo}}</li>
       <li class="collection-item center-align">
+        {% if answer.answer != None %}
+        <input class="texto_correcto validate" id="correcta" placeholder="Ingrese su respuesta" data-length="100" maxlength="100" type="text" value="{{answer.answer}}" required>
+        {% else %}
         <input class="texto_correcto validate" id="correcta" placeholder="Ingrese su respuesta" data-length="100" maxlength="100" type="text" value="" required>
+        {% endif %}
       </li>
       {% if question.itemBody.posterior %}
       <li class="posterior collection-item center-align">{{question.itemBody.posterior}}</li>

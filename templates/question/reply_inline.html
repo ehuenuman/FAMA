@@ -45,11 +45,23 @@ FAMA
             <div style="width:40%;height:auto;background-color:none;float:left;text-align:right;padding-right:5px;">
                 {{ question.itemBody.previo | safe }}
             </div>
-            <select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">
-              {% for alternative in question.itemBody.inlineChoiceInteraction.inlineChoice %}
-              <option value="{{ forloop.counter }}">{{ alternative.alternative | safe }}</option>
-              {% endfor %}
-            </select>
+            {% if answer.answer != None %}
+                <select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">
+                {% for alternative in question.itemBody.inlineChoiceInteraction.inlineChoice %}
+                    {% if answer.answer == alternative.identifier %}
+                        <option value="{{ forloop.counter }}" selected>{{ alternative.alternative | safe }}</option>
+                    {% else %}
+                        <option value="{{ forloop.counter }}">{{ alternative.alternative | safe }}</option>
+                    {% endif%}
+                {% endfor %}
+                </select>
+            {% else %}
+                <select style="display: inline;width: 20%;float: left;height: 25px;padding: 0px;font-size: 12px;">
+                {% for alternative in question.itemBody.inlineChoiceInteraction.inlineChoice %}
+                <option value="{{ forloop.counter }}">{{ alternative.alternative | safe }}</option>
+                {% endfor %}
+                </select>
+            {% endif %}
             <div style="width:40%;height:auto;background-color:none;float:left;text-align:left;padding-left:5px;">
               {{ question.itemBody.posterior | safe }}
             </div>

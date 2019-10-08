@@ -41,17 +41,31 @@
       <li class="collection-item center-align">Presione las flechas para ordenar</li>
       <table>
         <tbody id="tablacopia">
-          {% for alternativa in question.itemBody.orderInteraction.simpleChoice %}
+          {% if answer.answer != None %}
+            {% for ans in answer.answer %}
             <tr id="{{ forloop.counter }}">
               <td>
-                <input  type="text" id="{{ forloop.counter }}" class="respuesta" value="{{alternativa.alternative}}" disabled>
+                <input  type="text" id="{{ forloop.counter }}" class="respuesta" value="{{ans}}" disabled style="color:black">
               </td>
               <td class="center-align">
                 <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
                 <i id="1" class="down fa fa-caret-down fa-3x" aria-hidden="true"></i>
               </td>
             </tr>
-          {% endfor %}
+            {% endfor %}
+          {% else %}
+            {% for alternativa in question.itemBody.orderInteraction.simpleChoice %}
+            <tr id="{{ forloop.counter }}">
+              <td>
+                <input  type="text" id="{{ forloop.counter }}" class="respuesta" value="{{alternativa.alternative}}" disabled style="color:black">
+              </td>
+              <td class="center-align">
+                <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
+                <i id="1" class="down fa fa-caret-down fa-3x" aria-hidden="true"></i>
+              </td>
+            </tr> 
+            {% endfor %}
+          {% endif %}
       </tbody>
       </table>
     </ul>

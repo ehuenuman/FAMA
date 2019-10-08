@@ -41,7 +41,11 @@
     <ul class="collection">
       <li class="collection-item center-align">Deslice para marcar la respuesta correcta</li>
       <li class="collection-item click">
+          {% if answer.answer != None %}
+          <input type="range" id="slider-input"  step="{{question.itemBody.sliderInteraction.step}}" min="{{question.itemBody.sliderInteraction.lowerBound}}" max="{{question.itemBody.sliderInteraction.upperBound}}" value="{{answer.answer}}"/>
+          {% else %}
           <input type="range" id="slider-input"  step="{{question.itemBody.sliderInteraction.step}}" min="{{question.itemBody.sliderInteraction.lowerBound}}" max="{{question.itemBody.sliderInteraction.upperBound}}" />
+          {% endif %}
       </li>
     </ul>
   </div>
