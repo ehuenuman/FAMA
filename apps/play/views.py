@@ -336,13 +336,13 @@ def reply_play(request, play_id_char, question_id):
                     final = []
                     resp = data["itemBody"]["orderInteraction"]["simpleChoice"]
             
-                    #for i in range(len(aux4)):
-                    #    for j in range(len(resp)):
-                    #        if (aux4[i] == resp[j]["identifier"]):
-                    #            final.append(aux4[i])
+                    for i in range(len(aux4)):
+                        for j in range(len(resp)):
+                            if (aux4[i] == resp[j]["identifier"]):
+                                final.append(aux4[i])
                                 
                     print(final)
-                    an["answer"] = aux4
+                    an["answer"] = final
                 else:
                     an["answer"] = None
 
