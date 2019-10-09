@@ -51,7 +51,7 @@ $(document).ready(function(){
         var respuesta = $('#'+numero_id+".respuesta").val();
         respuesta = accentDecode(respuesta);
         $('#'+numero_id+".respuestas")[0].value = respuesta;
-        console.log($('#'+numero_id+".respuesta").val());
+        //console.log($('#'+numero_id+".respuesta").val());
         inicio++;
     });
 
@@ -312,7 +312,7 @@ function manages_question() {
         }
         var respuesta = $('#'+numero_id+".respuesta").val();
         respuesta = remplazarCaracteresEspeciales(respuesta);
-        console.log(respuesta);
+        //console.log(respuesta);
         var puntuacion = $('#'+numero_id+".puntuacion").val();
         //console.log(estado+" id: "+numero_id+" respuesta: "+respuesta+" puntuacion: "+puntuacion);
 
@@ -334,7 +334,7 @@ function manages_question() {
         }
         var respuesta = $('#'+numero_id+".respuesta").val();
         respuesta = remplazarCaracteresEspeciales(respuesta);
-        console.log(respuesta);
+        //console.log(respuesta);
         var puntuacion = $('#'+numero_id+".puntuacion").val();
         //console.log(estado+" id: "+numero_id+" respuesta: "+respuesta+" puntuacion: "+puntuacion);
 

@@ -138,9 +138,9 @@ Crear Ordenamiento
           </thead>
           <tbody id="tablaoriginal">
             {% for alternativa in questions.itemBody.orderInteraction.simpleChoice %}
-            <tr id="{{ forloop.counter }}" >
+            <tr id="{{ alternativa.identifier }}" >
               <td>
-                <input class="respuesta" id="{{ forloop.counter }}" type="text" placeholder="Ejemplo: GTM-3" data-content="alternative" value="{{alternativa.alternative}}" required>
+                <input class="respuesta" id="{{ alternativa.identifier }}" type="text" placeholder="Ejemplo: GTM-3" data-content="alternative" value="{{alternativa.alternative}}" required>
               </td>
               <td class="center-align">
                 <i id="1" class="up fa fa-caret-up fa-3x" aria-hidden="true"></i>
