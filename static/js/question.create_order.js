@@ -123,7 +123,7 @@ $(document).ready(function(){
     var agrega = "";       
     agrega += "<tr id=\""+number+"\">";
     agrega += "<td>";
-    agrega += "<input id=\""+number+"\" type='text' class=\"respuestas\" disabled>";
+    agrega += "<input id=\""+number+"\" type='text' class=\"respuestas\" disabled style='color:black'>";
     agrega += "</td>";
     agrega += "<td class='center-align'>";
     agrega += "<i id='"+number+"' class='up fa fa-caret-up fa-3x' aria-hidden='true'></i>";
