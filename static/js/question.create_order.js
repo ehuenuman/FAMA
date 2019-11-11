@@ -142,12 +142,32 @@ $(document).ready(function(){
         row.insertAfter(row.next());
       }
     });
-
+    
     $("button[data-action='delete-row']").click(function() {
+        //console.log("accion del add");
+        var cont = 0;
+        /*
+        $('#tablacopia tr').each(function () {
+            var numero_id = $(this)[0].id;  
+            console.log("Id fila: " + numero_id);
+            console.log("numero arreglo fila: " + cont);
+            console.log("numero id: " + number);
+            if(number == numero_id){
+                console.log($("#tablacopia tr")[cont]);
+                $("#tablacopia tr")[cont].remove();    
+            }
+            cont++;
+            //console.log(numero_id);
+            //$(this.id).remove();
+        });*/
+        //console.log($("#tablacopia tr")[this.id]);
+      
       $("tr#"+this.id).hide('slow', function() {
+        //console.log("tr#"+this.id);
         $("tr#"+this.id).remove();
+        $("#tablacopia tr#"+this.id).remove();
       });
-    });
+    }); 
 
     $("#"+number+".respuesta").on('input', function() {//.change(function(){
         var id = $(this)[0].id;
@@ -156,9 +176,16 @@ $(document).ready(function(){
         $("#"+number+".respuestas").val(xx);
         //console.log(xx);
     });
-
-
   });
+
+    $("button[data-action='delete-row']").click(function() {
+        //console.log("accion fuera");
+        //console.log("tr#"+this.id);
+        $("tr#"+this.id).hide('slow', function() {
+            $("tr#"+this.id).remove();
+            $("#tablacopia tr#"+this.id).remove();
+        });
+    });
 
     $("button[data-action='preview_question']").click(function(){ 
         titulo = $(".titulo-choice").val();
@@ -207,7 +234,7 @@ $(document).ready(function(){
 
     $(".eliminar").click(function(){ //para la fila creada desde el comienzo
       var id = $( this ).context.id;
-        //console.log("esta es la id de la filas: "+id);
+        console.log("esta es la id de la filas: "+id);
         $("#"+id).remove();
     });
     $(".eliminar").click(function(){ //para la fila creada desde el comienzo
