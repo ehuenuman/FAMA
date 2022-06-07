@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/fama_icono.png"  height="350px" alt="FAMA">
+<img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/fama_icono.png"  height="250px" alt="FAMA">
 <br>
 <b>FAMA</b>
 <br>
