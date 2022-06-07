@@ -1,10 +1,9 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/fama_icono.png" alt="FAMA">
+<br>FAMA
 </p>
 
-# FAMA
-
-## _Formative Assessment using Mobile Accessory_
+# _Formative Assessment using Mobile Accessory_
 
 FAMA is a Classroom Response System that reduces the teacher-student feedback time supporting the learning process and encourages the use and benefits of formative assessments.
 
@@ -28,11 +27,15 @@ The main feature is the implementation of the [IMS-QTI Specification v.2.2](http
 
 # Screenshots
 
-<img src="/static/img/screenshots/home.png" width="19%"></img>
-<img src="/static/img/screenshots/mis_cursos.png" width="19%"></img>
-<img src="/static/img/screenshots/mis_preguntas.png" width="19%"></img>
-<img src="/static/img/screenshots/formativas_finalizadas.png" width="19%"></img>
-<img src="/static/img/screenshots/resultados.png" width="19%"></img>
+<center>
+<img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/screenshots/home.png" width="auto" height="300px"></img>
+<img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/screenshots/resultados.png" width="auto" height="300px"></img>
+</center>
+<center>
+<img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/screenshots/mis_cursos.png" width="30%"></img>
+<img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/screenshots/mis_preguntas.png" width="30%"></img>
+<img src="https://raw.githubusercontent.com/ehuenuman/FAMA/master/static/img/screenshots/formativas_finalizadas.png" width="30%"></img>
+</center>
 
 # A bit of history
 
@@ -53,4 +56,4 @@ Finally, this project results from two graduation processes (final project) of t
 ## More about the learning process and use of FAMA
 
 📄 **Supporting Formative Assessment Using a Class Response System FAMA**
-Proceedings of the 13th International Conference on e-Learning. ICEL 2018 · Jul 5, 2018. [View the paper](https://books.google.co.nz/books?hl=es&lr=&id=KEJmDwAAQBAJ&oi=fnd&pg=PA10&ots=H0fXtRme7D&sig=Bcsnlo3LScTp_qkqQHz4pPdYm_Q&redir_esc=y#v=onepage&q&f=false)
+Proceedings of the 13th International Conference on e-Learning. ICEL 2018 · Jul 5, 2018.<br>[View the paper](https://books.google.co.nz/books?hl=es&lr=&id=KEJmDwAAQBAJ&oi=fnd&pg=PA10&ots=H0fXtRme7D&sig=Bcsnlo3LScTp_qkqQHz4pPdYm_Q&redir_esc=y#v=onepage&q&f=false)
